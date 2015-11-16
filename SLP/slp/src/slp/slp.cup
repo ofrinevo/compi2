@@ -32,13 +32,53 @@ scan with {:
 		System.out.println(t.getLine() + ":" + t);
 	return t; 
 :};
-
-terminal PLUS, MINUS, MULT, DIV, LPAREN, RPAREN, SEMI, ASSIGN, GT, LT, GE, LE, LAND, LOR;
-terminal READI, PRINT;
-terminal Integer NUMBER;
-terminal String VAR;
-terminal UMINUS;
-
+terminal DIVIDE;
+terminal PLUS;
+terminal SEMICOLON;
+terminal RPAREN;
+terminal MULTIPLY;
+terminal LPAREN;
+terminal EQUAL;
+terminal ASSIGN;
+terminal COMMA;
+terminal CONTINUE;
+terminal DOT;
+terminal CLASS;
+terminal NULL;
+terminal RB;
+terminal RCBR;
+terminal RETURN;
+terminal STATIC;
+terminal THIS;
+terminal TRUE;
+terminal VOID;
+terminal WHILE;
+terminal QUOTE;
+terminal STRING;
+terminal BREAK;
+terminal EXTENDS;
+terminal ELSE;
+terminal LineTerminator;
+terminal CLASS_ID;
+terminal GT;
+terminal GTE;
+terminal LAND;
+terminal LB;
+terminal LCBR;
+terminal IF;
+terminal LENGTH;
+terminal NEW;
+terminal LNEG;
+terminal LOR;
+terminal LT;
+terminal LTE;
+terminal MINUS;
+terminal MOD;
+terminal NEQUAL;
+terminal INT;
+terminal LP;
+terminal VAR;
+terminal PRINT;
 non terminal Expr expr;
 non terminal Stmt stmt;
 non terminal StmtList stmt_list;
@@ -46,9 +86,10 @@ non terminal StmtList stmt_list;
 precedence left LOR;
 precedence left LAND;
 precedence left PLUS, MINUS;
-precedence left DIV, MULT;
-precedence left UMINUS;
-precedence left GT, LT, GE, LE;
+precedence left DIVIDE, MULTIPLY;
+precedence left MINUS;
+precedence left GTE, LTE, GT, LT;
+
 
 stmt_list ::= stmt:s
 	{: RESULT = new StmtList(s); :}
@@ -56,9 +97,9 @@ stmt_list ::= stmt:s
 	{: sl.addStmt(s); RESULT = sl; :}
 ;
 
-stmt ::= VAR:v ASSIGN expr:e SEMI
+stmt ::= VAR:v ASSIGN expr:e SEMICOLON
 	{: VarExpr ve = new VarExpr(v); RESULT = new AssignStmt(ve, e); :}
-	| PRINT LPAREN expr:e RPAREN SEMI
+	| PRINT LPAREN expr:e RPAREN SEMICOLON
 	{: RESULT = new PrintStmt(e); :}
 ;
 
@@ -70,12 +111,12 @@ expr ::= expr:e1 PLUS:p expr:e2
 		{: RESULT = new BinaryOpExpr(e1, e2, Operator.MINUS);
 		   System.out.println("Reduced rule e1 - e2 for e1=" + e1 + " and e2="+e2);
 		 :}
-		| expr:e1 MULT expr:e2
-		{: RESULT = new BinaryOpExpr(e1, e2, Operator.MULT);
+		| expr:e1 MULTIPLY expr:e2
+		{: RESULT = new BinaryOpExpr(e1, e2, Operator.MULTIPLY);
 		   System.out.println("Reduced rule e1 * e2 for e1=" + e1 + " and e2="+e2);
 		 :}
-		| expr:e1 DIV expr:e2
-		{: RESULT = new BinaryOpExpr(e1, e2, Operator.DIV);
+		| expr:e1 DIVIDE expr:e2
+		{: RESULT = new BinaryOpExpr(e1, e2, Operator.DIVIDE);
 		   System.out.println("Reduced rule e1 / e2 for e1=" + e1 + " and e2="+e2);
 		 :}
 		| expr:e1 LAND expr:e2
@@ -94,16 +135,16 @@ expr ::= expr:e1 PLUS:p expr:e2
 		{: RESULT = new BinaryOpExpr(e1, e2, Operator.GT);
 		   System.out.println("Reduced rule e1 > e2 for e1=" + e1 + " and e2="+e2);
 		 :}
-		| expr:e1 LE expr:e2
-		{: RESULT = new BinaryOpExpr(e1, e2, Operator.LE);
+		| expr:e1 LTE expr:e2
+		{: RESULT = new BinaryOpExpr(e1, e2, Operator.LTE);
 		   System.out.println("Reduced rule e1 <= e2 for e1=" + e1 + " and e2="+e2);
 		 :}
-		| expr:e1 GE expr:e2
-		{: RESULT = new BinaryOpExpr(e1, e2, Operator.GE);
+		| expr:e1 GTE expr:e2
+		{: RESULT = new BinaryOpExpr(e1, e2, Operator.GTE);
 		   System.out.println("Reduced rule e1 >= e2 for e1=" + e1 + " and e2="+e2);
 		 :}
 		| MINUS expr:e1
-		{: RESULT = new UnaryOpExpr(e1, Operator.MINUS); :} %prec UMINUS
+		{: RESULT = new UnaryOpExpr(e1, Operator.MINUS); :} %prec MINUS
 		| LPAREN expr:e RPAREN
 		{: RESULT = e; :}
 		| NUMBER:n
