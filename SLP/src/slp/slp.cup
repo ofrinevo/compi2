@@ -153,8 +153,4 @@ expr ::= expr:e1 PLUS:p expr:e2
 		{: RESULT = new ReadIExpr(); :}
 		| VAR:v
 		{: RESULT = new VarExpr(v); :}
-<<<<<<< HEAD
 ;
-=======
-;
->>>>>>> branch 'master' of https://github.com/ofrinevo/compi2.git
