@@ -5,11 +5,11 @@ package slp;
  * 
  * 
  */
-public class Assign extends Statement {
+public class Assign extends Stmt {
 
 	private Location variable;
 
-	private Expression assignment;
+	private Expr assignment;
 
 	public void accept(Visitor visitor) {
 		visitor.visit(this);
@@ -24,7 +24,7 @@ public class Assign extends Statement {
 	 *            Value to assign.
 	 * @return 
 	 */
-	public Assign(Location variable, Expression assignment) {
+	public Assign(Location variable, Expr assignment) {
 		
 		this.variable = variable;
 		this.assignment = assignment;
@@ -34,7 +34,7 @@ public class Assign extends Statement {
 		return variable;
 	}
 
-	public Expression getAssignment() {
+	public Expr getAssignment() {
 		return assignment;
 	}
 
@@ -42,5 +42,8 @@ public class Assign extends Statement {
 	public <DownType, UpType> UpType accept(
 			PropagatingVisitor<DownType, UpType> visitor, DownType context) {
 		return visitor.visit(this, context);
+	}
+	public String toString(){
+		return variable.toString() + "=" + assignment.toString();
 	}
 }

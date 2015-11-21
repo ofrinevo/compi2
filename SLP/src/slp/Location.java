@@ -5,7 +5,7 @@ package slp;
  * 
  * @author Tovi Almozlino
  */
-public abstract class Location extends Expression {
+public abstract class Location extends Expr {
 
 	/**
 	 * Constructs a new variable reference node. Used by subclasses.

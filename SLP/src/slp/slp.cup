@@ -22,6 +22,7 @@ parser code
 		return lexer.getLineNumber();
 	}
 
+
     public int getColumn() {
     		return lexer.getColumnNumber();
     	}
@@ -81,9 +82,9 @@ nonterminal List<Field> field;
 nonterminal Method method;
 nonterminal List<Formal> formals;
 nonterminal Type type;
-nonterminal Statement stmt;
+nonterminal Stmt stmt;
 nonterminal Location location;
-nonterminal Expression expr;
+nonterminal Expr expr;
 nonterminal Call call;
 nonterminal StaticCall staticCall;
 nonterminal VirtualCall virtualCall;
@@ -96,19 +97,20 @@ nonterminal Literal literal;
 nonterminal ArrayLocation arrayLocationLocation;
 nonterminal VariableLocation variableLocationLocation;
 
+
 // stmt
 nonterminal Assign assignStmt;
 nonterminal Break breakStmt;
-//nonterminal CallStatement callStatementStmt;
+//nonterminal CallStmt callStmtStmt;
 nonterminal Continue continueStmt;
 nonterminal If ifStmt;
 nonterminal LocalVariable localVariableStmt;
 nonterminal Return returnStmt;
-nonterminal StatementsBlock statementsBlockStmt;
+nonterminal StmtsBlock StmtsBlockStmt;
 nonterminal While whileStmt;
 
 // expr
-nonterminal ExpressionBlock expressionBlockExpr;
+nonterminal ExprBlock ExprBlockExpr;
 nonterminal Length lengthExpr;
 nonterminal Literal literalExpr;
 nonterminal This thisExpr;
@@ -143,8 +145,8 @@ nonterminal NewClass newClassNewExpr;
 
 nonterminal List<List> fieldOrMethodKS;
 nonterminal List<String> idList;
-nonterminal List<Statement> stmtKS;
-nonterminal List<Expression> exprKS;
+nonterminal List<Stmt> stmtKS;
+nonterminal List<Expr> exprKS;
 nonterminal List<ICClass> classDeclKS;
 
 // Precedence declarations
@@ -231,16 +233,16 @@ formals ::= type:pt ID:id
 			{: RESULT = new LinkedList<Formal>(); :}
 ;			
 stmtKS ::= stmt:s
-			{: List<Statement> sl = new LinkedList<Statement>(); sl.add(s); RESULT = sl; :}
+			{: List<Stmt> sl = new LinkedList<Stmt>(); sl.add(s); RESULT = sl; :}
 			| stmtKS:sl stmt:s
 			{: sl.add(s); RESULT = sl; :}
 			|
-			{: RESULT = new LinkedList<Statement>(); :}
+			{: RESULT = new LinkedList<Stmt>(); :}
 ;
 stmt ::= assignStmt:as SEMICOLON
 		{: RESULT = as; :}
 		| call:c SEMICOLON
-		{: RESULT = new CallStatement(c); :}
+		{: RESULT = new CallStmt(c); :}
 		| returnStmt:rs SEMICOLON
 		{: RESULT = rs; :}
 		| ifStmt:is
@@ -251,7 +253,7 @@ stmt ::= assignStmt:as SEMICOLON
 		{: RESULT = bs; :}
 		| continueStmt:cs SEMICOLON
 		{: RESULT = cs; :}
-		| statementsBlockStmt:sb
+		| StmtsBlockStmt:sb
 		{: RESULT = sb; :}
 		| localVariableStmt:ls SEMICOLON
 		{: RESULT = ls; :}
@@ -262,8 +264,8 @@ assignStmt ::= location:l ASSIGN expr:e
 breakStmt ::= BREAK:b
 			{: RESULT = new Break(getLine()); :}
 ;
-//callStatementStmt ::= call:c SEMICOLON
-//					{: RESULT = new CallStatement(c); :}
+//callStmtStmt ::= call:c SEMICOLON
+//					{: RESULT = new CallStmt(c); :}
 //;
 continueStmt ::= CONTINUE:c
 					{: RESULT = new Continue(getLine()); :}
@@ -283,8 +285,8 @@ returnStmt ::= RETURN:r expr:e
 			| RETURN:r
 			{: RESULT = new Return(getLine()); :}
 ;			
-statementsBlockStmt ::= LCBR:lcp stmtKS:sl RCBR
-					{: RESULT = new StatementsBlock(slleft, sl); :}
+StmtsBlockStmt ::= LCBR:lcp stmtKS:sl RCBR
+					{: RESULT = new StmtsBlock(slleft, sl); :}
 ;
 whileStmt ::= WHILE LPAREN expr:e RPAREN stmt:s
 			{: RESULT = new While(e, s); :}	
@@ -307,7 +309,7 @@ expr ::= location:l
 		{: RESULT = uop; :}
 		| literalExpr:le
 		{: RESULT = le; :}
-		| expressionBlockExpr:eb
+		| ExprBlockExpr:eb
 		{: RESULT = eb; :}
 ;		
 location ::= variableLocationLocation:vl
@@ -337,11 +339,11 @@ virtualCall ::= ID:id LPAREN exprKS:el RPAREN
 				{: RESULT = new VirtualCall(getLine(), e, id, el); :}
 ;
 exprKS ::= expr:e
-			{: List<Expression> el = new LinkedList<Expression>(); el.add(e); RESULT = el; :}
+			{: List<Expr> el = new LinkedList<Expr>(); el.add(e); RESULT = el; :}
 			| exprKS:el COMMA expr:e
 			{: el.add(e); RESULT = el; :}
 			|
-			{: RESULT = new LinkedList<Expression>(); :}
+			{: RESULT = new LinkedList<Expr>(); :}
 ;
 thisExpr ::= THIS:t
 			{: RESULT = new This(getLine()); :}
@@ -430,6 +432,6 @@ literal ::= INTEGER:i
 		| NULL:n
 		{: RESULT = new Literal(getLine(), LiteralTypes.NULL); :}
 ;		
-expressionBlockExpr ::= LPAREN expr:e RPAREN
-					{: RESULT = new ExpressionBlock(e); :}
+ExprBlockExpr ::= LPAREN expr:e RPAREN
+					{: RESULT = new ExprBlock(e); :}
 ;
