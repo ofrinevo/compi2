@@ -7,9 +7,9 @@ package slp;
  */
 public class Assign extends Stmt {
 
-	private Location variable;
+	public Location variable;
 
-	private Expr assignment;
+	public Expr assignment;
 
 	public void accept(Visitor visitor) {
 		visitor.visit(this);

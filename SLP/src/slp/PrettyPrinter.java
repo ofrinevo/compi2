@@ -1,5 +1,7 @@
 package slp;
 
+import IC.AST.Assignment;
+
 /** Pretty-prints an SLP AST.
  */
 public class PrettyPrinter implements Visitor {
@@ -70,6 +72,11 @@ public class PrettyPrinter implements Visitor {
 		expr.rhs.accept(this);
 	}
 
+	
+	public void visit(Assign assignment) {
+		System.out.print(assignment.toString());
+		
+	}
 	@Override
 	public void visit(PrimitiveType primitiveType) {
 		// TODO Auto-generated method stub
