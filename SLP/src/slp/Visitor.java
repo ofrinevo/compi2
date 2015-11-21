@@ -14,4 +14,6 @@ public interface Visitor {
 	public void visit(UnaryOpExpr expr);
 	public void visit(BinaryOpExpr expr);
 	public void visit(PrimitiveType primitiveType);
+	public void visit(UserType userType);
+	public Object visit(Assign assign);
 }

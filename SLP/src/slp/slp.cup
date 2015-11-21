@@ -97,7 +97,7 @@ nonterminal ArrayLocation arrayLocationLocation;
 nonterminal VariableLocation variableLocationLocation;
 
 // stmt
-nonterminal Assignment assignmentStmt;
+nonterminal Assign assignStmt;
 nonterminal Break breakStmt;
 //nonterminal CallStatement callStatementStmt;
 nonterminal Continue continueStmt;
@@ -134,14 +134,6 @@ nonterminal MathUnaryOp mathUnaryOpUnop;
 // unop
 nonterminal UnaryOps mathUnop;
 nonterminal UnaryOps logicalUnop;
-
-// type
-//nonterminal Type typeOrVoid;
-//nonterminal PrimitiveType primitiveTypeType;
-//nonterminal UserType userTypeType;
-
-// building blocks nonterminals of building blocks nonterminals
-// naming convention: classname+super_nonterminal_name
 
 // newExpr
 nonterminal NewArray newArrayNewExpr;
@@ -200,11 +192,7 @@ fieldOrMethodKS ::= field:f
 				|
 				{: List<List> foml = new ArrayList<List>(); List<Method> ml = new LinkedList<Method>(); List<Field> fl = new LinkedList<Field>(); foml.add(ml); foml.add(fl); RESULT = foml; :}		
 ;
-//typeOrVoid ::= VOID
-//            {: RESULT = new PrimitiveType(getLine() ,DataTypes.VOID); :}
-//            | type:t
-//            {: RESULT = t; :}
-//;
+
 type ::= INT:i
         {: RESULT = new PrimitiveType(getLine() ,DataTypes.INT); :}
         | BOOLEAN:bool
@@ -234,17 +222,7 @@ method ::= STATIC type:t ID:id LPAREN formals:f RPAREN LCBR stmtKS:sl RCBR
 		| VOID ID:id LPAREN formals:f RPAREN LCBR stmtKS:sl RCBR
 		{: RESULT = new VirtualMethod(new PrimitiveType(idleft ,DataTypes.VOID), id, f, sl); :}
 ;
-//method ::= staticMethodMethod:sm
-//		{: RESULT = sm; :}
-//		| virtualMethodMethod:vm
-//		{: RESULT = vm; :}
-//;
-//staticMethodMethod ::= STATIC typeOrVoid:t ID:id LPAREN formals:f RPAREN LCBR stmtKS:sl RCBR
-//					{: RESULT = new StaticMethod(t, id, f, sl); :}
-//;
-//virtualMethodMethod ::= typeOrVoid:t ID:id LPAREN formals:f RPAREN LCBR stmtKS:sl RCBR
-//					{: RESULT = new VirtualMethod(t, id, f, sl); :}
-//;
+
 formals ::= type:pt ID:id
 			{: List<Formal> fl = new LinkedList<Formal>(); fl.add(new Formal(pt, id)); RESULT = fl; :}
 			| formals:fl COMMA type:pt ID:id
@@ -259,7 +237,7 @@ stmtKS ::= stmt:s
 			|
 			{: RESULT = new LinkedList<Statement>(); :}
 ;
-stmt ::= assignmentStmt:as SEMICOLON
+stmt ::= assignStmt:as SEMICOLON
 		{: RESULT = as; :}
 		| call:c SEMICOLON
 		{: RESULT = new CallStatement(c); :}
@@ -278,8 +256,8 @@ stmt ::= assignmentStmt:as SEMICOLON
 		| localVariableStmt:ls SEMICOLON
 		{: RESULT = ls; :}
 ;		
-assignmentStmt ::= location:l ASSIGN expr:e
-				{: RESULT = new Assignment(l,e); :}
+assignStmt ::= location:l ASSIGN expr:e
+				{: RESULT = new Assign(l,e); :}
 ;
 breakStmt ::= BREAK:b
 			{: RESULT = new Break(getLine()); :}

@@ -7,9 +7,7 @@ public class UserType extends Type {
 
 	private String name;
 
-	public void accept(Visitor visitor) {
-		visitor.visit(this);
-	}
+
 	/**
 	 * Constructs a new user-defined data type node.
 	 * 
@@ -18,8 +16,8 @@ public class UserType extends Type {
 	 * @param name
 	 *            Name of data type.
 	 */
-	public UserType(int line, String name) {
-		super(line);
+	public UserType(String name) {
+		
 		this.name = name;
 	}
 
@@ -31,6 +29,12 @@ public class UserType extends Type {
 	public <DownType, UpType> UpType accept(
 			PropagatingVisitor<DownType, UpType> visitor, DownType context) {
 		return visitor.visit(this, context);
+	}
+
+	@Override
+	public void accept(Visitor visitor) {
+		visitor.visit(this);
+		
 	}
 
 }
