@@ -69,4 +69,10 @@ public class PrettyPrinter implements Visitor {
 		System.out.print(expr.op);
 		expr.rhs.accept(this);
 	}
+
+	@Override
+	public void visit(PrimitiveType primitiveType) {
+		// TODO Auto-generated method stub
+		
+	}
 }
