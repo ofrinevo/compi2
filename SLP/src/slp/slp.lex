@@ -65,7 +65,7 @@ LineTerminator	= \r|\n|\r\n
 WhiteSpace		= {LineTerminator} | [ \t\f]
 INTEGER			= 0 | [1-9][0-9]*
 IDENTIFIER		= [a-z_][A-Za-z_0-9]*
-QUOTE			= \"([^\\\"]|\\.)*\"
+STRING			= \"([^\\\"]|\\.)*\"
 
 CLASSIDENTIFIER = [A-Z][A-Za-z_0-9]*   
 Comment = {TraditionalComment} | {EndOfLineComment} | {DocumentationComment}
@@ -133,14 +133,14 @@ CommentContent       = ( [^*] | \*+ [^/*] )*
 "%"					{ System.out.print(""+(yyline+1)+": MOD"); System.out.println();    return symbol(sym.MOD);}
 "*"					{ System.out.print(""+(yyline+1)+": MULTIPLY"); System.out.println();    return symbol(sym.MULTIPLY);}
 "!="				{ System.out.print(""+(yyline+1)+": NEQUAL"); System.out.println();    return symbol(sym.NEQUAL);}
-"int"			{ System.out.print(""+(yyline+1)+": INT"); System.out.println();    return symbol(sym.INT);}
+"int"				{ System.out.print(""+(yyline+1)+": INT"); System.out.println();    return symbol(sym.INT);}
 			}
 
 {INTEGER}			{
 						System.out.print(""+(yyline+1)+": INTEGER(");
 						System.out.print(yytext());
 						System.out.print(")"); System.out.println();
-						return symbol(sym.NUMBER, new Integer(yytext()));
+						return symbol(sym.INTEGER, new Integer(yytext()));
 					}   
 {IDENTIFIER}		{
 						System.out.print(""+(yyline+1)+": ID(");
@@ -149,11 +149,11 @@ CommentContent       = ( [^*] | \*+ [^/*] )*
 						return symbol(sym.ID, new String(yytext()));
 					}
 {WhiteSpace}		{ /* just skip what was found, do nothing */ }  
-{QUOTE}				{
+{STRING}				{
 						System.out.print(""+(yyline+1)+": QUOTE(");
 						System.out.print(yytext());
 						System.out.print(")"); System.out.println();
-						return symbol(sym.QUOTE, new String(yytext()));
+						return symbol(sym.STRING, new String(yytext()));
 					} 
 {CLASSIDENTIFIER}		{
 						System.out.print(""+(yyline+1)+": CLASS_ID(");
