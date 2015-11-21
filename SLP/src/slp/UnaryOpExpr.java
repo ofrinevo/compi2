@@ -3,10 +3,10 @@ package slp;
 /** An AST node for unary expressions.
  */
 public class UnaryOpExpr extends Expr {
-	public final Operator op;
+	public final UnaryOps op;
 	public final Expr operand;
 	
-	public UnaryOpExpr(Expr operand, Operator op) {
+	public UnaryOpExpr(UnaryOps op, Expr operand) {
 		this.operand = operand;
 		this.op = op;
 	}

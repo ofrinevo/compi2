@@ -259,7 +259,7 @@ stmt ::= assignStmt:as SEMICOLON
 		{: RESULT = ls; :}
 ;		
 assignStmt ::= location:l ASSIGN expr:e
-				{: RESULT = new Assign(l,e); :}
+				{:RESULT = new Assign(l,e); :}
 ;
 breakStmt ::= BREAK:b
 			{: RESULT = new Break(getLine()); :}
@@ -318,9 +318,9 @@ location ::= variableLocationLocation:vl
 			{: RESULT = al; :}
 ;
 variableLocationLocation ::= expr:e DOT ID:id
-							{: RESULT = new VariableLocation(getLine(), e, id); :}
+							{: RESULT = new VariableLocation(e, id); :}
 							| ID:id
-							{: RESULT = new VariableLocation(getLine(), id); :}
+							{: RESULT = new VariableLocation(id); :}
 ;
 arrayLocationLocation ::= expr:e1 LB expr:e2 RB
 							{: RESULT = new ArrayLocation(e1,e2); :}
@@ -331,12 +331,12 @@ call ::= staticCall:sc
 		{: RESULT = vc; :}
 ;
 staticCall ::= CLASS_ID:cid DOT ID:id LPAREN exprKS:el RPAREN
-			{: RESULT = new StaticCall(getLine(), cid, id, el); :}
+			{: RESULT = new StaticCall( cid, id, el); :}
 ;
 virtualCall ::= ID:id LPAREN exprKS:el RPAREN
-				{: RESULT = new VirtualCall(getLine(), id, el); :}
+				{: RESULT = new VirtualCall( id, el); :}
 				| expr:e DOT ID:id LPAREN exprKS:el RPAREN
-				{: RESULT = new VirtualCall(getLine(), e, id, el); :}
+				{: RESULT = new VirtualCall( e, id, el); :}
 ;
 exprKS ::= expr:e
 			{: List<Expr> el = new LinkedList<Expr>(); el.add(e); RESULT = el; :}
@@ -346,10 +346,10 @@ exprKS ::= expr:e
 			{: RESULT = new LinkedList<Expr>(); :}
 ;
 thisExpr ::= THIS:t
-			{: RESULT = new This(getLine()); :}
+			{: RESULT = new This(); :}
 ;
 newClassNewExpr ::= NEW CLASS_ID:cid LPAREN RPAREN
-				{: RESULT = new NewClass(getLine(), cid); :}
+				{: RESULT = new NewClass(cid); :}
 ;
 newArrayNewExpr ::= NEW type:pt LB expr:e RB
 				{: RESULT = new NewArray(pt, e); :}
@@ -420,17 +420,17 @@ literal ::= INTEGER:i
 		{: 
 			String afterRmZeroes = i.replaceFirst("^0+","");
 			if (afterRmZeroes.equals("") || afterRmZeroes.equals(i))
-			{ RESULT = new Literal(getLine(), LiteralTypes.INTEGER, i); }
+			{ RESULT = new Literal( LiteralTypes.INTEGER, i); }
 			else { throw new SyntaxError(getLine(), getColumn(), "number other than zero should not start with leading zeroes"); }
 		:}
 		| STRING:s
-		{: RESULT = new Literal(getLine(), LiteralTypes.STRING, s); :}
+		{: RESULT = new Literal(LiteralTypes.STRING, s); :}
 		| TRUE:t
-		{: RESULT = new Literal(getLine(), LiteralTypes.TRUE); :}
+		{: RESULT = new Literal(LiteralTypes.TRUE); :}
 		| FALSE:f
-		{: RESULT = new Literal(getLine(), LiteralTypes.FALSE); :}
+		{: RESULT = new Literal(LiteralTypes.FALSE); :}
 		| NULL:n
-		{: RESULT = new Literal(getLine(), LiteralTypes.NULL); :}
+		{: RESULT = new Literal(LiteralTypes.NULL); :}
 ;		
 ExprBlockExpr ::= LPAREN expr:e RPAREN
 					{: RESULT = new ExprBlock(e); :}

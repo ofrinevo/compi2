@@ -1,23 +1,35 @@
 package slp;
 
-public class Length extends ASTNode{
-	
-	public final Expr e;
-	
-	public Length(Expr e){
-		this.e=e;
-	}
-	
-	@Override
+import slp.Expr;
+import slp.Visitor;
+
+/**
+ * Array length expression AST node.
+ */
+public class Length extends Expr {
+
+	private Expr array;
+
 	public void accept(Visitor visitor) {
-		// TODO Auto-generated method stub
+		 visitor.visit(this);
+	}
+
+	/**
+	 * Constructs a new array length expression node.
+	 * 
+	 * @param array
+	 *            Expression representing an array.
+	 */
+	public Length(Expr array) {
 		
+		this.array = array;
 	}
 
-	@Override
-	public <DownType, UpType> UpType accept(PropagatingVisitor<DownType, UpType> visitor, DownType context) {
-		// TODO Auto-generated method stub
-		return null;
+	public Expr getArray() {
+		return array;
 	}
-
+	public <DownType, UpType> UpType accept(
+			PropagatingVisitor<DownType, UpType> visitor, DownType context) {
+		return visitor.visit(this, context);
+	}
 }

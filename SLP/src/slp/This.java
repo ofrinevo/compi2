@@ -12,8 +12,7 @@ public class This extends Expr{
 
 	@Override
 	public <DownType, UpType> UpType accept(PropagatingVisitor<DownType, UpType> visitor, DownType context) {
-
-		return null;
+		return visitor.visit(this, context);
 	}
 
 }

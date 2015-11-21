@@ -2,13 +2,11 @@ package slp;
 
 import java.util.List;
 
-import slp.Expr;;
+import slp.Expr;
 
 
 /**
  * Static method call AST node.
- * 
- * 
  */
 public class StaticCall extends Call {
 
@@ -42,8 +40,7 @@ public class StaticCall extends Call {
 
 	@Override
 	public <DownType, UpType> UpType accept(PropagatingVisitor<DownType, UpType> visitor, DownType context) {
-		// TODO Auto-generated method stub
-		return null;
+		return visitor.visit(this, context);
 	}
 
 }
