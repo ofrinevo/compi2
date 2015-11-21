@@ -2,7 +2,6 @@ package slp;
 
 /**
  * AST node for expression in parentheses.
-
  */
 public class ExprBlock extends Expr {
 

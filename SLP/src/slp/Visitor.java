@@ -20,4 +20,6 @@ public interface Visitor {
 	public void visit(ICClass icClass);
 	public void visit(Formal formal);
 	public void visit(Program program);
+	public Object visit(StaticMethod staticMethod);
+	public void visit(VirtualMethod virtualMethod);
 }

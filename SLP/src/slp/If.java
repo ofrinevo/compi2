@@ -11,7 +11,11 @@ public class If extends Stmt {
 		this.condstmt = s;
 		this.elsestmt = es;
 	}
-
+	public If(Expr e, Stmt s) {
+		this.condition = e;
+		this.condstmt = s;
+		this.elsestmt = null;
+	}
 	public void accept(Visitor visitor) {
 		visitor.visit(this);
 	}

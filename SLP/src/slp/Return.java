@@ -2,8 +2,12 @@ package slp;
 
 public class Return extends Stmt {
 
-	public final Expr e;
+	public Expr e=null;
 
+	public Return(){
+		
+	}
+	
 	public Return(Expr e) {
 		this.e = e;
 	}

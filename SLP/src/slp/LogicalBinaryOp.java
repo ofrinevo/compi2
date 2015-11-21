@@ -1,7 +1,5 @@
 package slp;
 
-import slp.BinaryOpExpr;
-
 /**
  * Logical binary operation AST node.
  */
@@ -24,5 +22,11 @@ public class LogicalBinaryOp extends BinaryOpExpr {
 	public LogicalBinaryOp(Expr operand1, BinaryOps operator, Expr operand2) {
 		super(operand1, operator, operand2);
 	}
+
+	public LogicalBinaryOp(Expr e1, BinaryOp lbop, Expr e2) {
+		// TODO Auto-generated constructor stub
+	}
+
+
 
 }
