@@ -2,17 +2,14 @@ package slp;
 
 /**
  * User-defined data type AST node.
- * 
- * @author Tovi Almozlino
  */
 public class UserType extends Type {
 
 	private String name;
 
-	public Object accept(Visitor visitor) {
-		return visitor.visit(this);
+	public void accept(Visitor visitor) {
+		visitor.visit(this);
 	}
-
 	/**
 	 * Constructs a new user-defined data type node.
 	 * 
@@ -28,6 +25,12 @@ public class UserType extends Type {
 
 	public String getName() {
 		return name;
+	}
+
+	@Override
+	public <DownType, UpType> UpType accept(
+			PropagatingVisitor<DownType, UpType> visitor, DownType context) {
+		return visitor.visit(this, context);
 	}
 
 }
