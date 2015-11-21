@@ -2,8 +2,6 @@ package slp;
 
 /**
  * Abstract base class for data type AST nodes.
- * 
- * 
  */
 public abstract class Type extends ASTNode {
 
@@ -16,8 +14,6 @@ public abstract class Type extends ASTNode {
 	/**
 	 * Constructs a new type node. Used by subclasses.
 	 * 
-	 * @param line
-	 *            Line number of type declaration.
 	 */
 	protected Type() {
 		

@@ -4,8 +4,7 @@ import slp.DataTypes;
 
 /**
  * Primitive data type AST node.
- * 
- * 
+
  */
 public class PrimitiveType extends Type {
 
@@ -30,9 +29,9 @@ public class PrimitiveType extends Type {
 
 	@Override
 	public <DownType, UpType> UpType accept(PropagatingVisitor<DownType, UpType> visitor, DownType context) {
-		// TODO Auto-generated method stub
-		return null;
+		return visitor.visit(this, context);
 	}
+
 
 	@Override
 	public void accept(Visitor visitor) {

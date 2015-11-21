@@ -17,4 +17,10 @@ public interface PropagatingVisitor<DownType,UpType> {
 	public UpType visit(BinaryOpExpr expr, DownType d);
 	public UpType visit(UserType userType, DownType context);
 	public UpType visit(Assign assign, DownType context);
+	public UpType visit(PrimitiveType primitiveType, DownType context);
+	public UpType visit(Field field, DownType context);
+	public UpType visit(ICClass icClass, DownType context);
+	public UpType visit(Formal formal, DownType context);
+	public UpType visit(Method method, DownType context);
+	public UpType visit(Program program, DownType context);
 }

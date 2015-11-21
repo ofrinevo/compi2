@@ -16,4 +16,8 @@ public interface Visitor {
 	public void visit(PrimitiveType primitiveType);
 	public void visit(UserType userType);
 	public void visit(Assign assign);
+	public void visit(Field field);
+	public void visit(ICClass icClass);
+	public void visit(Formal formal);
+	public void visit(Program program);
 }
