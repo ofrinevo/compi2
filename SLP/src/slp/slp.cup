@@ -57,7 +57,7 @@ parser code
 terminal String CLASS_ID, ID;
 terminal SEMICOLON, CLASS, STATIC, VOID, INT, BOOLEAN, STRING_RESERVED;
 terminal LCBR, RCBR, LPAREN, RPAREN, LB, RB, COMMA;
-terminal String INTEGER;
+terminal INTEGER;
 terminal String STRING;
 terminal EXTENDS, RETURN, IF, ELSE, WHILE, BREAK, CONTINUE, THIS, NEW, LENGTH, TRUE, FALSE, NULL;
 terminal PLUS, MINUS, MULTIPLY, DIVIDE, MOD, LAND, LOR, LTE, LT, GTE, GT, EQUAL, NEQUAL, LNEG;
@@ -406,10 +406,10 @@ literalExpr ::= literal:l
 ;
 literal ::= INTEGER:i
 		{: 
-			String afterRmZeroes = i.replaceFirst("^0+","");
-			if (afterRmZeroes.equals("") || afterRmZeroes.equals(i))
+			Object afterRmZeroes = i.toString().replaceFirst("^0+(?!$)", "");
+			if (afterRmZeroes.equals("") || afterRmZeroes.equals(i.toString()))
 			{ RESULT = new Literal( LiteralTypes.INTEGER, i); }
-			else { throw new SyntaxError(getLine(), getColumn(), "number other than zero should not start with leading zeroes"); }
+			else { throw new SyntaxError("number other than zero should not start with leading zeroes"); }
 		:}
 		| STRING:s
 		{: RESULT = new Literal(LiteralTypes.STRING, s); :}

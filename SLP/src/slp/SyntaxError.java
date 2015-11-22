@@ -7,5 +7,8 @@ public class SyntaxError extends Exception {
     
     public SyntaxError(int line, int column, String msg) {
         System.err.println(line + ":" + column + " : syntax error; " + msg);
+    } 
+    public SyntaxError( String msg) {
+        System.err.println(" " + msg);
     }
 }

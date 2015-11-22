@@ -1,7 +1,5 @@
 package slp;
 
-import slp.LiteralTypes;
-
 /**
  * Literal value AST node.
  */

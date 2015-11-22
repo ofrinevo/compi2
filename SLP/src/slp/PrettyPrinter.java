@@ -1,7 +1,5 @@
 package slp;
 
-
-
 /** Pretty-prints an SLP AST.
  */
 public class PrettyPrinter implements Visitor {
@@ -93,7 +91,20 @@ public class PrettyPrinter implements Visitor {
 		System.out.print(assignment.toString());
 		
 	}
+	public void visit(Literal literal) {
+		StringBuffer output = new StringBuffer();
 
+		
+		output.append(literal.getType().getDescription() + ": "
+				+ literal.getType().toFormattedString(literal.getValue()));
+		
+		String out = output.toString();
+		if (literal.getType() == LiteralTypes.STRING)
+		{
+			out = out.toString().replaceFirst("\"", "").replaceFirst("\"$", "");
+		}
+		System.out.println(out); 
+	}
 	public void visit(ArrayLocation location) {
 		StringBuffer output = new StringBuffer();
 

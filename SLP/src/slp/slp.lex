@@ -133,7 +133,7 @@ CommentContent       = ( [^*] | \*+ [^/*] )*
 "*"					{ System.out.print(""+(yyline+1)+": MULTIPLY"); System.out.println();    return symbol(sym.MULTIPLY);}
 "!="				{ System.out.print(""+(yyline+1)+": NEQUAL"); System.out.println();    return symbol(sym.NEQUAL);}
 "int"				{ System.out.print(""+(yyline+1)+": INT"); System.out.println();    return symbol(sym.INT);}
-"string"			{ System.out.print(""+(yyline+1)+": STRING_RESERVED"); System.out.println();    return symbol(sym.STRING_RESERVED);}
+"string"			{ System.out.print(""+(yyline+1)+": STRING"); System.out.println();    return symbol(sym.STRING_RESERVED);}
 "boolean"			{ System.out.print(""+(yyline+1)+": BOOLEAN"); System.out.println();    return symbol(sym.BOOLEAN);}
 
 			}
@@ -167,4 +167,4 @@ CommentContent       = ( [^*] | \*+ [^/*] )*
 {Comment} {}
 . { System.out.print((yyline+1) + ": Lexical error: illegal character '" + yytext() + "'");
 	System.exit(0);}
-<<EOF>> { System.out.print((yyline+2)+ ": EOF"); return symbol(sym.EOF);}
+<<EOF>> { System.out.println((yyline+2)+ ": EOF"); return symbol(sym.EOF);}
