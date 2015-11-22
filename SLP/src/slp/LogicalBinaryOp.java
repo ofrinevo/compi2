@@ -23,9 +23,6 @@ public class LogicalBinaryOp extends BinaryOpExpr {
 		super(operand1, operator, operand2);
 	}
 
-	public LogicalBinaryOp(Expr e1, BinaryOp lbop, Expr e2) {
-		// TODO Auto-generated constructor stub
-	}
 
 
 

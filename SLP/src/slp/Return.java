@@ -1,5 +1,7 @@
 package slp;
 
+
+
 public class Return extends Stmt {
 
 	public Expr e=null;
@@ -21,4 +23,11 @@ public class Return extends Stmt {
 			PropagatingVisitor<DownType, UpType> visitor, DownType context) {
 		return visitor.visit(this, context);
 	}	
+	public boolean hasValue() {
+		return (e != null);
+	}
+
+	public Expr getValue() {
+		return e;
+	}
 }

@@ -4,7 +4,6 @@ package slp;
  */
 public interface Visitor {
 	public void visit(StmtList stmts);
-	public void visit(Stmt stmt);
 	public void visit(PrintStmt stmt);
 	public void visit(AssignStmt stmt);
 	public void visit(Expr expr);
@@ -22,4 +21,10 @@ public interface Visitor {
 	public void visit(Program program);
 	public void visit(StaticMethod staticMethod);
 	public void visit(VirtualMethod virtualMethod);
+	public void visit(LocalVariable localVariable);
+	public void visit(Continue continue1);
+	public void visit(Break break1);
+	public void visit(CallStatement callStatement);
+	public void visit(Return return1);
+	public void visit(Stmt stmt);
 }

@@ -198,4 +198,61 @@ public class PrettyPrinter implements Visitor {
 		System.out.println(output.toString()); 
 		
 	}
+
+	@Override
+	public void visit(LocalVariable localVariable) {
+		StringBuffer output = new StringBuffer();
+
+		
+		output.append("Declaration of local variable: "
+				+ localVariable.getName());
+		if (localVariable.hasInitValue()) {
+			output.append(", with initial value");
+			
+		}
+		
+		localVariable.getType().accept(this);
+		if (localVariable.hasInitValue()) {
+			localVariable.getInitValue().accept(this);
+		
+		}
+		
+		System.out.println(output.toString()); 
+		
+	}
+
+	@Override
+	public void visit(Continue continue1) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void visit(Break break1) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void visit(CallStatement callStatement) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void visit(Return return1) {
+		StringBuffer output = new StringBuffer();
+
+		
+		output.append("Return statement");
+		if (return1.hasValue())
+			output.append(", with return value");
+		if (return1.hasValue()) {
+			
+			return1.getValue().accept(this);
+			
+		}
+		System.out.println(output.toString()); 
+		
+	}
 }
