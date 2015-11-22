@@ -1,1 +1,6 @@
-x=1;
+class Library {
+static void main(string[] s){
+int x=1;
+
+}
+}

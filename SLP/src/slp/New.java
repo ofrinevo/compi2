@@ -2,8 +2,6 @@ package slp;
 
 /**
  * Abstract base class for object creation AST nodes.
- * 
- * @author Tovi Almozlino
  */
 public abstract class New extends Expr {
 

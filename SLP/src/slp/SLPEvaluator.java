@@ -108,10 +108,10 @@ public class SLPEvaluator implements PropagatingVisitor<Environment, Integer> {
 		case GT:
 			result = lhsInt > rhsInt ? 1 : 0;
 			break;
-		case LE:
+		case LTE:
 			result = lhsInt <= rhsInt ? 1 : 0;
 			break;
-		case GE:
+		case GTE:
 			result = lhsInt >= rhsInt ? 1 : 0;
 			break;
 		case LAND:

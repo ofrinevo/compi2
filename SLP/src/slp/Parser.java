@@ -2112,5 +2112,15 @@ class CUP$Parser$actions {
 
         }
     }
+
+private int getColumn() {
+	// TODO Auto-generated method stub
+	return 0;
+}
+
+private int getLine() {
+	// TODO Auto-generated method stub
+	return 0;
+}
 }
 

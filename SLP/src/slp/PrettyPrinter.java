@@ -1,6 +1,6 @@
 package slp;
 
-import IC.AST.Assignment;
+
 
 /** Pretty-prints an SLP AST.
  */
@@ -19,6 +19,22 @@ public class PrettyPrinter implements Visitor {
 	 */
 	public void print() {
 		root.accept(this);
+	}
+	
+	public void visit(ICClass icClass) {
+		StringBuffer output = new StringBuffer();
+		
+		
+		output.append("Declaration of class: " + icClass.getName());
+		if (icClass.hasSuperClass())
+			output.append(", subclass of " + icClass.getSuperClassName());
+		
+		for (Field field : icClass.getFields())
+			field.accept(this);
+		for (Method method : icClass.getMethods())
+			method.accept(this);
+		
+		System.out.print(output.toString()); 
 	}
 	
 	public void visit(StmtList stmts) {
@@ -77,9 +93,98 @@ public class PrettyPrinter implements Visitor {
 		System.out.print(assignment.toString());
 		
 	}
+
+	public void visit(ArrayLocation location) {
+		StringBuffer output = new StringBuffer();
+
+	
+		output.append("Reference to array");
+	
+		location.getArray().accept(this);
+		location.getIndex().accept(this);
+		
+		System.out.print(output.toString()); 
+	}
+	public void visit(PrimitiveType type) {
+		StringBuffer output = new StringBuffer();
+
+		output.append("Primitive data type: ");
+		if (type.getDimension() > 0)
+			output.append(type.getDimension() + "-dimensional array of ");
+		output.append(type.getName());
+		System.out.println(output.toString()); 
+	}
+	
+	public void visit(Field field) {
+		StringBuffer output = new StringBuffer();
+
+		
+		output.append("Declaration of field: " + field.getName());
+		
+		field.getType().accept(this);
+		
+		System.out.println(output.toString()); 
+	}
+
 	@Override
-	public void visit(PrimitiveType primitiveType) {
-		// TODO Auto-generated method stub
+	public void visit(UserType type) {
+		StringBuffer output = new StringBuffer();
+
+		output.append("User-defined data type: ");
+		if (type.getDimension() > 0)
+			output.append(type.getDimension() + "-dimensional array of ");
+		output.append(type.getName());
+		System.out.println(output.toString()); 
+		
+	}
+
+	@Override
+	public void visit(Formal formal) {
+		StringBuffer output = new StringBuffer();
+		output.append("Parameter: " + formal.getName());
+		formal.getType().accept(this);
+		System.out.println(output.toString()); 
+		
+	}
+
+	@Override
+	public void visit(Program program) {
+		StringBuffer output = new StringBuffer();
+		output.append("Abstract Syntax Tree: " +  "\n");
+		for (ICClass icClass : program.getClasses())
+			icClass.accept(this);
+		System.out.println(output.toString()); 
+		
+	}
+
+
+	public void visit(StaticMethod method) {
+		StringBuffer output = new StringBuffer();
+
+		
+		output.append("Declaration of static method: " + method.getName());
+		
+		method.getType().accept(this);
+		for (Formal formal : method.getFormals())
+			formal.accept(this);
+		for (Stmt statement : method.getStatements())
+		statement.accept(this);
+		
+		System.out.println(output.toString()); 
+	}
+
+	@Override
+	public void visit(VirtualMethod method) {
+		StringBuffer output = new StringBuffer();
+		output.append("Declaration of virtual method: " + method.getName());
+		
+		method.getType().accept(this);
+		for (Formal formal : method.getFormals())
+			formal.accept(this);
+		for (Stmt statement : method.getStatements())
+		statement.accept(this);
+		
+		System.out.println(output.toString()); 
 		
 	}
 }

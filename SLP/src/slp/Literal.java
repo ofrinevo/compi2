@@ -51,7 +51,9 @@ public class Literal extends Expr {
 	public Object getValue() {
 		return value;
 	}
-
+	public String toString(){
+		return value.toString();
+	}
 	@Override
 	public <DownType, UpType> UpType accept(
 			PropagatingVisitor<DownType, UpType> visitor, DownType context) {

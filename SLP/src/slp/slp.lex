@@ -113,7 +113,6 @@ CommentContent       = ( [^*] | \*+ [^/*] )*
 "true" 				{ System.out.print(""+(yyline+1)+": TRUE"); System.out.println();  	  return symbol(sym.TRUE);}
 "void" 				{ System.out.print(""+(yyline+1)+": VOID"); System.out.println();  	  return symbol(sym.VOID);}
 "while" 			{ System.out.print(""+(yyline+1)+": WHILE"); System.out.println();  	  return symbol(sym.WHILE);}
-"string"			{ System.out.print(""+(yyline+1)+": STRING"); System.out.println(); return symbol(sym.STRING);}
 "break"				{ System.out.print(""+(yyline+1)+": BREAK"); System.out.println();  return symbol(sym.BREAK);}
 "extends"			{ System.out.print(""+(yyline+1)+": EXTENDS"); System.out.println();   return symbol(sym.EXTENDS);}
 "else"				{ System.out.print(""+(yyline+1)+": ELSE"); System.out.println();   return symbol(sym.ELSE);}
@@ -134,6 +133,9 @@ CommentContent       = ( [^*] | \*+ [^/*] )*
 "*"					{ System.out.print(""+(yyline+1)+": MULTIPLY"); System.out.println();    return symbol(sym.MULTIPLY);}
 "!="				{ System.out.print(""+(yyline+1)+": NEQUAL"); System.out.println();    return symbol(sym.NEQUAL);}
 "int"				{ System.out.print(""+(yyline+1)+": INT"); System.out.println();    return symbol(sym.INT);}
+"string"			{ System.out.print(""+(yyline+1)+": STRING_RESERVED"); System.out.println();    return symbol(sym.STRING_RESERVED);}
+"boolean"			{ System.out.print(""+(yyline+1)+": BOOLEAN"); System.out.println();    return symbol(sym.BOOLEAN);}
+
 			}
 
 {INTEGER}			{
