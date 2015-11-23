@@ -6,6 +6,7 @@ public abstract class ASTNode {
 	/** Accepts a visitor object as part of the visitor pattern.
 	 * @param visitor A visitor.
 	 */
+	private int line;
 	public abstract void accept(Visitor visitor);
 	
 	/** Accepts a propagating visitor parameterized by two types.
@@ -16,6 +17,10 @@ public abstract class ASTNode {
 	 * @param context An object holding context information.
 	 * @return The result of visiting this node.
 	 */
+	
+	public int getLine() {
+		return line;
+	}
 	public abstract <DownType, UpType> UpType accept(
 			PropagatingVisitor<DownType, UpType> visitor, DownType context);
 }

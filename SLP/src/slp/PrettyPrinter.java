@@ -1,10 +1,11 @@
 package slp;
 
+
 /** Pretty-prints an SLP AST.
  */
 public class PrettyPrinter implements Visitor {
 	protected final ASTNode root;
-
+	
 	/** Constructs a printin visitor from an AST.
 	 * 
 	 * @param root The root of the AST.
@@ -19,6 +20,7 @@ public class PrettyPrinter implements Visitor {
 		root.accept(this);
 	}
 	
+	
 	public void visit(ICClass icClass) {
 		StringBuffer output = new StringBuffer();
 		
@@ -26,7 +28,8 @@ public class PrettyPrinter implements Visitor {
 		output.append("Declaration of class: " + icClass.getName());
 		if (icClass.hasSuperClass())
 			output.append(", subclass of " + icClass.getSuperClassName());
-		
+		System.out.println(output.toString()); 
+		output = new StringBuffer();
 		for (Field field : icClass.getFields())
 			field.accept(this);
 		for (Method method : icClass.getMethods())
@@ -222,23 +225,7 @@ public class PrettyPrinter implements Visitor {
 		
 	}
 
-	@Override
-	public void visit(Continue continue1) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void visit(Break break1) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void visit(CallStatement callStatement) {
-		// TODO Auto-generated method stub
-		
-	}
+	
 
 	@Override
 	public void visit(Return return1) {
@@ -254,6 +241,138 @@ public class PrettyPrinter implements Visitor {
 			
 		}
 		System.out.println(output.toString()); 
+		
+	}
+
+	
+
+	@Override
+	public void visit(VariableLocation location) {
+		 StringBuffer output = new StringBuffer();
+
+		
+		output.append("Reference to variable: " + location.getName());
+		if (location.isExternal())
+			output.append(", in external scope");
+		if (location.isExternal()) {
+			
+			location.getLocation().accept(this);
+			
+		}
+		System.out.println(output.toString()); 
+		
+	}
+
+	@Override
+	public void visit(If ifStatement) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void visit(While whileStatement) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void visit(StmtsBlock statementsBlock) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void visit(StaticCall call) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void visit(VirtualCall call) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void visit(This thisExpression) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void visit(NewClass newClass) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void visit(NewArray newArray) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void visit(Length length) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void visit(MathBinaryOp binaryOp) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void visit(LogicalBinaryOp binaryOp) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void visit(MathUnaryOp unaryOp) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void visit(LogicalUnaryOp unaryOp) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void visit(ExprBlock expressionBlock) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void visit(LocationAssign locationAssign) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void visit(Method method) {
+		// TODO Auto-generated method stub
+		
+	}
+	@Override
+	public void visit(Continue continue1) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void visit(Break break1) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void visit(CallStatement callStatement) {
+		// TODO Auto-generated method stub
 		
 	}
 }

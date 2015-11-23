@@ -55,4 +55,7 @@ public abstract class Method extends ASTNode {
 			PropagatingVisitor<DownType, UpType> visitor, DownType context) {
 		return visitor.visit(this, context);
 	}
+	public void accept(Visitor visitor) {
+		visitor.visit(this);
+	}
 }
