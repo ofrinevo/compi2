@@ -10,17 +10,18 @@ public interface PropagatingVisitor<DownType,UpType> {
 	public UpType visit(PrintStmt stmt, DownType d);
 	public UpType visit(AssignStmt stmt, DownType d);
 	public UpType visit(Expr expr, DownType d);
+	public UpType visit(ArrayLocation location, DownType d);
 	public UpType visit(ReadIExpr expr, DownType d);
 	public UpType visit(VarExpr expr, DownType d);
 	public UpType visit(NumberExpr expr, DownType d);
 	public UpType visit(UnaryOpExpr expr, DownType d);
 	public UpType visit(BinaryOpExpr expr, DownType d);
-	public UpType visit(UserType userType, DownType context);
-	public UpType visit(Assign assign, DownType context);
-	public UpType visit(PrimitiveType primitiveType, DownType context);
-	public UpType visit(Field field, DownType context);
-	public UpType visit(ICClass icClass, DownType context);
-	public UpType visit(Formal formal, DownType context);
-	public UpType visit(Method method, DownType context);
-	public UpType visit(Program program, DownType context);
+	public UpType visit(UserType userType, DownType d);
+	public UpType visit(Assign assign, DownType d);
+	public UpType visit(PrimitiveType primitiveType, DownType d);
+	public UpType visit(Field field, DownType d);
+	public UpType visit(ICClass icClass, DownType d);
+	public UpType visit(Formal formal, DownType d);
+	public UpType visit(Method method, DownType d);
+	public UpType visit(Program program, DownType d);
 }
