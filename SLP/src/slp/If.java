@@ -24,4 +24,20 @@ public class If extends Stmt {
 	public <DownType, UpType> UpType accept(PropagatingVisitor<DownType, UpType> visitor, DownType context) {
 		return visitor.visit(this, context);
 	}
+	
+	public Expr getCondition() {
+		return condition;
+	}
+
+	public Stmt getStmt() {
+		return condstmt;
+	}
+
+	public boolean hasElse() {
+		return (elsestmt != null);
+	}
+
+	public Stmt getElseOperation() {
+		return elsestmt;
+	}
 }
