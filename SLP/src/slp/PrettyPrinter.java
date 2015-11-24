@@ -5,6 +5,7 @@ package slp;
  */
 public class PrettyPrinter implements Visitor {
 	protected final ASTNode root;
+	private String ICFilePath;
 
 	/**
 	 * Constructs a printin visitor from an AST.
@@ -12,8 +13,9 @@ public class PrettyPrinter implements Visitor {
 	 * @param root
 	 *            The root of the AST.
 	 */
-	public PrettyPrinter(ASTNode root) {
+	public PrettyPrinter(ASTNode root,String ICFilePath) {
 		this.root = root;
+		this.ICFilePath = ICFilePath;
 	}
 
 	/**
@@ -56,16 +58,11 @@ public class PrettyPrinter implements Visitor {
 	}
 
 	public void visit(AssignStmt assignment) {
-//		stmt.varExpr.accept(this);
-//		System.out.print("=");
-//		stmt.rhs.accept(this);
-//		System.out.println(";");
-		StringBuffer output = new StringBuffer();
+		// stmt.varExpr.accept(this);
+		// System.out.print("=");
+		// stmt.rhs.accept(this);
+		// System.out.println(";");
 
-		output.append("Assignment statement");
-		System.out.println(output.toString()); 
-		assignment.varExpr.accept(this);
-		assignment.rhs.accept(this);
 	}
 
 	public void visit(Expr expr) {
@@ -96,7 +93,12 @@ public class PrettyPrinter implements Visitor {
 	}
 
 	public void visit(Assign assignment) {
-		System.out.print(assignment.toString());
+		StringBuffer output = new StringBuffer();
+
+		output.append("Assignment statement");
+		System.out.println(output.toString());
+		assignment.variable.accept(this);
+		assignment.assignment.accept(this);
 
 	}
 
@@ -166,7 +168,7 @@ public class PrettyPrinter implements Visitor {
 	@Override
 	public void visit(Program program) {
 		StringBuffer output = new StringBuffer();
-		output.append("Abstract Syntax Tree: " + "\n");
+		output.append("Abstract Syntax Tree: " + ICFilePath+ "\n");
 		System.out.println(output.toString());
 		for (ICClass icClass : program.getClasses())
 			icClass.accept(this);
@@ -308,9 +310,10 @@ public class PrettyPrinter implements Visitor {
 		output.append("Call to virtual method: " + call.getName());
 		if (call.isExternal())
 			output.append(", in external scope");
+		System.out.println(output.toString());
 		if (call.isExternal())
 			call.getLocation().accept(this);
-		System.out.println(output.toString());
+		
 		for (Expr argument : call.getArguments())
 			argument.accept(this);
 
@@ -338,13 +341,11 @@ public class PrettyPrinter implements Visitor {
 
 	@Override
 	public void visit(NewArray newArray) {
-
 		StringBuffer output = new StringBuffer();
-
 		output.append("Array allocation");
+		System.out.println(output.toString());
 		newArray.getType().accept(this);
 		newArray.getSize().accept(this);
-
 	}
 
 	@Override
