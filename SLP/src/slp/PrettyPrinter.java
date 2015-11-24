@@ -267,84 +267,172 @@ public class PrettyPrinter implements Visitor {
 	@Override
 	public void visit(If ifStatement) {
 		// TODO Auto-generated method stub
+		StringBuffer output = new StringBuffer();
+
+		output.append("If statement");
+		if (ifStatement.hasElse())
+			output.append(", with Else operation");
+		ifStatement.getCondition().accept(this);
+		ifStatement.getStmt().accept(this);
+		if (ifStatement.hasElse())
+			ifStatement.getElseOperation().accept(this);
+		System.out.println(output.toString()); 
 		
 	}
 
 	@Override
 	public void visit(While whileStatement) {
 		// TODO Auto-generated method stub
-		
+		StringBuffer output = new StringBuffer();
+
+		output.append("While statement");
+		whileStatement.getCondition().accept(this);
+		whileStatement.getStmt().accept(this);
+		System.out.println(output.toString()); 
 	}
 
 	@Override
 	public void visit(StmtsBlock statementsBlock) {
 		// TODO Auto-generated method stub
+		StringBuffer output = new StringBuffer();
+
+		output.append("Block of statements");
+		for (Stmt statement : statementsBlock.getStatements())
+			statement.accept(this);
+		System.out.println(output.toString()); 
 		
 	}
 
 	@Override
 	public void visit(StaticCall call) {
 		// TODO Auto-generated method stub
+		StringBuffer output = new StringBuffer();
+
+		output.append("Call to static method: " + call.getName()
+				+ ", in class " + call.getClassName());
+		for (Expr argument : call.getArguments())
+			argument.accept(this);
+		System.out.println(output.toString()); 
 		
 	}
 
 	@Override
 	public void visit(VirtualCall call) {
 		// TODO Auto-generated method stub
+		StringBuffer output = new StringBuffer();
+
+		output.append("Call to virtual method: " + call.getName());
+		if (call.isExternal())
+			output.append(", in external scope");
+		if (call.isExternal())
+			call.getLocation().accept(this);
+		for (Expr argument : call.getArguments())
+			argument.accept(this);
+		System.out.println(output.toString()); 
 		
 	}
 
 	@Override
 	public void visit(This thisExpression) {
 		// TODO Auto-generated method stub
+		StringBuffer output = new StringBuffer();
+
+		output.append("Reference to 'this' instance");
+		System.out.println(output.toString()); 
 		
 	}
 
 	@Override
 	public void visit(NewClass newClass) {
 		// TODO Auto-generated method stub
+		StringBuffer output = new StringBuffer();
+
+		output.append("Instantiation of class: " + newClass.getName());
+		System.out.println(output.toString()); 
 		
 	}
 
 	@Override
 	public void visit(NewArray newArray) {
 		// TODO Auto-generated method stub
+		StringBuffer output = new StringBuffer();
+
+		output.append("Array allocation");
+		newArray.getType().accept(this);
+		newArray.getSize().accept(this);
+		System.out.println(output.toString()); 
 		
 	}
 
 	@Override
 	public void visit(Length length) {
 		// TODO Auto-generated method stub
+		StringBuffer output = new StringBuffer();
+
+		output.append("Reference to array length");
+		length.getArray().accept(this);
+		System.out.println(output.toString()); 
 		
 	}
 
 	@Override
 	public void visit(MathBinaryOp binaryOp) {
 		// TODO Auto-generated method stub
+		StringBuffer output = new StringBuffer();
+
+		output.append("Mathematical binary operation: "
+				+ binaryOp.getOperator().getDescription());
+		binaryOp.getFirstOperand().accept(this);
+		binaryOp.getSecondOperand().accept(this);
+		System.out.println(output.toString()); 
 		
 	}
 
 	@Override
 	public void visit(LogicalBinaryOp binaryOp) {
 		// TODO Auto-generated method stub
+		StringBuffer output = new StringBuffer();
+
+		output.append("Logical binary operation: "
+				+ binaryOp.getOperator().getDescription());
+		binaryOp.getFirstOperand().accept(this);
+		binaryOp.getSecondOperand().accept(this);
+		System.out.println(output.toString()); 
 		
 	}
 
 	@Override
 	public void visit(MathUnaryOp unaryOp) {
 		// TODO Auto-generated method stub
+		StringBuffer output = new StringBuffer();
+
+		output.append("Mathematical unary operation: "
+				+ unaryOp.getOperator().getDescription());
+		unaryOp.getOperand().accept(this);
+		System.out.println(output.toString()); 
 		
 	}
 
 	@Override
 	public void visit(LogicalUnaryOp unaryOp) {
 		// TODO Auto-generated method stub
+		StringBuffer output = new StringBuffer();
+
+		output.append("Logical unary operation: "
+				+ unaryOp.getOperator().getDescription());
+		unaryOp.getOperand().accept(this);
+		System.out.println(output.toString()); 
 		
 	}
 
 	@Override
 	public void visit(ExprBlock expressionBlock) {
 		// TODO Auto-generated method stub
+		StringBuffer output = new StringBuffer();
+
+		output.append("Parenthesized expression");
+		expressionBlock.getExpression().accept(this);
+		System.out.println(output.toString()); 
 		
 	}
 
@@ -362,18 +450,30 @@ public class PrettyPrinter implements Visitor {
 	@Override
 	public void visit(Continue continue1) {
 		// TODO Auto-generated method stub
+		StringBuffer output = new StringBuffer();
+
+		output.append("Continue statement");
+		System.out.println(output.toString()); 
 		
 	}
 
 	@Override
 	public void visit(Break break1) {
 		// TODO Auto-generated method stub
-		
+		StringBuffer output = new StringBuffer();
+
+		output.append("Break statement");
+		System.out.println(output.toString()); 
 	}
 
 	@Override
 	public void visit(CallStatement callStatement) {
 		// TODO Auto-generated method stub
+		StringBuffer output = new StringBuffer();
+
+		output.append("Method call statement");
+		callStatement.getCall().accept(this);
+		System.out.println(output.toString()); 
 		
 	}
 }

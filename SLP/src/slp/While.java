@@ -18,4 +18,12 @@ public class While extends Stmt {
 	public <DownType, UpType> UpType accept(PropagatingVisitor<DownType, UpType> visitor, DownType context) {
 		return visitor.visit(this, context);
 	}
+	
+	public Expr getCondition() {
+		return condition;
+	}
+	
+	public Stmt getStmt() {
+		return stmt;
+	}
 }

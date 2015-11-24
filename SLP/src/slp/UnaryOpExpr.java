@@ -36,4 +36,12 @@ public class UnaryOpExpr extends Expr {
 	public String toString() {
 		return op + operand.toString();
 	}
+	
+	public UnaryOps getOperator() {
+		return op;
+	}
+
+	public Expr getOperand() {
+		return operand;
+	}
 }

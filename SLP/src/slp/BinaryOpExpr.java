@@ -38,4 +38,16 @@ public class BinaryOpExpr extends Expr {
 	public String toString() {
 		return lhs.toString() + op + rhs.toString();
 	}	
+	
+	public Expr getFirstOperand() {
+		return lhs;
+	}
+	
+	public BinaryOps getOperator() {
+		return op;
+	}
+	
+	public Expr getSecondOperand() {
+		return rhs;
+	}
 }
