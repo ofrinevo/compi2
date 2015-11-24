@@ -11,8 +11,6 @@ public class UserType extends Type {
 	/**
 	 * Constructs a new user-defined data type node.
 	 * 
-	 * @param line
-	 *            Line number of type declaration.
 	 * @param name
 	 *            Name of data type.
 	 */
