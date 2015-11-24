@@ -2,8 +2,6 @@ package slp;
 
 /**
  * Assignment statement AST node.
- * 
- * 
  */
 public class Assign extends Stmt {
 

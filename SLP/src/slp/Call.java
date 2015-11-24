@@ -6,8 +6,6 @@ import slp.Expr;
 
 /**
  * Abstract base class for method call AST nodes.
- * 
- * 
  */
 public abstract class Call extends Expr {
 
@@ -18,8 +16,6 @@ public abstract class Call extends Expr {
 	/**
 	 * Constructs a new method call node. Used by subclasses.
 	 * 
-	 * @param line
-	 *            Line number of call.
 	 * @param name
 	 *            Name of method.
 	 * @param arguments

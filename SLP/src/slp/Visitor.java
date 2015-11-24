@@ -2,8 +2,6 @@ package slp;
 
 /**
  * AST visitor interface. Declares methods for visiting each type of AST node.
- * 
- * @author Tovi Almozlino
  */
 public interface Visitor {
 
