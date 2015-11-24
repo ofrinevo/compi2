@@ -192,7 +192,8 @@ public class PrettyPrinter implements Visitor {
 	public void visit(VirtualMethod method) {
 		StringBuffer output = new StringBuffer();
 		output.append("Declaration of virtual method: " + method.getName());
-		
+		System.out.println(output.toString()); 
+		output = new StringBuffer();
 		method.getType().accept(this);
 		for (Formal formal : method.getFormals())
 			formal.accept(this);
