@@ -17,8 +17,6 @@ public class StmtsBlock extends Stmt {
 	/**
 	 * Constructs a new statements block node.
 	 * 
-	 * @param line
-	 *            Line number where block begins.
 	 * @param statements
 	 *            List of all statements in block.
 	 */

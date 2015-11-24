@@ -2,8 +2,6 @@ package slp;
 
 /**
  * Enum of the IC language's primitive data types.
- * 
- * 
  */
 public enum DataTypes {
 

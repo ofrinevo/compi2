@@ -39,9 +39,9 @@ public class Main {
 			Symbol parseSymbol = parser.parse();
 			System.out.println("Parsed " + args[0] + " successfully!");
 			ASTNode root = (ASTNode) parseSymbol.value;
-			
+			System.out.println();
 			// Pretty-print the program to System.out
-			PrettyPrinter printer = new PrettyPrinter(root);
+			PrettyPrinter printer = new PrettyPrinter(root,args[0]);
 			printer.print();
 			
 			// Interpret the program

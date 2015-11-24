@@ -5,6 +5,7 @@ package slp;
  */
 public class PrettyPrinter implements Visitor {
 	protected final ASTNode root;
+	private String ICFilePath;
 
 	/**
 	 * Constructs a printin visitor from an AST.
@@ -12,8 +13,9 @@ public class PrettyPrinter implements Visitor {
 	 * @param root
 	 *            The root of the AST.
 	 */
-	public PrettyPrinter(ASTNode root) {
+	public PrettyPrinter(ASTNode root,String ICFilePath) {
 		this.root = root;
+		this.ICFilePath = ICFilePath;
 	}
 
 	/**
@@ -30,13 +32,12 @@ public class PrettyPrinter implements Visitor {
 		if (icClass.hasSuperClass())
 			output.append(", subclass of " + icClass.getSuperClassName());
 		System.out.println(output.toString());
-		output = new StringBuffer();
+
 		for (Field field : icClass.getFields())
 			field.accept(this);
 		for (Method method : icClass.getMethods())
 			method.accept(this);
 
-		System.out.println(output.toString());
 	}
 
 	public void visit(StmtList stmts) {
@@ -56,11 +57,12 @@ public class PrettyPrinter implements Visitor {
 		System.out.println(");");
 	}
 
-	public void visit(AssignStmt stmt) {
-		stmt.varExpr.accept(this);
-		System.out.print("=");
-		stmt.rhs.accept(this);
-		System.out.println(";");
+	public void visit(AssignStmt assignment) {
+		// stmt.varExpr.accept(this);
+		// System.out.print("=");
+		// stmt.rhs.accept(this);
+		// System.out.println(";");
+
 	}
 
 	public void visit(Expr expr) {
@@ -91,7 +93,12 @@ public class PrettyPrinter implements Visitor {
 	}
 
 	public void visit(Assign assignment) {
-		System.out.print(assignment.toString());
+		StringBuffer output = new StringBuffer();
+
+		output.append("Assignment statement");
+		System.out.println(output.toString());
+		assignment.variable.accept(this);
+		assignment.assignment.accept(this);
 
 	}
 
@@ -112,11 +119,10 @@ public class PrettyPrinter implements Visitor {
 		StringBuffer output = new StringBuffer();
 
 		output.append("Reference to array");
-
+		System.out.println(output.toString());
 		location.getArray().accept(this);
 		location.getIndex().accept(this);
 
-		System.out.println(output.toString());
 	}
 
 	public void visit(PrimitiveType type) {
@@ -133,10 +139,9 @@ public class PrettyPrinter implements Visitor {
 		StringBuffer output = new StringBuffer();
 
 		output.append("Declaration of field: " + field.getName());
-
+		System.out.println(output.toString());
 		field.getType().accept(this);
 
-		System.out.println(output.toString());
 	}
 
 	@Override
@@ -155,18 +160,18 @@ public class PrettyPrinter implements Visitor {
 	public void visit(Formal formal) {
 		StringBuffer output = new StringBuffer();
 		output.append("Parameter: " + formal.getName());
-		formal.getType().accept(this);
 		System.out.println(output.toString());
+		formal.getType().accept(this);
 
 	}
 
 	@Override
 	public void visit(Program program) {
 		StringBuffer output = new StringBuffer();
-		output.append("Abstract Syntax Tree: " + "\n");
+		output.append("Abstract Syntax Tree: " + ICFilePath+ "\n");
+		System.out.println(output.toString());
 		for (ICClass icClass : program.getClasses())
 			icClass.accept(this);
-		System.out.println(output.toString());
 
 	}
 
@@ -175,14 +180,13 @@ public class PrettyPrinter implements Visitor {
 
 		output.append("Declaration of static method: " + method.getName());
 		System.out.println(output.toString());
-		output = new StringBuffer();
+
 		method.getType().accept(this);
 		for (Formal formal : method.getFormals())
 			formal.accept(this);
 		for (Stmt statement : method.getStatements())
 			statement.accept(this);
-		if ("".equals(output) == false)
-		System.out.println(output.toString());
+
 	}
 
 	@Override
@@ -190,15 +194,12 @@ public class PrettyPrinter implements Visitor {
 		StringBuffer output = new StringBuffer();
 		output.append("Declaration of virtual method: " + method.getName());
 		System.out.println(output.toString());
-		output = new StringBuffer();
+
 		method.getType().accept(this);
 		for (Formal formal : method.getFormals())
 			formal.accept(this);
 		for (Stmt statement : method.getStatements())
 			statement.accept(this);
-		if ("".equals(output) == false)
-		System.out.println(output.toString());
-
 	}
 
 	@Override
@@ -211,14 +212,13 @@ public class PrettyPrinter implements Visitor {
 
 		}
 		System.out.println(output.toString());
-		output = new StringBuffer();
+
 		localVariable.getType().accept(this);
 		if (localVariable.hasInitValue()) {
 			localVariable.getInitValue().accept(this);
 
 		}
-		if ("".equals(output) == false)
-			System.out.println(output.toString());
+
 	}
 
 	@Override
@@ -229,81 +229,76 @@ public class PrettyPrinter implements Visitor {
 		if (return1.hasValue())
 			output.append(", with return value");
 		System.out.println(output.toString());
-		output = new StringBuffer();
+
 		if (return1.hasValue()) {
 
 			return1.getValue().accept(this);
 
 		}
-		if ("".equals(output) == false)
-			System.out.println(output.toString());
 
 	}
 
 	@Override
 	public void visit(VariableLocation location) {
 		StringBuffer output = new StringBuffer();
-
-		output.append("Reference to variable: " + location.getName());
+		if (location.getName() != null)
+			output.append("Reference to variable: " + location.getName());
 		if (location.isExternal())
 			output.append(", in external scope");
-		if (location.isExternal()) {
-
-			location.getLocation().accept(this);
-
-		}
 		System.out.println(output.toString());
-
+		if (location.isExternal()) {
+			location.getLocation().accept(this);
+		}
 	}
 
 	@Override
 	public void visit(If ifStatement) {
-		
+
 		StringBuffer output = new StringBuffer();
 
 		output.append("If statement");
 		if (ifStatement.hasElse())
 			output.append(", with Else operation");
+		System.out.println(output.toString());
 		ifStatement.getCondition().accept(this);
 		ifStatement.getStmt().accept(this);
 		if (ifStatement.hasElse())
 			ifStatement.getElseOperation().accept(this);
-		System.out.println(output.toString());
 
 	}
 
 	@Override
 	public void visit(While whileStatement) {
-		
+
 		StringBuffer output = new StringBuffer();
 
 		output.append("While statement");
+		System.out.println(output.toString());
 		whileStatement.getCondition().accept(this);
 		whileStatement.getStmt().accept(this);
-		System.out.println(output.toString());
+
 	}
 
 	@Override
 	public void visit(StmtsBlock statementsBlock) {
-		
+
 		StringBuffer output = new StringBuffer();
 
 		output.append("Block of statements");
+		System.out.println(output.toString());
 		for (Stmt statement : statementsBlock.getStatements())
 			statement.accept(this);
-		System.out.println(output.toString());
-
 	}
 
 	@Override
 	public void visit(StaticCall call) {
-		
+
 		StringBuffer output = new StringBuffer();
 
 		output.append("Call to static method: " + call.getName() + ", in class " + call.getClassName());
+		System.out.println(output.toString());
 		for (Expr argument : call.getArguments())
 			argument.accept(this);
-		System.out.println(output.toString());
 
 	}
 
@@ -315,19 +310,18 @@ public class PrettyPrinter implements Visitor {
 		output.append("Call to virtual method: " + call.getName());
 		if (call.isExternal())
 			output.append(", in external scope");
+		System.out.println(output.toString());
 		if (call.isExternal())
 			call.getLocation().accept(this);
-		System.out.println(output.toString());
-		output = new StringBuffer();
+		
 		for (Expr argument : call.getArguments())
 			argument.accept(this);
-		System.out.print(output.toString());
 
 	}
 
 	@Override
 	public void visit(This thisExpression) {
-		
+
 		StringBuffer output = new StringBuffer();
 
 		output.append("Reference to 'this' instance");
@@ -337,7 +331,7 @@ public class PrettyPrinter implements Visitor {
 
 	@Override
 	public void visit(NewClass newClass) {
-		
+
 		StringBuffer output = new StringBuffer();
 
 		output.append("Instantiation of class: " + newClass.getName());
@@ -347,99 +341,94 @@ public class PrettyPrinter implements Visitor {
 
 	@Override
 	public void visit(NewArray newArray) {
-		
 		StringBuffer output = new StringBuffer();
-
 		output.append("Array allocation");
+		System.out.println(output.toString());
 		newArray.getType().accept(this);
 		newArray.getSize().accept(this);
-		System.out.println(output.toString());
-
 	}
 
 	@Override
 	public void visit(Length length) {
-		
+
 		StringBuffer output = new StringBuffer();
 
 		output.append("Reference to array length");
-		length.getArray().accept(this);
 		System.out.println(output.toString());
+		length.getArray().accept(this);
 
 	}
 
 	@Override
 	public void visit(MathBinaryOp binaryOp) {
-		
+
 		StringBuffer output = new StringBuffer();
 
 		output.append("Mathematical binary operation: " + binaryOp.getOperator().getDescription());
+		System.out.println(output.toString());
 		binaryOp.getFirstOperand().accept(this);
 		binaryOp.getSecondOperand().accept(this);
-		System.out.println(output.toString());
 
 	}
 
 	@Override
 	public void visit(LogicalBinaryOp binaryOp) {
-		
+
 		StringBuffer output = new StringBuffer();
 
 		output.append("Logical binary operation: " + binaryOp.getOperator().getDescription());
+		System.out.println(output.toString());
 		binaryOp.getFirstOperand().accept(this);
 		binaryOp.getSecondOperand().accept(this);
-		System.out.println(output.toString());
 
 	}
 
 	@Override
 	public void visit(MathUnaryOp unaryOp) {
-		
+
 		StringBuffer output = new StringBuffer();
 
 		output.append("Mathematical unary operation: " + unaryOp.getOperator().getDescription());
-		unaryOp.getOperand().accept(this);
 		System.out.println(output.toString());
+		unaryOp.getOperand().accept(this);
 
 	}
 
 	@Override
 	public void visit(LogicalUnaryOp unaryOp) {
-		
+
 		StringBuffer output = new StringBuffer();
 
 		output.append("Logical unary operation: " + unaryOp.getOperator().getDescription());
-		unaryOp.getOperand().accept(this);
 		System.out.println(output.toString());
+		unaryOp.getOperand().accept(this);
 
 	}
 
 	@Override
 	public void visit(ExprBlock expressionBlock) {
-		
+
 		StringBuffer output = new StringBuffer();
 
 		output.append("Parenthesized expression");
-		expressionBlock.getExpression().accept(this);
 		System.out.println(output.toString());
+		expressionBlock.getExpression().accept(this);
 
 	}
 
 	@Override
 	public void visit(LocationAssign locationAssign) {
-		
 
 	}
 
 	@Override
 	public void visit(Method method) {
-		
 
 	}
 
 	@Override
 	public void visit(Continue continue1) {
-		
+
 		StringBuffer output = new StringBuffer();
 
 		output.append("Continue statement");
@@ -449,7 +438,7 @@ public class PrettyPrinter implements Visitor {
 
 	@Override
 	public void visit(Break break1) {
-		
+
 		StringBuffer output = new StringBuffer();
 
 		output.append("Break statement");
@@ -458,12 +447,12 @@ public class PrettyPrinter implements Visitor {
 
 	@Override
 	public void visit(CallStatement callStatement) {
-		
+
 		StringBuffer output = new StringBuffer();
 
 		output.append("Method call statement");
-		callStatement.getCall().accept(this);
 		System.out.println(output.toString());
+		callStatement.getCall().accept(this);
 
 	}
 }
