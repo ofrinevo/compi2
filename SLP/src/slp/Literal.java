@@ -38,7 +38,7 @@ public class Literal extends Expr {
 	 *            Value of literal.
 	 */
 	public Literal( LiteralTypes type, Object value) {
-		
+		this.type=type;
 		this.value = value;
 	}
 

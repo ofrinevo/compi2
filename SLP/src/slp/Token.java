@@ -28,4 +28,8 @@ public class Token extends Symbol {
 	public int getLine() {
 		return line;
 	}
+
+	public int getColumn() {
+		return 0;
+	}
 }
