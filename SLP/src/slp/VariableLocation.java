@@ -16,8 +16,6 @@ public class VariableLocation extends Location {
 	/**
 	 * Constructs a new variable reference node.
 	 * 
-	 * @param line
-	 *            Line number of reference.
 	 * @param name
 	 *            Name of variable.
 	 */
@@ -29,8 +27,6 @@ public class VariableLocation extends Location {
 	/**
 	 * Constructs a new variable reference node, for an external location.
 	 * 
-	 * @param line
-	 *            Line number of reference.
 	 * @param location
 	 *            Location of variable.
 	 * @param name

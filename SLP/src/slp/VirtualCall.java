@@ -20,8 +20,6 @@ public class VirtualCall extends Call {
 	/**
 	 * Constructs a new virtual method call node.
 	 * 
-	 * @param line
-	 *            Line number of call.
 	 * @param name
 	 *            Name of method.
 	 * @param arguments
@@ -34,8 +32,6 @@ public class VirtualCall extends Call {
 	/**
 	 * Constructs a new virtual method call node, for an external location.
 	 * 
-	 * @param line
-	 *            Line number of call.
 	 * @param location
 	 *            Location of method.
 	 * @param name
