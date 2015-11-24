@@ -14,8 +14,6 @@ public class NewClass extends New {
 	/**
 	 * Constructs a new class instance creation expression node.
 	 * 
-	 * @param line
-	 *            Line number of expression.
 	 * @param name
 	 *            Name of class.
 	 */

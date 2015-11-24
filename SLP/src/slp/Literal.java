@@ -16,8 +16,6 @@ public class Literal extends Expr {
 	/**
 	 * Constructs a new literal node.
 	 * 
-	 * @param line
-	 *            Line number of the literal.
 	 * @param type
 	 *            Literal type.
 	 */
@@ -29,9 +27,7 @@ public class Literal extends Expr {
 
 	/**
 	 * Constructs a new literal node, with a value.
-	 * 
-	 * @param line
-	 *            Line number of the literal.
+	 *  
 	 * @param type
 	 *            Literal type.
 	 * @param value

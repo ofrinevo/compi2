@@ -19,8 +19,6 @@ public class StaticCall extends Call {
 	/**
 	 * Constructs a new static method call node.
 	 * 
-	 * @param line
-	 *            Line number of call.
 	 * @param className
 	 *            Name of method's class.
 	 * @param name

@@ -14,8 +14,6 @@ public class PrimitiveType extends Type {
 	/**
 	 * Constructs a new primitive data type node.
 	 * 
-	 * @param line
-	 *            Line number of type declaration.
 	 * @param type
 	 *            Specific primitive data type.
 	 */
