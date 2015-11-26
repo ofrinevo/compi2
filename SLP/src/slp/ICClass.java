@@ -34,6 +34,7 @@ public class ICClass extends ASTNode {
 	public ICClass(int line, String name, List<Field> fields,
 			List<Method> methods) {
 		
+		super(line);
 		this.name = name;
 		this.fields = fields;
 		this.methods = methods;

@@ -15,8 +15,8 @@ public abstract class Type extends ASTNode {
 	 * Constructs a new type node. Used by subclasses.
 	 * 
 	 */
-	protected Type() {
-		
+	protected Type(int line) {
+		super(line);
 	}
 
 	public abstract String getName();

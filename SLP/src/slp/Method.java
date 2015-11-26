@@ -30,6 +30,7 @@ public abstract class Method extends ASTNode {
 	protected Method(Type type, String name, List<Formal> formals,
 			List<Stmt> statements) {
 		
+		super(type.getLine());
 		this.type = type;
 		this.name = name;
 		this.formals = formals;

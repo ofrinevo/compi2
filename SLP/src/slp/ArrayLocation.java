@@ -10,7 +10,7 @@ public class ArrayLocation extends Location {
 	private Expr index;
 
 	public void accept(Visitor visitor) {
-		 visitor.visit(this);
+		visitor.visit(this);
 	}
 
 	/**
@@ -22,7 +22,7 @@ public class ArrayLocation extends Location {
 	 *            Expression representing a numeric index.
 	 */
 	public ArrayLocation(Expr array, Expr index) {
-		
+
 		this.array = array;
 		this.index = index;
 	}
@@ -34,8 +34,8 @@ public class ArrayLocation extends Location {
 	public Expr getIndex() {
 		return index;
 	}
-	public <DownType, UpType> UpType accept(
-			PropagatingVisitor<DownType, UpType> visitor, DownType context) {
+
+	public <DownType, UpType> UpType accept(PropagatingVisitor<DownType, UpType> visitor, DownType context) {
 		return visitor.visit(this, context);
 	}
 }

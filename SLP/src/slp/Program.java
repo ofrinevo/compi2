@@ -21,6 +21,7 @@ public class Program extends ASTNode {
 	 */
 	public Program(List<ICClass> classes) {
 		
+		super(0);
 		this.classes = classes;
 	}
 

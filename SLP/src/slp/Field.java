@@ -23,6 +23,7 @@ public class Field extends ASTNode {
 	 */
 	public Field(Type type, String name) {
 		
+		super(type.getLine());
 		this.type = type;
 		this.name = name;
 	}
