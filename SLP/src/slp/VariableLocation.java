@@ -19,8 +19,8 @@ public class VariableLocation extends Location {
 	 * @param name
 	 *            Name of variable.
 	 */
-	public VariableLocation(String name) {
-		
+	public VariableLocation(int line, String name) {
+		super(line);
 		this.name = name;
 	}
 
@@ -32,8 +32,8 @@ public class VariableLocation extends Location {
 	 * @param name
 	 *            Name of variable.
 	 */
-	public VariableLocation(Expr location, String name) {
-		this.name=name;
+	public VariableLocation(int line, Expr location, String name) {
+		this(line,name);
 		this.location = location;
 	}
 

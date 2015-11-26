@@ -7,11 +7,13 @@ public class If extends Stmt {
 	public final Stmt elsestmt;
 
 	public If(Expr e, Stmt s, Stmt es) {
+		super(e.getLine());
 		this.condition = e;
 		this.condstmt = s;
 		this.elsestmt = es;
 	}
 	public If(Expr e, Stmt s) {
+		super(e.getLine());
 		this.condition = e;
 		this.condstmt = s;
 		this.elsestmt = null;

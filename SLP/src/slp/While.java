@@ -6,6 +6,7 @@ public class While extends Stmt {
 	public final Stmt stmt;
 	
 	public While(Expr condition, Stmt stmt) {
+		super(condition.getLine());
 		this.condition = condition;
 		this.stmt = stmt;
 	}

@@ -6,6 +6,7 @@ public class LocationAssign extends Stmt {
 	public final Expr e;
 	
 	public LocationAssign(Location l, Expr e) {
+		super(l.getLine());
 		this.l = l;
 		this.e = e;
 	}

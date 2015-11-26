@@ -23,7 +23,7 @@ public class Assign extends Stmt {
 	 * @return 
 	 */
 	public Assign(Location variable, Expr assignment) {
-		
+		super(variable.getLine());
 		this.variable = variable;
 		this.assignment = assignment;
 	}

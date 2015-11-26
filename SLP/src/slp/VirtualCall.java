@@ -25,8 +25,8 @@ public class VirtualCall extends Call {
 	 * @param arguments
 	 *            List of all method arguments.
 	 */
-	public VirtualCall(String name, List<Expr> arguments) {
-		super(name, arguments);
+	public VirtualCall(int line, String name, List<Expr> arguments) {
+		super(line, name, arguments);
 	}
 
 	/**
@@ -39,9 +39,9 @@ public class VirtualCall extends Call {
 	 * @param arguments
 	 *            List of all method arguments.
 	 */
-	public VirtualCall(Expr location, String name,
+	public VirtualCall(int line, Expr location, String name,
 			List<Expr> arguments) {
-		this(name, arguments);
+		this(line, name, arguments);
 		this.location = location;
 	}
 

@@ -18,7 +18,7 @@ public class CallStatement extends Stmt {
 	 *            Method call expression.
 	 */
 	public CallStatement(Call call) {
-		
+		super(call.getLine());
 		this.call = call;
 	}
 

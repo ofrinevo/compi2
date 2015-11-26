@@ -17,8 +17,8 @@ public class NewClass extends New {
 	 * @param name
 	 *            Name of class.
 	 */
-	public NewClass( String name) {
-		
+	public NewClass(int line, String name) {
+		super(line);
 		this.name = name;
 	}
 

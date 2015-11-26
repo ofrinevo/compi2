@@ -21,7 +21,7 @@ public class Length extends Expr {
 	 *            Expression representing an array.
 	 */
 	public Length(Expr array) {
-		
+		super(array.getLine());
 		this.array = array;
 	}
 

@@ -6,7 +6,6 @@ import java.util.List;
  * Static method AST node.
  */
 public class StaticMethod extends Method {
-
 	public void accept(Visitor visitor) {
 		 visitor.visit(this);
 	}
@@ -23,6 +22,7 @@ public class StaticMethod extends Method {
 	 * @param statements
 	 *            List of method's statements.
 	 */
+	
 	public StaticMethod(Type type, String name, List<Formal> formals,
 			List<Stmt> statements) {
 		super(type, name, formals, statements);

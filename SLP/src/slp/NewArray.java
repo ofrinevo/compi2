@@ -22,7 +22,7 @@ public class NewArray extends New {
 	 *            Size of new array.
 	 */
 	public NewArray(Type type, Expr size) {
-	
+		super(type.getLine());
 		this.type = type;
 		this.size = size;
 	}

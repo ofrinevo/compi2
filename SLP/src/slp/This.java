@@ -1,8 +1,8 @@
 package slp;
 
 public class This extends Expr{
-	public This(){
-		
+	public This(int line){
+		super(line);
 	}
 	@Override
 	public void accept(Visitor visitor) {

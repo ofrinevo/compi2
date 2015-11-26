@@ -20,8 +20,8 @@ public class StmtsBlock extends Stmt {
 	 * @param statements
 	 *            List of all statements in block.
 	 */
-	public StmtsBlock(List<Stmt> statements) {
-		
+	public StmtsBlock(int line, List<Stmt> statements) {
+		super(line);
 		this.statements = statements;
 	}
 

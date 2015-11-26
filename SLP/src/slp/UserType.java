@@ -14,8 +14,8 @@ public class UserType extends Type {
 	 * @param name
 	 *            Name of data type.
 	 */
-	public UserType(String name) {
-		
+	public UserType(int line, String name) {
+		super(line);
 		this.name = name;
 	}
 

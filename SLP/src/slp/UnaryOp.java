@@ -18,6 +18,7 @@ public abstract class UnaryOp extends Expr {
 	 *            The operand.
 	 */
 	protected UnaryOp(UnaryOps operator, Expr operand) {
+		super(operand.getLine());
 		this.operator = operator;
 		this.operand = operand;
 	}

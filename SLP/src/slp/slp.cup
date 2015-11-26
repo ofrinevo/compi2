@@ -172,10 +172,10 @@ classDeclKS ::= classDecl:c
 			|
 			{: RESULT = new LinkedList<ICClass>(); :}
 ;
-classDecl ::= CLASS CLASS_ID:cid EXTENDS CLASS_ID:eid LCBR fieldOrMethodKS:fmKS RCBR
-			{: RESULT = new ICClass(cidleft, cid, eid, (List<Field>)(List<?>)(fmKS.get(1)), (List<Method>)(List<?>)(fmKS.get(0))); :}
-			| CLASS CLASS_ID:cid LCBR fieldOrMethodKS:fmKS RCBR
-			{: RESULT = new ICClass(cidleft, cid, (List<Field>)(List<?>)(fmKS.get(1)), (List<Method>)(List<?>)(fmKS.get(0))); :}
+classDecl ::= CLASS:c CLASS_ID:cid EXTENDS CLASS_ID:eid LCBR fieldOrMethodKS:fmKS RCBR
+			{: RESULT = new ICClass(cleft, cid, eid, (List<Field>)(List<?>)(fmKS.get(1)), (List<Method>)(List<?>)(fmKS.get(0))); :}
+			| CLASS:c CLASS_ID:cid LCBR fieldOrMethodKS:fmKS RCBR
+			{: RESULT = new ICClass(cleft, cid, (List<Field>)(List<?>)(fmKS.get(1)), (List<Method>)(List<?>)(fmKS.get(0))); :}
 ;
 fieldOrMethodKS ::= field:f
 				{: List<List> foml = new ArrayList<List>(); List<Method> ml = new LinkedList<Method>(); List<Field> fl = new LinkedList<Field>(); foml.add(ml); fl.addAll(f); foml.add(fl); RESULT = foml; :}
@@ -190,13 +190,13 @@ fieldOrMethodKS ::= field:f
 ;
 
 type ::= INT:i
-        {: RESULT = new PrimitiveType(DataTypes.INT); :}
+        {: RESULT = new PrimitiveType(ileft,DataTypes.INT); :}
         | BOOLEAN:bool
-        {: RESULT = new PrimitiveType(DataTypes.BOOLEAN); :}
+        {: RESULT = new PrimitiveType(boolleft,DataTypes.BOOLEAN); :}
         | STRING_RESERVED:str
-        {: RESULT = new PrimitiveType(DataTypes.STRING); :}
+        {: RESULT = new PrimitiveType(strleft,DataTypes.STRING); :}
         | CLASS_ID:classtype
-        {: RESULT = new UserType( classtype); :}
+        {: RESULT = new UserType(classtypeleft, classtype); :}
         | type:t LB RB
         {: t.incrementDimension(); RESULT = t; :}
 ;			
@@ -211,12 +211,12 @@ idList ::= ID:id
 
 method ::= STATIC type:t ID:id LPAREN formals:f RPAREN LCBR stmtKS:sl RCBR
 		{: RESULT = new StaticMethod(t, id, f, sl); :}
-		| STATIC VOID ID:id LPAREN formals:f RPAREN LCBR stmtKS:sl RCBR
-		{: RESULT = new StaticMethod(new PrimitiveType(DataTypes.VOID), id, f, sl); :}
+		| STATIC VOID:v ID:id LPAREN formals:f RPAREN LCBR stmtKS:sl RCBR
+		{: RESULT = new StaticMethod(new PrimitiveType(vleft,DataTypes.VOID), id, f, sl); :}
 		| type:t ID:id LPAREN formals:f RPAREN LCBR stmtKS:sl RCBR
 		{: RESULT = new VirtualMethod(t, id, f, sl); :}
-		| VOID ID:id LPAREN formals:f RPAREN LCBR stmtKS:sl RCBR
-		{: RESULT = new VirtualMethod(new PrimitiveType(DataTypes.VOID), id, f, sl); :}
+		| VOID:v ID:id LPAREN formals:f RPAREN LCBR stmtKS:sl RCBR
+		{: RESULT = new VirtualMethod(new PrimitiveType(vleft,DataTypes.VOID), id, f, sl); :}
 ;
 
 formals ::= type:pt ID:id
@@ -248,10 +248,10 @@ stmt ::= location:l ASSIGN expr:e SEMICOLON
 		{: RESULT = is; :}
 		| WHILE LPAREN expr:e RPAREN stmt:s
 		{: RESULT = new While(e, s); :}	
-		| BREAK SEMICOLON
-		{: RESULT = new Break(); :}
-		| CONTINUE SEMICOLON
-		{: RESULT = new Continue(); :}
+		| BREAK:b SEMICOLON
+		{: RESULT = new Break(bleft); :}
+		| CONTINUE:c SEMICOLON
+		{: RESULT = new Continue(cleft); :}
 		| StmtsBlock:sb
 		{: RESULT = sb; :}
 		| localVariableStmt:ls SEMICOLON
@@ -269,12 +269,12 @@ localVariableStmt ::= type:t ID:id ASSIGN expr:e
 					{: RESULT = new LocalVariable(t, id); :}
 ;
 returnStmt ::= RETURN:r expr:e
-			{: RESULT = new Return(e); :}
+			{: RESULT = new Return(rleft,e); :}
 			| RETURN:r
-			{: RESULT = new Return(); :}
+			{: RESULT = new Return(rleft); :}
 ;			
-StmtsBlock ::= LCBR stmtKS:sl RCBR
-				{: RESULT = new StmtsBlock(sl); :}
+StmtsBlock ::= LCBR:l stmtKS:sl RCBR
+				{: RESULT = new StmtsBlock(lleft,sl); :}
 ;
 
 expr ::= location:l
@@ -305,9 +305,9 @@ location ::= variableLocation:vl
 			{: RESULT = al; :}
 ;
 variableLocation ::= expr:e DOT ID:id
-					{: RESULT = new VariableLocation(e, id); :}
+					{: RESULT = new VariableLocation(idleft, e, id); :}
 					| ID:id
-					{: RESULT = new VariableLocation(id); :}
+					{: RESULT = new VariableLocation(idleft, id); :}
 ;
 arrayLocation ::= expr:e1 LB expr:e2 RB
 					{: RESULT = new ArrayLocation(e1,e2); :}
@@ -318,12 +318,12 @@ call ::= staticCall:sc
 		{: RESULT = vc; :}
 ;
 staticCall ::= CLASS_ID:cid DOT ID:id LPAREN exprKS:el RPAREN
-			{: RESULT = new StaticCall( cid, id, el); :}
+			{: RESULT = new StaticCall(cidleft, cid, id, el); :}
 ;
 virtualCall ::= ID:id LPAREN exprKS:el RPAREN
-				{: RESULT = new VirtualCall( id, el); :}
+				{: RESULT = new VirtualCall(idleft, id, el); :}
 				| expr:e DOT ID:id LPAREN exprKS:el RPAREN
-				{: RESULT = new VirtualCall( e, id, el); :}
+				{: RESULT = new VirtualCall(e.getLine(), e, id, el); :}
 ;
 
 exprKS ::= expr:e
@@ -335,10 +335,10 @@ exprKS ::= expr:e
 ;
 
 thisExpr ::= THIS:t
-			{: RESULT = new This(); :}
+			{: RESULT = new This(tleft); :}
 ;
-newClassNewExpr ::= NEW CLASS_ID:cid LPAREN RPAREN
-				{: RESULT = new NewClass(cid); :}
+newClassNewExpr ::= NEW:n CLASS_ID:cid LPAREN RPAREN
+				{: RESULT = new NewClass(nleft,cid); :}
 ;
 newArrayNewExpr ::= NEW type:pt LB expr:e RB
 				{: RESULT = new NewArray(pt, e); :}
@@ -409,17 +409,17 @@ literal ::= INTEGER:i
 		{: 
 			Object afterRmZeroes = i.toString().replaceFirst("^0+(?!$)", "");
 			if (afterRmZeroes.equals("") || afterRmZeroes.equals(i.toString()))
-			{ RESULT = new Literal( LiteralTypes.INTEGER, i); }
+			{ RESULT = new Literal(ileft, LiteralTypes.INTEGER, i); }
 			else { throw new SyntaxError("number other than zero should not start with leading zeroes"); }
 		:}
 		| STRING:s
-		{: RESULT = new Literal(LiteralTypes.STRING, s); :}
+		{: RESULT = new Literal(sleft, LiteralTypes.STRING, s); :}
 		| TRUE:t
-		{: RESULT = new Literal(LiteralTypes.TRUE); :}
+		{: RESULT = new Literal(tleft, LiteralTypes.TRUE); :}
 		| FALSE:f
-		{: RESULT = new Literal(LiteralTypes.FALSE); :}
+		{: RESULT = new Literal(fleft, LiteralTypes.FALSE); :}
 		| NULL:n
-		{: RESULT = new Literal(LiteralTypes.NULL); :}
+		{: RESULT = new Literal(nleft, LiteralTypes.NULL); :}
 ;		
 ExprBlockExpr ::= LPAREN expr:e RPAREN
 				{: RESULT = new ExprBlock(e); :}

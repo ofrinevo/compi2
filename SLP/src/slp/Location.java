@@ -9,8 +9,8 @@ public abstract class Location extends Expr {
 	 * Constructs a new variable reference node. Used by subclasses.
 	 * 
 	 */
-	protected Location() {
-		
+	protected Location(int line) {
+		super(line);
 	}
 
 }

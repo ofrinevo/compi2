@@ -2,8 +2,8 @@ package slp;
 
 public class Break extends Stmt {
 
-	public Break(){
-		
+	public Break(int line){
+		super(line);
 	}
 	
 	public void accept(Visitor visitor) {

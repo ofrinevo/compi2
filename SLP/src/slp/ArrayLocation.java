@@ -22,7 +22,7 @@ public class ArrayLocation extends Location {
 	 *            Expression representing a numeric index.
 	 */
 	public ArrayLocation(Expr array, Expr index) {
-
+		super(array.getLine());
 		this.array = array;
 		this.index = index;
 	}

@@ -9,8 +9,8 @@ public abstract class New extends Expr {
 	 * Constructs a new object creation expression node. Used by subclasses.
 	 * 
 	 */
-	protected New() {
-		
+	protected New(int line) {
+		super(line);
 	}
 
 }

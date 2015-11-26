@@ -23,6 +23,7 @@ public abstract class BinaryOp extends Expr {
 	 */
 	protected BinaryOp(Expr operand1, BinaryOps operator,
 			Expr operand2) {
+		super(operand1.getLine());
 		this.operand1 = operand1;
 		this.operator = operator;
 		this.operand2 = operand2;

@@ -24,7 +24,7 @@ public class LocalVariable extends Stmt {
 	 *            Name of local variable.
 	 */
 	public LocalVariable(Type type, String name) {
-		
+		super(type.getLine());
 		this.type = type;
 		this.name = name;
 	}

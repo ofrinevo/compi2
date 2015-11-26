@@ -21,8 +21,9 @@ public abstract class Call extends Expr {
 	 * @param arguments
 	 *            List of all method arguments.
 	 */
-	protected Call(String name, List<Expr> arguments) {
+	protected Call(int line, String name, List<Expr> arguments) {
 		
+		super(line);
 		this.name = name;
 		this.arguments = arguments;
 	}

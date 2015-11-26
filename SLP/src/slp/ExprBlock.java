@@ -18,7 +18,7 @@ public class ExprBlock extends Expr {
 	 *            The expression.
 	 */
 	public ExprBlock(Expr expression) {
-		
+		super(expression.getLine());
 		this.expression = expression;
 	}
 

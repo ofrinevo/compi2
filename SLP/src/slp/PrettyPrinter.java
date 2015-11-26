@@ -13,9 +13,13 @@ public class PrettyPrinter implements Visitor {
 	 * @param root
 	 *            The root of the AST.
 	 */
-	public PrettyPrinter(ASTNode root,String ICFilePath) {
+	public PrettyPrinter(ASTNode root, String ICFilePath) {
 		this.root = root;
 		this.ICFilePath = ICFilePath;
+	}
+
+	private void line(StringBuffer output, ASTNode node) {
+		output.append(node.getLine() + ": ");
 	}
 
 	/**
@@ -27,7 +31,7 @@ public class PrettyPrinter implements Visitor {
 
 	public void visit(ICClass icClass) {
 		StringBuffer output = new StringBuffer();
-
+		line(output, icClass);
 		output.append("Declaration of class: " + icClass.getName());
 		if (icClass.hasSuperClass())
 			output.append(", subclass of " + icClass.getSuperClassName());
@@ -94,7 +98,7 @@ public class PrettyPrinter implements Visitor {
 
 	public void visit(Assign assignment) {
 		StringBuffer output = new StringBuffer();
-
+		line(output, assignment);
 		output.append("Assignment statement");
 		System.out.println(output.toString());
 		assignment.variable.accept(this);
@@ -104,7 +108,7 @@ public class PrettyPrinter implements Visitor {
 
 	public void visit(Literal literal) {
 		StringBuffer output = new StringBuffer();
-
+		line(output, literal);
 		output.append(
 				literal.getType().getDescription() + ": " + literal.getType().toFormattedString(literal.getValue()));
 
@@ -117,7 +121,7 @@ public class PrettyPrinter implements Visitor {
 
 	public void visit(ArrayLocation location) {
 		StringBuffer output = new StringBuffer();
-
+		line(output, location);
 		output.append("Reference to array");
 		System.out.println(output.toString());
 		location.getArray().accept(this);
@@ -127,7 +131,7 @@ public class PrettyPrinter implements Visitor {
 
 	public void visit(PrimitiveType type) {
 		StringBuffer output = new StringBuffer();
-
+		line(output, type);
 		output.append("Primitive data type: ");
 		if (type.getDimension() > 0)
 			output.append(type.getDimension() + "-dimensional array of ");
@@ -137,7 +141,7 @@ public class PrettyPrinter implements Visitor {
 
 	public void visit(Field field) {
 		StringBuffer output = new StringBuffer();
-
+		line(output, field);
 		output.append("Declaration of field: " + field.getName());
 		System.out.println(output.toString());
 		field.getType().accept(this);
@@ -147,7 +151,7 @@ public class PrettyPrinter implements Visitor {
 	@Override
 	public void visit(UserType type) {
 		StringBuffer output = new StringBuffer();
-
+		line(output, type);
 		output.append("User-defined data type: ");
 		if (type.getDimension() > 0)
 			output.append(type.getDimension() + "-dimensional array of ");
@@ -159,6 +163,7 @@ public class PrettyPrinter implements Visitor {
 	@Override
 	public void visit(Formal formal) {
 		StringBuffer output = new StringBuffer();
+		line(output, formal);
 		output.append("Parameter: " + formal.getName());
 		System.out.println(output.toString());
 		formal.getType().accept(this);
@@ -168,7 +173,8 @@ public class PrettyPrinter implements Visitor {
 	@Override
 	public void visit(Program program) {
 		StringBuffer output = new StringBuffer();
-		output.append("Abstract Syntax Tree: " + ICFilePath+ "\n");
+		line(output, program);
+		output.append("Abstract Syntax Tree: " + ICFilePath + "\n");
 		System.out.println(output.toString());
 		for (ICClass icClass : program.getClasses())
 			icClass.accept(this);
@@ -177,7 +183,7 @@ public class PrettyPrinter implements Visitor {
 
 	public void visit(StaticMethod method) {
 		StringBuffer output = new StringBuffer();
-
+		line(output, method);
 		output.append("Declaration of static method: " + method.getName());
 		System.out.println(output.toString());
 
@@ -192,6 +198,7 @@ public class PrettyPrinter implements Visitor {
 	@Override
 	public void visit(VirtualMethod method) {
 		StringBuffer output = new StringBuffer();
+		line(output, method);
 		output.append("Declaration of virtual method: " + method.getName());
 		System.out.println(output.toString());
 
@@ -205,7 +212,7 @@ public class PrettyPrinter implements Visitor {
 	@Override
 	public void visit(LocalVariable localVariable) {
 		StringBuffer output = new StringBuffer();
-
+		line(output, localVariable);
 		output.append("Declaration of local variable: " + localVariable.getName());
 		if (localVariable.hasInitValue()) {
 			output.append(", with initial value");
@@ -224,7 +231,7 @@ public class PrettyPrinter implements Visitor {
 	@Override
 	public void visit(Return return1) {
 		StringBuffer output = new StringBuffer();
-
+		line(output, return1);
 		output.append("Return statement");
 		if (return1.hasValue())
 			output.append(", with return value");
@@ -241,8 +248,10 @@ public class PrettyPrinter implements Visitor {
 	@Override
 	public void visit(VariableLocation location) {
 		StringBuffer output = new StringBuffer();
-		if (location.getName() != null)
+		if (location.getName() != null) {
+			line(output, location);
 			output.append("Reference to variable: " + location.getName());
+		}
 		if (location.isExternal())
 			output.append(", in external scope");
 		System.out.println(output.toString());
@@ -255,7 +264,7 @@ public class PrettyPrinter implements Visitor {
 	public void visit(If ifStatement) {
 
 		StringBuffer output = new StringBuffer();
-
+		line(output,ifStatement);
 		output.append("If statement");
 		if (ifStatement.hasElse())
 			output.append(", with Else operation");
@@ -271,7 +280,7 @@ public class PrettyPrinter implements Visitor {
 	public void visit(While whileStatement) {
 
 		StringBuffer output = new StringBuffer();
-
+		line(output,whileStatement);
 		output.append("While statement");
 		System.out.println(output.toString());
 		whileStatement.getCondition().accept(this);
@@ -283,7 +292,7 @@ public class PrettyPrinter implements Visitor {
 	public void visit(StmtsBlock statementsBlock) {
 
 		StringBuffer output = new StringBuffer();
-
+		line(output,statementsBlock);
 		output.append("Block of statements");
 		System.out.println(output.toString());
 		for (Stmt statement : statementsBlock.getStatements())
@@ -294,7 +303,7 @@ public class PrettyPrinter implements Visitor {
 	public void visit(StaticCall call) {
 
 		StringBuffer output = new StringBuffer();
-
+		line(output,call);
 		output.append("Call to static method: " + call.getName() + ", in class " + call.getClassName());
 		System.out.println(output.toString());
 		for (Expr argument : call.getArguments())
@@ -306,14 +315,14 @@ public class PrettyPrinter implements Visitor {
 	public void visit(VirtualCall call) {
 
 		StringBuffer output = new StringBuffer();
-
+		line(output,call);
 		output.append("Call to virtual method: " + call.getName());
 		if (call.isExternal())
 			output.append(", in external scope");
 		System.out.println(output.toString());
 		if (call.isExternal())
 			call.getLocation().accept(this);
-		
+
 		for (Expr argument : call.getArguments())
 			argument.accept(this);
 
@@ -323,7 +332,7 @@ public class PrettyPrinter implements Visitor {
 	public void visit(This thisExpression) {
 
 		StringBuffer output = new StringBuffer();
-
+		line(output,thisExpression);
 		output.append("Reference to 'this' instance");
 		System.out.println(output.toString());
 
@@ -333,7 +342,7 @@ public class PrettyPrinter implements Visitor {
 	public void visit(NewClass newClass) {
 
 		StringBuffer output = new StringBuffer();
-
+		line(output,newClass);
 		output.append("Instantiation of class: " + newClass.getName());
 		System.out.println(output.toString());
 
@@ -342,6 +351,7 @@ public class PrettyPrinter implements Visitor {
 	@Override
 	public void visit(NewArray newArray) {
 		StringBuffer output = new StringBuffer();
+		line(output,newArray);
 		output.append("Array allocation");
 		System.out.println(output.toString());
 		newArray.getType().accept(this);
@@ -352,7 +362,7 @@ public class PrettyPrinter implements Visitor {
 	public void visit(Length length) {
 
 		StringBuffer output = new StringBuffer();
-
+		line(output,length);
 		output.append("Reference to array length");
 		System.out.println(output.toString());
 		length.getArray().accept(this);
@@ -363,7 +373,7 @@ public class PrettyPrinter implements Visitor {
 	public void visit(MathBinaryOp binaryOp) {
 
 		StringBuffer output = new StringBuffer();
-
+		line(output,binaryOp);
 		output.append("Mathematical binary operation: " + binaryOp.getOperator().getDescription());
 		System.out.println(output.toString());
 		binaryOp.getFirstOperand().accept(this);
@@ -375,7 +385,7 @@ public class PrettyPrinter implements Visitor {
 	public void visit(LogicalBinaryOp binaryOp) {
 
 		StringBuffer output = new StringBuffer();
-
+		line(output,binaryOp);
 		output.append("Logical binary operation: " + binaryOp.getOperator().getDescription());
 		System.out.println(output.toString());
 		binaryOp.getFirstOperand().accept(this);
@@ -387,7 +397,7 @@ public class PrettyPrinter implements Visitor {
 	public void visit(MathUnaryOp unaryOp) {
 
 		StringBuffer output = new StringBuffer();
-
+		line(output,unaryOp);
 		output.append("Mathematical unary operation: " + unaryOp.getOperator().getDescription());
 		System.out.println(output.toString());
 		unaryOp.getOperand().accept(this);
@@ -398,7 +408,7 @@ public class PrettyPrinter implements Visitor {
 	public void visit(LogicalUnaryOp unaryOp) {
 
 		StringBuffer output = new StringBuffer();
-
+		line(output,unaryOp);
 		output.append("Logical unary operation: " + unaryOp.getOperator().getDescription());
 		System.out.println(output.toString());
 		unaryOp.getOperand().accept(this);
@@ -409,7 +419,7 @@ public class PrettyPrinter implements Visitor {
 	public void visit(ExprBlock expressionBlock) {
 
 		StringBuffer output = new StringBuffer();
-
+		line(output,expressionBlock);
 		output.append("Parenthesized expression");
 		System.out.println(output.toString());
 		expressionBlock.getExpression().accept(this);
@@ -430,7 +440,7 @@ public class PrettyPrinter implements Visitor {
 	public void visit(Continue continue1) {
 
 		StringBuffer output = new StringBuffer();
-
+		line(output,continue1);
 		output.append("Continue statement");
 		System.out.println(output.toString());
 
@@ -440,7 +450,7 @@ public class PrettyPrinter implements Visitor {
 	public void visit(Break break1) {
 
 		StringBuffer output = new StringBuffer();
-
+		line(output,break1);
 		output.append("Break statement");
 		System.out.println(output.toString());
 	}
@@ -449,7 +459,7 @@ public class PrettyPrinter implements Visitor {
 	public void visit(CallStatement callStatement) {
 
 		StringBuffer output = new StringBuffer();
-
+		line(output,callStatement);
 		output.append("Method call statement");
 		System.out.println(output.toString());
 		callStatement.getCall().accept(this);

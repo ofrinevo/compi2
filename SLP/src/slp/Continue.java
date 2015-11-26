@@ -2,8 +2,8 @@ package slp;
 
 public class Continue extends Stmt {
 
-	public Continue() {
-		
+	public Continue(int line) {
+		super(line);
 	}
 	
 	public void accept(Visitor visitor) {
