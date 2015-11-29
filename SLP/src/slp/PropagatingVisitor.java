@@ -1,5 +1,24 @@
 package slp;
 
+import Classes.ArrayLocation;
+import Classes.Assign;
+import Classes.AssignStmt;
+import Classes.BinaryOpExpr;
+import Classes.Expr;
+import Classes.Field;
+import Classes.Formal;
+import Classes.ICClass;
+import Classes.Method;
+import Classes.NumberExpr;
+import Classes.PrimitiveType;
+import Classes.PrintStmt;
+import Classes.ReadIExpr;
+import Classes.Stmt;
+import Classes.StmtList;
+import Classes.UnaryOpExpr;
+import Classes.UserType;
+import Classes.VarExpr;
+
 /** An interface for a propagating AST visitor.
  * The visitor passes down objects of type <code>DownType</code>
  * and propagates up objects of type <code>UpType</code>.

@@ -1,5 +1,46 @@
 package slp;
 
+import Classes.ArrayLocation;
+import Classes.Assign;
+import Classes.BinaryOpExpr;
+import Classes.Break;
+import Classes.CallStatement;
+import Classes.Continue;
+import Classes.ExprBlock;
+import Classes.Field;
+import Classes.Formal;
+import Classes.ICClass;
+import Classes.If;
+import Classes.Length;
+import Classes.Literal;
+import Classes.LocalVariable;
+import Classes.LocationAssign;
+import Classes.LogicalBinaryOp;
+import Classes.LogicalUnaryOp;
+import Classes.MathBinaryOp;
+import Classes.MathUnaryOp;
+import Classes.Method;
+import Classes.NewArray;
+import Classes.NewClass;
+import Classes.NumberExpr;
+import Classes.PrimitiveType;
+import Classes.PrintStmt;
+import Classes.ReadIExpr;
+import Classes.Return;
+import Classes.StaticCall;
+import Classes.StaticMethod;
+import Classes.Stmt;
+import Classes.StmtList;
+import Classes.StmtsBlock;
+import Classes.This;
+import Classes.UnaryOpExpr;
+import Classes.UserType;
+import Classes.VarExpr;
+import Classes.VariableLocation;
+import Classes.VirtualCall;
+import Classes.VirtualMethod;
+import Classes.While;
+
 /**
  * AST visitor interface. Declares methods for visiting each type of AST node.
  */

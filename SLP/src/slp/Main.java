@@ -1,6 +1,8 @@
 package slp;
 
 import java.io.*;
+
+import Classes.ASTNode;
 import java_cup.runtime.*;
 
 /** The entry point of the SLP (Straight Line Program) application.

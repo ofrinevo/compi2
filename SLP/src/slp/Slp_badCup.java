@@ -6,6 +6,16 @@
 
 package slp;
 
+import Classes.AssignStmt;
+import Classes.BinaryOpExpr;
+import Classes.Expr;
+import Classes.NumberExpr;
+import Classes.PrintStmt;
+import Classes.ReadIExpr;
+import Classes.Stmt;
+import Classes.StmtList;
+import Classes.UnaryOpExpr;
+import Classes.VarExpr;
 import java_cup.runtime.*;
 
 /** CUP v0.11a beta 20060608 generated parser.

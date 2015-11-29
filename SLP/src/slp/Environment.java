@@ -2,6 +2,8 @@ package slp;
 
 import java.util.*;
 
+import Classes.VarExpr;
+
 /** Represents a state during the evaluation of a program. 
  */
 public class Environment {

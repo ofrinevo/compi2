@@ -2,6 +2,27 @@ package slp;
 
 import java.io.IOException;
 
+import Classes.ASTNode;
+import Classes.ArrayLocation;
+import Classes.Assign;
+import Classes.AssignStmt;
+import Classes.BinaryOpExpr;
+import Classes.Expr;
+import Classes.Field;
+import Classes.Formal;
+import Classes.ICClass;
+import Classes.Method;
+import Classes.NumberExpr;
+import Classes.PrimitiveType;
+import Classes.PrintStmt;
+import Classes.ReadIExpr;
+import Classes.Stmt;
+import Classes.StmtList;
+import Classes.UnaryOpExpr;
+import Classes.UnaryOps;
+import Classes.UserType;
+import Classes.VarExpr;
+
 /** Evaluates straight line programs.
  */
 public class SLPEvaluator implements PropagatingVisitor<Environment, Integer> {

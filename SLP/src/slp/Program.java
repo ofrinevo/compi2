@@ -2,6 +2,9 @@ package slp;
 
 import java.util.List;
 
+import Classes.ASTNode;
+import Classes.ICClass;
+
 /**
  * Root AST node for an IC program.
  */
