@@ -2,7 +2,7 @@ package slp;
 import java_cup.runtime.*;
 import java.util.ArrayList;
 import java.util.List;
-import IC.AST.*;
+import classes.*;
 
 parser code  {:
 	/** Causes the parsr to print every token it reads.
