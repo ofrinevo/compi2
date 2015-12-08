@@ -1,35 +1,37 @@
 package slp;
-
 import java_cup.runtime.Symbol;
 
-/** Adds line number and name information to scanner symbols.
- */
 public class Token extends Symbol {
-	private final int line;
-	private final String name;
+	private int id, line, column;
+	private Object value;
+	
+	public Token(int id, Object value, int line, int column) {
+		super(id, line, column, value);
+		this.id=id;
+		this.value=value;
+		this.line=line;
+		this.column = column;
+	}
+	
+	public int getId() {return id;};
+	public Object getValue() {return value;};
+	public int getLine() {return line;};
+	public int getColumn() {return column;};
 
-	public Token(int line, String name, int id, Object value) {
-		super(id, value);
-		this.name = name;
-		this.line = line + 1;
-	}
-	
-	public Token(int line, String name, int id) {
-		super(id, null);
-		this.name = name;
-		this.line = line + 1;
-	}
-	
-	public String toString() {
-		String val = value != null ? "(" + value + ")" : "";
-		return name +  val;
-	}
-	
-	public int getLine() {
-		return line;
-	}
-
-	public int getColumn() {
-		return 0;
+	public String getTag() {
+		switch (sym) {
+		
+			case slp.sym.ID:
+				return "ID";
+			case slp.sym.CLASS_ID:
+				return "CLASS_ID";
+			case slp.sym.INTEGER_LITERAL:
+				return "INTEGER";
+			case slp.sym.STRING_LITERAL:
+				return "STRING";
+				
+		}
+		
+		return value.toString();
 	}
 }
