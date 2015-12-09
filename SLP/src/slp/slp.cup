@@ -79,7 +79,7 @@ parser code  {:
 	    return true;
     }
 	
-	protected class ClassLines
+	protected static class ClassLines
 	{
 		public ClassLines() 
 		{

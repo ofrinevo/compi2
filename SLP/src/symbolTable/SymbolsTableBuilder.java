@@ -70,8 +70,14 @@ public class SymbolsTableBuilder implements Visitor {
 			}
 			iccls.setEntryType(typeTable.getClassType(iccls.getName()));
 			SymbolTable icclsParentSymbolTable;
-			if (iccls.hasSuperClass()) 
+			if (iccls.hasSuperClass()){ 
 				icclsParentSymbolTable = programSymbolTable.findChildSymbolTable(iccls.getSuperClassName());
+				if(iccls.getSuperClassName().equals("Library")){
+					this.semanticErrorThrower = new SemanticErrorThrower(
+							iccls.getLine(), "class " + iccls.getName() + " is extending the class Library");
+					return false;
+				}
+			}
 			else
 				icclsParentSymbolTable = programSymbolTable;
 			iccls.setSymbolsTable(icclsParentSymbolTable);

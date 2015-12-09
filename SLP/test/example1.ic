@@ -12,7 +12,7 @@
 //    void exit(int n) {}
 //}
 
-class A {
+class A{
   string str;
   int i;
 
@@ -38,7 +38,7 @@ class A {
     while (i < max){
         arr[i] = val;
         i = i + 1;
-     //   Library.printi(i);
+        Library.random(i);
         if (a == null)
           break;
     }
