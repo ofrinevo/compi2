@@ -1,8 +1,6 @@
 package classes;
 
-/**
- * Assignment statement AST node.
- */
+
 public class Assignment extends Statement {
 
 	private Location variable;
@@ -13,14 +11,7 @@ public class Assignment extends Statement {
 		return visitor.visit(this);
 	}
 
-	/**
-	 * Constructs a new assignment statement node.
-	 * 
-	 * @param variable
-	 *            Variable to assign a value to.
-	 * @param assignment
-	 *            Value to assign.
-	 */
+	
 	public Assignment(Location variable, Expression assignment) {
 		super(variable.getLine());
 		this.variable = variable;

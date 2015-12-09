@@ -8,9 +8,7 @@ import semanticAnalysis.SemanticError;
 import semanticAnalysis.SemanticErrorThrower;
 import type.*;
 
-/**
- * initialized with a program's type table and builds the programs symbol table tree
- */
+
 public class SymbolsTableBuilder implements Visitor {
 	
 	private Queue<ASTNode> nodeHandlingQueue; // for BFS scanning
@@ -18,15 +16,7 @@ public class SymbolsTableBuilder implements Visitor {
 
 	private SymbolTable currentClassSymbolTablePoint; // for searching scope of variables which
 	// called from external class location.
-	/* for example:
-	 * 	class A { int x; }
-	 * 	class B {
-	 * 		void foo() {
-	 * 			A a = new A();
-	 * 			int y = a.x; // we need to save A's symbol table as the currentClassSymbolTablePoint to know where to look for x.
-	 * 		}
-	 * }
-	 */	
+		
 	private type.Type currentMethodType; // for the return statement to have the method type
 	// which it returns value to.
 	
@@ -36,11 +26,7 @@ public class SymbolsTableBuilder implements Visitor {
 	
 	int blockCounter; // for giving unique IDs to statements block symbol tables.
 	
-	/**
-	 * main constructor for SymbolsTableBuilder
-	 * @param typeTable the program's type table
-	 * @param tableId the name of the root of the symbols table tree to be built
-	 */
+	
 	public SymbolsTableBuilder(TypeTable typeTable, String tableId) {
 		this.nodeHandlingQueue = new LinkedList<ASTNode>();
 		this.rootSymbolTable = new SymbolTable(tableId, SymbolTableTypes.GLOBAL);
@@ -51,30 +37,12 @@ public class SymbolsTableBuilder implements Visitor {
 		this.semanticErrorThrower = null;
 	}
 
-	/**
-	 * 
-	 * @return returns currently held symbol table
-	 */
+	
 	public SymbolTable getSymbolTable() {
 		return rootSymbolTable;
 	}
 	
-	/** Builds the program symbol table and do the following things:
-	// 1) Checks there are no calls to variables or methods which were not initialized in their scope.
-	// 	  1.1) Calls to local variables will only be permitted if the variable was initialized before the call.
-	//	  1.2) There is a separation between a class virtual scope and static scope in this check but a class has only one symbol table.
-	// 2) Checks there are no calls to classes which were not declared in the program
-	// 3) Checks variables weren't initialized in their scope more than once.
-	// 4) Checks fields weren't initialized in their scope or in one of their super classes more than once.
-	// 5) Checks methods were not declared more than once in their scope or in one of their
-	//	  super classes unless a method overrides a method with the same signature.
-	// 6) Set types to each of the class, fields, formals and local variables nodes.
-	// 7) Connects each node with its local symbol table.
-	// The AST is scanned in BFS down to the methods level and in DFS from there on.
-	 *
-	 * @param root the AST root of the program to be built
-	 * @throws SemanticError
-	 */
+	
 	public void buildSymbolTables(Program root) throws SemanticError {
 		nodeHandlingQueue.add(root);
 		ASTNode currentNode;
@@ -494,11 +462,7 @@ public class SymbolsTableBuilder implements Visitor {
 		return true;
 	}
 	
-	/**
-	 * a visit function for a general method
-	 * @param method method to visit
-	 * @return true iff the visit passed semantic checks
-	 */
+	
 	private Object visitMethod(Method method) {
 		SymbolTable currentMethodSymbolTable = method.getSymbolsTable().findChildSymbolTable(
 				method.getName());
@@ -518,11 +482,7 @@ public class SymbolsTableBuilder implements Visitor {
 		return true;
 	}
 	
-	/**
-	 * 
-	 * @return true if and only if there is no variable duplication 
-	 * and the SymbolEntry was added successfully.
-	 */
+	
 	private Boolean addEntryAndCheckDuplication(SymbolTable table, SymbolEntry entry) {
 		if (table.hasEntry(entry.getId()))
 			return false;
@@ -550,10 +510,7 @@ public class SymbolsTableBuilder implements Visitor {
 		return true;
 	}
 	
-	/**
-	 * @param method method to evaluate
-	 * @return the symbol kind of this method
-	 */
+	
 	private IDSymbolsKinds getMethodKind(Method method) {
 		if (method instanceof VirtualMethod)
 			return IDSymbolsKinds.VIRTUAL_METHOD;
@@ -561,13 +518,7 @@ public class SymbolsTableBuilder implements Visitor {
 		return IDSymbolsKinds.STATIC_METHOD;
 	}
 	
-	/**
-	 * Looks for a symbol entry for a local variable. 
-	 * The entry can be of kind Local Variable, Method Parameter or a Field.
-	 * @param name
-	 * @param bottomSymbolTable
-	 * @return
-	 */
+	
 	private SymbolEntry getVariableSymbolEntry(String name, SymbolTable bottomSymbolTable) {
 		if ((bottomSymbolTable.getTableType() == SymbolTableTypes.METHOD) || 
 				(bottomSymbolTable.getTableType() == SymbolTableTypes.STATEMENT_BLOCK)) {
@@ -605,13 +556,7 @@ public class SymbolsTableBuilder implements Visitor {
 		return null;
 	}
 	
-	/**
-	 * Looks for a method symbol entry from a static call or from a virtual call with external scope.
-	 * @param name
-	 * @param methodKind
-	 * @param bottomClassSymbolTable: The methods assume it has a CLASS symbol table type.
-	 * @return
-	 */
+	
 	private SymbolEntry getMethodSymbolEntryFromExternalCall(
 			String name, IDSymbolsKinds methodKind, SymbolTable bottomClassSymbolTable) {
 		while (bottomClassSymbolTable != null) {
@@ -623,14 +568,7 @@ public class SymbolsTableBuilder implements Visitor {
 		return null;
 	}
 	
-	/**
-	 * Looks for a method symbol entry from a virtual call without external scope.
-	 * If the call was executed from a virtual method then a method entry with the same name and with any method kind (virtual or static) is a legal entry.
-	 * If the call was executed from a static method then only a method entry of kind static method with the same name is a legal entry.
-	 * @param name
-	 * @param bottomSymbolTable: The methods assume it has a METHOD or a STATEMENT_BLCOK symbol table type.
-	 * @return
-	 */
+	
 	private SymbolEntry getMethodSymbolEntryFromInternalCall(
 			String name, SymbolTable bottomSymbolTable) {
 		

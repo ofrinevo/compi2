@@ -1,8 +1,6 @@
 package classes;
 
-/**
- * AST visitor interface. Declares methods for visiting each type of AST node.
- */
+
 public interface Visitor {
 
 	public Object visit(Program program);

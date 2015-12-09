@@ -2,9 +2,7 @@ package classes;
 
 import java.util.List;
 
-/**
- * Statements block AST node.
- */
+
 public class StatementsBlock extends Statement {
 
 	private List<Statement> statements;
@@ -13,14 +11,7 @@ public class StatementsBlock extends Statement {
 		return visitor.visit(this);
 	}
 
-	/**
-	 * Constructs a new statements block node.
-	 * 
-	 * @param line
-	 *            Line number where block begins.
-	 * @param statements
-	 *            List of all statements in block.
-	 */
+	
 	public StatementsBlock(int line, List<Statement> statements) {
 		super(line);
 		this.statements = statements;

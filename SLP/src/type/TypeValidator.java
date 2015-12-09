@@ -9,9 +9,7 @@ import slp.DataTypes;
 import symbolTable.IDSymbolsKinds;
 import symbolTable.SymbolTable;
 
-/**
- * a validator that checks all type rules hold
- */
+
 public class TypeValidator implements Visitor {
 
 	private int loopNesting;
@@ -22,12 +20,6 @@ public class TypeValidator implements Visitor {
 		this.typeTable = typeTable;
 	}
 	
-	// Scans the program tree recursively and check the following semantic rules:
-	// 1) Type checking
-	// 2) Each method has return statement in all of the computation paths.
-	// 3) No continue and break keywords appear outside a while scope.
-	// 4) This expression is not called from a static method.
-	// In addition, the scan sets types to expressions during the type checking.
 	public void validate(Program program) throws SemanticError {
 		if (!(Boolean)program.accept(this))
 			this.semanticErrorThrower.execute();
@@ -100,7 +92,7 @@ public class TypeValidator implements Visitor {
 		
 		// Checks the types are legal for assignment
 		if (!isLegalAssignment(typeTo, typeFrom)) {
-			semanticErrorThrower =  new SemanticErrorThrower(assignment.getLine(), "Value assigned to local variable type mismatch");
+			semanticErrorThrower =  new SemanticErrorThrower(assignment.getLine(), "Value assigned to local variable type mis-match");
 			return false;
 		} 
 
@@ -130,7 +122,7 @@ public class TypeValidator implements Visitor {
 		MethodType methodType = (MethodType)returnStatement.getMethodType();
 		if (!isLegalAssignment(methodType.getReturnType(), typeInFact)) {
 			semanticErrorThrower =  new SemanticErrorThrower(returnStatement.getLine(), String.format(
-					"Return statement is not of type %s", methodType.getReturnType().toString()));
+					"Returned type is not of type %s", methodType.getReturnType().toString()));
 			return false;
 		}
 		return true;
@@ -144,7 +136,7 @@ public class TypeValidator implements Visitor {
 		Type typeCondition = ifStatement.getCondition().getEntryType();
 		// condition expression must have a boolean type
 		if (!typeCondition.isBoolType()) {
-			semanticErrorThrower =  new SemanticErrorThrower(ifStatement.getLine(), "Non boolean condition for if statement");
+			semanticErrorThrower =  new SemanticErrorThrower(ifStatement.getLine(), "Non-boolean iside the if statement");
 			return false;
 		}
 		
@@ -164,7 +156,7 @@ public class TypeValidator implements Visitor {
 		// condition expression must have a boolean type
 		Type typeCondition = whileStatement.getCondition().getEntryType();
 		if (!typeCondition.isBoolType()) {
-			semanticErrorThrower =  new SemanticErrorThrower(whileStatement.getLine(), "Non boolean condition for while statement");
+			semanticErrorThrower =  new SemanticErrorThrower(whileStatement.getLine(), "Non-boolean inside the while statement ");
 			return false;
 		}
 		loopNesting++;
@@ -180,7 +172,7 @@ public class TypeValidator implements Visitor {
 		// Checks if the break statement was called from a while scope.
 		if (!isBreakContinueValid()) {
 			semanticErrorThrower =  new SemanticErrorThrower(breakStatement.getLine(), 
-					"Use of 'break' statement outside of loop not allowed");
+					"Can't use 'break' statement outside of a loop");
 			return false;
 		}
 		return true;
@@ -191,7 +183,7 @@ public class TypeValidator implements Visitor {
 		// Checks if the continue statement was called from a while scope.
 		if (!isBreakContinueValid()) {
 			semanticErrorThrower =  new SemanticErrorThrower(continueStatement.getLine(), 
-					"Use of 'continue' statement outside of loop not allowed");
+					"Can't use 'continue' statement outside of a loop");
 			return false;
 		}
 		return true;
@@ -216,7 +208,7 @@ public class TypeValidator implements Visitor {
 			Type initType = localVariable.getInitValue().getEntryType();
 			// Checks the types are legal for assignment
 			if (!isLegalAssignment(varType, initType)) {
-				semanticErrorThrower =  new SemanticErrorThrower(localVariable.getLine(), "Value assigned to local variable type mismatch");
+				semanticErrorThrower =  new SemanticErrorThrower(localVariable.getLine(), "Value assigned to local variable type mis-match");
 				return false;
 			} 
 		}
@@ -265,7 +257,7 @@ public class TypeValidator implements Visitor {
 		MethodType calledMethodType = (MethodType)call.getMethodType();
 		if (call.getArguments().size() != calledMethodType.getParamTypes().length) {
 			semanticErrorThrower = new SemanticErrorThrower(call.getLine(), 
-					String.format("Method except %d arguments but gets %d", 
+					String.format("Wrong type- expected %d but got %d instead", 
 							calledMethodType.getParamTypes().length, call.getArguments().size()));
 			return false;
 		}
@@ -274,7 +266,7 @@ public class TypeValidator implements Visitor {
 				if (!isLegalAssignment(calledMethodType.getParamTypes()[i], 
 					call.getArguments().get(i).getEntryType())) {
 				semanticErrorThrower = new SemanticErrorThrower(call.getLine(), 
-						"Argument type dosen't match the method parameter type");
+						"Argument and parameter type mis-match");
 				return false;
 			}
 		}
@@ -290,7 +282,7 @@ public class TypeValidator implements Visitor {
 			
 			Type locationType = call.getLocation().getEntryType();
 			if (!locationType.isClassType()) {
-				semanticErrorThrower = new SemanticErrorThrower(call.getLine(), "Object is not of class type");
+				semanticErrorThrower = new SemanticErrorThrower(call.getLine(), "The object is a non-Class");
 				return false;
 			}
 		}	
@@ -308,7 +300,7 @@ public class TypeValidator implements Visitor {
 		for (int i = 0; i < call.getArguments().size(); i++) {
 			if (!isLegalAssignment(calledMethodType.getParamTypes()[i], 
 					call.getArguments().get(i).getEntryType())) {
-				semanticErrorThrower = new SemanticErrorThrower(call.getLine(), "Argument type dosen't match the method parameter type");
+				semanticErrorThrower = new SemanticErrorThrower(call.getLine(), "Argument and parameter type mis-match");
 				return false;
 			}
 		}
@@ -323,7 +315,7 @@ public class TypeValidator implements Visitor {
 			scope = scope.getParentSymbolTable();
 		if (scope.getParentSymbolTable().getEntry(scope.getId()).getKind() == IDSymbolsKinds.STATIC_METHOD) {
 			semanticErrorThrower = new SemanticErrorThrower(thisExpression.getLine(), 
-					"Use of 'this' expression inside static method is not allowed");
+					"Can't use 'this' inside a static method");
 			return false;
 		}
 		scope = scope.getParentSymbolTable();
@@ -367,7 +359,7 @@ public class TypeValidator implements Visitor {
 		Type type = length.getArray().getEntryType();
 		// the expression which is evaluated by its length must have an array type. 
 		if (!type.isArrayType()) {
-			semanticErrorThrower = new SemanticErrorThrower(length.getLine(), "Length expression must have an array type");
+			semanticErrorThrower = new SemanticErrorThrower(length.getLine(), "Can't use Length expression on non-array");
 			return false;
 		}
 		length.setEntryType(typeTable.getPrimitiveType(DataTypes.INT.getDescription()));
@@ -396,7 +388,7 @@ public class TypeValidator implements Visitor {
 				break;
 		}
 		
-		semanticErrorThrower = new SemanticErrorThrower(unaryOp.getLine(), "Operand of unary operator has an invalid type");
+		semanticErrorThrower = new SemanticErrorThrower(unaryOp.getLine(), "Invalid type for the unary operator");
 		return false;
 	}
 
@@ -449,7 +441,7 @@ public class TypeValidator implements Visitor {
 				break;
 		}
 		
-		semanticErrorThrower = new SemanticErrorThrower(binaryOp.getLine(), String.format("Invalid %s binary op (%s) on %s expression",
+		semanticErrorThrower = new SemanticErrorThrower(binaryOp.getLine(), String.format("Can't do %s binary operation (%s) on %s expression",
 				opType, binaryOp.getOperator().toString(), onWhat));
 		return false;
 	}
@@ -470,7 +462,7 @@ public class TypeValidator implements Visitor {
 			default:
 				break;
 		}
-		semanticErrorThrower = new SemanticErrorThrower(unaryOp.getLine(), "Operand of unary operator has an invalid type");
+		semanticErrorThrower = new SemanticErrorThrower(unaryOp.getLine(), "Invalid type for the unary operator");
 		return false;
 	}
 
@@ -502,7 +494,7 @@ public class TypeValidator implements Visitor {
 						binaryOp.setEntryType(typeFirst);
 						return true;
 				}
-				onWhat = "non-integer or non-string";
+				onWhat = "non-Integer or non-String";
 				opType = "arithmetic";
 				break;
 			case MINUS:
@@ -513,13 +505,13 @@ public class TypeValidator implements Visitor {
 					binaryOp.setEntryType(typeFirst);
 					return true;
 				}
-				onWhat = "non-integer";
+				onWhat = "non-Integer";
 				opType = "arithmetic";
 				break;
 				default:
 					break;
 		}
-		semanticErrorThrower = new SemanticErrorThrower(binaryOp.getLine(), String.format("Invalid %s binary op (%s) on %s expression",
+		semanticErrorThrower = new SemanticErrorThrower(binaryOp.getLine(), String.format("Can't do %s binary operation (%s) on %s expression",
 				opType, binaryOp.getOperator().toString(), onWhat));
 		return false;
 	}
@@ -544,7 +536,7 @@ public class TypeValidator implements Visitor {
 		
 
 		if (!testRetrunPaths(method.getStatements())) { // No return statement error:
-			semanticErrorThrower =  new SemanticErrorThrower(method.getLine(), String.format("Method %s has no return statement", method.getName()));
+			semanticErrorThrower =  new SemanticErrorThrower(method.getLine(), String.format("Method %s needs to return a value", method.getName()));
 			return false;
 		}
 		

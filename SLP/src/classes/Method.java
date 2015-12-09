@@ -2,9 +2,7 @@ package classes;
 
 import java.util.List;
 
-/**
- * Abstract base class for method AST nodes.
- */
+
 public abstract class Method extends ASTNode {
 
 	protected Type type;
@@ -15,18 +13,7 @@ public abstract class Method extends ASTNode {
 
 	protected List<Statement> statements;
 
-	/**
-	 * Constructs a new method node. Used by subclasses.
-	 * 
-	 * @param type
-	 *            Data type returned by method.
-	 * @param name
-	 *            Name of method.
-	 * @param formals
-	 *            List of method parameters.
-	 * @param statements
-	 *            List of method's statements.
-	 */
+	
 	protected Method(Type type, String name, List<Formal> formals,
 			List<Statement> statements) {
 		super(type.getLine());

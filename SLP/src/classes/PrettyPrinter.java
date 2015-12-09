@@ -1,21 +1,13 @@
 package classes;
 
-/**
- * Pretty printing visitor - travels along the AST and prints info about each
- * node, in an easy-to-comprehend format.
- */
+
 public class PrettyPrinter implements Visitor {
 
 	private int depth = 0; // depth of indentation
 
 	private String ICFilePath;
 
-	/**
-	 * Constructs a new pretty printer visitor.
-	 * 
-	 * @param ICFilePath
-	 *            The path + name of the IC file being compiled.
-	 */
+	
 	public PrettyPrinter(String ICFilePath) {
 		this.ICFilePath = ICFilePath;
 	}

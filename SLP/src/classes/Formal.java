@@ -1,8 +1,6 @@
 package classes;
 
-/**
- * Method parameter AST node.
- */
+
 public class Formal extends ASTNode {
 
 	private Type type;
@@ -13,14 +11,7 @@ public class Formal extends ASTNode {
 		return visitor.visit(this);
 	}
 
-	/**
-	 * Constructs a new parameter node.
-	 * 
-	 * @param type
-	 *            Data type of parameter.
-	 * @param name
-	 *            Name of parameter.
-	 */
+	
 	public Formal(Type type, String name) {
 		super(type.getLine());
 		this.type = type;

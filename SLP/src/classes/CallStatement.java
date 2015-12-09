@@ -1,8 +1,6 @@
 package classes;
 
-/**
- * Method call statement AST node.
- */
+
 public class CallStatement extends Statement {
 
 	private Call call;
@@ -11,12 +9,7 @@ public class CallStatement extends Statement {
 		return visitor.visit(this);
 	}
 
-	/**
-	 * Constructs a new method call statement node.
-	 * 
-	 * @param call
-	 *            Method call expression.
-	 */
+	
 	public CallStatement(Call call) {
 		super(call.getLine());
 		this.call = call;

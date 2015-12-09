@@ -9,41 +9,26 @@ import java.io.LineNumberReader;
 import classes.*;
 import semanticAnalysis.SemanticError;
 import semanticAnalysis.SemanticErrorThrower;
-/**
- * builds a type table corresponding to a given program
- */
+
 public class TypeTableBuilder implements Visitor {
 	private final String MAIN_METHOD_CORRECT_SIGNATURE = "string[] -> void";
 	
 	private TypeTable builtTypeTable;
 	private SemanticErrorThrower semanticErrorThrower;
 	private String programFilePath;
-	/**
-	 * main constructor
-	 * @param tableId name of the type table to be built
-	 */
+	
 	public TypeTableBuilder(File file) {
 		this.programFilePath = file.getPath();
 		this.builtTypeTable = new TypeTable(file.getName());
 		builtTypeTable.addPrimitiveTypes();
 	}
 	
-	/**
-	 * @return currently held type table
-	 */
+	
 	public TypeTable getBuiltTypeTable() {
 		return this.builtTypeTable;
 	}
 	
-	/**
-	// Builds the program's Type Table and also checks the following semantic issues:
-	// 1) There is only one Main method with the correct signature (using findAndCheckMainMethod)
-	// 2) Classes only extends classes which were declared before them.
-	//	  (this also prevents any inheritance cycle).
-	 * 
-	 * @param program AST node root of the program used to construct the type table
-	 * @throws SemanticError
-	 */
+	
 	public void buildTypeTable(Program program) throws SemanticError {
 		if (!findAndCheckMainMethod(program))
 			semanticErrorThrower.execute();
@@ -295,11 +280,7 @@ public class TypeTableBuilder implements Visitor {
 		return null;
 	}
 
-	/**
-	 * visit for general method
-	 * @param method method to visit
-	 * @return null
-	 */
+	
 	private Object visitMethod(Method method) {
 		for (Formal formal : method.getFormals())
 			formal.accept(this);
@@ -312,11 +293,7 @@ public class TypeTableBuilder implements Visitor {
 		return null;
 	}
 	
-	/**
-	 * visit for general IC.AST.Type type
-	 * @param type
-	 * @return null
-	 */
+	
 	private Object visitType(classes.Type type) {
 		// array type registration.
 		if (isArrayType(type))
@@ -325,11 +302,7 @@ public class TypeTableBuilder implements Visitor {
 		return null;
 	}
 	
-	/**
-	 * 
-	 * @param typeNode
-	 * @return true iff the type is an array (dimension > 0)
-	 */
+	
 	private Boolean isArrayType(classes.Type typeNode) {
 		return (typeNode.getDimension() > 0);
 	}

@@ -1,8 +1,6 @@
 package classes;
 
-/**
- * Variable reference AST node.
- */
+
 public class VariableLocation extends Location {
 
 	private Expression location = null;
@@ -13,29 +11,13 @@ public class VariableLocation extends Location {
 		return visitor.visit(this);
 	}
 
-	/**
-	 * Constructs a new variable reference node.
-	 * 
-	 * @param line
-	 *            Line number of reference.
-	 * @param name
-	 *            Name of variable.
-	 */
+	
 	public VariableLocation(int line, String name) {
 		super(line);
 		this.name = name;
 	}
 
-	/**
-	 * Constructs a new variable reference node, for an external location.
-	 * 
-	 * @param line
-	 *            Line number of reference.
-	 * @param location
-	 *            Location of variable.
-	 * @param name
-	 *            Name of variable.
-	 */
+	
 	public VariableLocation(int line, Expression location, String name) {
 		this(line, name);
 		this.location = location;

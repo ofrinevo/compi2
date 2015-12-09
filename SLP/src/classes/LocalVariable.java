@@ -1,8 +1,6 @@
 package classes;
 
-/**
- * Local variable declaration statement AST node.
- */
+
 public class LocalVariable extends Statement {
 
 	private Type type;
@@ -15,31 +13,14 @@ public class LocalVariable extends Statement {
 		return visitor.visit(this);
 	}
 
-	/**
-	 * Constructs a new local variable declaration statement node.
-	 * 
-	 * @param type
-	 *            Data type of local variable.
-	 * @param name
-	 *            Name of local variable.
-	 */
+	
 	public LocalVariable(Type type, String name) {
 		super(type.getLine());
 		this.type = type;
 		this.name = name;
 	}
 
-	/**
-	 * Constructs a new local variable declaration statement node, with an
-	 * initial value.
-	 * 
-	 * @param type
-	 *            Data type of local variable.
-	 * @param name
-	 *            Name of local variable.
-	 * @param initValue
-	 *            Initial value of local variable.
-	 */
+	
 	public LocalVariable(Type type, String name, Expression initValue) {
 		this(type, name);
 		this.initValue = initValue;

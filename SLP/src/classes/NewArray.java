@@ -1,8 +1,6 @@
 package classes;
 
-/**
- * Array creation AST node.
- */
+
 public class NewArray extends New {
 
 	private Type type;
@@ -13,14 +11,7 @@ public class NewArray extends New {
 		return visitor.visit(this);
 	}
 
-	/**
-	 * Constructs a new array creation expression node.
-	 * 
-	 * @param type
-	 *            Data type of new array.
-	 * @param size
-	 *            Size of new array.
-	 */
+	
 	public NewArray(Type type, Expression size) {
 		super(type.getLine());
 		this.type = type;

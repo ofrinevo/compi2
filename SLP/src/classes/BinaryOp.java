@@ -2,9 +2,7 @@ package classes;
 
 import slp.BinaryOps;
 
-/**
- * Abstract base class for binary operation AST nodes.
- */
+
 public abstract class BinaryOp extends Expression {
 
 	private Expression operand1;
@@ -13,16 +11,7 @@ public abstract class BinaryOp extends Expression {
 
 	private Expression operand2;
 
-	/**
-	 * Constructs a new binary operation node. Used by subclasses.
-	 * 
-	 * @param operand1
-	 *            The first operand.
-	 * @param operator
-	 *            The operator.
-	 * @param operand2
-	 *            The second operand.
-	 */
+	
 	protected BinaryOp(Expression operand1, BinaryOps operator,
 			Expression operand2) {
 		super(operand1.getLine());

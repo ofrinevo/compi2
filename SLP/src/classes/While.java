@@ -1,8 +1,6 @@
 package classes;
 
-/**
- * While statement AST node.
- */
+
 public class While extends Statement {
 
 	private Expression condition;
@@ -13,14 +11,7 @@ public class While extends Statement {
 		return visitor.visit(this);
 	}
 
-	/**
-	 * Constructs a While statement node.
-	 * 
-	 * @param condition
-	 *            Condition of the While statement.
-	 * @param operation
-	 *            Operation to perform while condition is true.
-	 */
+	
 	public While(Expression condition, Statement operation) {
 		super(condition.getLine());
 		this.condition = condition;

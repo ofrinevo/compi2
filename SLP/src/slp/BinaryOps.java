@@ -1,7 +1,5 @@
 package slp;
-/**
- * Enum of the IC language's binary operators.
- */
+
 public enum BinaryOps {
 
 	PLUS("+", "addition"),
@@ -27,20 +25,12 @@ public enum BinaryOps {
 		this.description = description;
 	}
 
-	/**
-	 * Returns a string representation of the operator.
-	 * 
-	 * @return The string representation.
-	 */
+	
 	public String getOperatorString() {
 		return operator;
 	}
 	
-	/**
-	 * Returns a description of the operator.
-	 * 
-	 * @return The description.
-	 */
+	
 	public String getDescription() {
 		return description;
 	}

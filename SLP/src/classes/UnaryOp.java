@@ -2,23 +2,14 @@ package classes;
 
 import slp.UnaryOps;
 
-/**
- * Abstract base class for unary operation AST nodes.
- */
+
 public abstract class UnaryOp extends Expression {
 
 	private UnaryOps operator;
 
 	private Expression operand;
 
-	/**
-	 * Constructs a new unary operation node. Used by subclasses.
-	 * 
-	 * @param operator
-	 *            The operator.
-	 * @param operand
-	 *            The operand.
-	 */
+	
 	protected UnaryOp(UnaryOps operator, Expression operand) {
 		super(operand.getLine());
 		this.operator = operator;

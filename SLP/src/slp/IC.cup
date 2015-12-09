@@ -5,9 +5,7 @@ import java.util.List;
 import classes.*;
 
 parser code  {:
-	/** Causes the parsr to print every token it reads.
-
-	 */
+	
 	public boolean printTokens;
 	public boolean errorFlag=false;
 	
@@ -18,7 +16,6 @@ parser code  {:
 		super(lexer);
 		this.lexer = lexer;
 	}
-
 	
 	public void syntax_error(Symbol s)
 	{
@@ -99,7 +96,7 @@ scan with
 	return lexer.next_token();
 :};
 
-/* Terminals (tokens returned by the scanner). */
+
 terminal			ID, CLASS_ID, SEMICOLON, COMMA;
 
 // Keywords
@@ -121,7 +118,7 @@ terminal			LP, RP, LC, RC, LB, RB, DOT, EXCLAMATION_MARK, PLUS, MINUS, MULT,
 // Context terminals
 terminal UMINUS;
 
-/* Non terminals */
+
 non terminal Program program;
 non terminal List<ICClass> icClass_list;
 non terminal ICClass icClass;
@@ -142,9 +139,8 @@ non terminal List<Expression> arguments, extra_arguments;
 non terminal Location location;
 non terminal Literal literal;
 
-/* Precedences */
-/*precedence left formal, fields, stmnt;
-precedence left method_type;*/
+
+
 precedence left ELSE_KEYWORD;
 precedence right ASSIGN;
 precedence left OR_OP;
@@ -154,10 +150,10 @@ precedence left SMALLER_OP, LARGER_OP, SMALLER_EQ_OP, LARGER_EQ_OP;
 precedence left PLUS, MINUS;
 precedence left MULT, DIVIDE, REMINDER; 
 precedence right UMINUS, EXCLAMATION_MARK;
-/*precedence left ID; */
+
 precedence left LC, DOT, LP, LB;
 
-/* The grammar */
+
 program ::= icClass_list:icCl
 			{: RESULT = new Program(icCl); :}
 ;
@@ -207,11 +203,11 @@ extra_fields ::= COMMA ID:fName extra_fields:fNamesl
 method ::= STATIC_KEYWORD type:t ID:mName LP formal_list:fl RP LB stmnt_list:sl RB 
 			{: RESULT = new StaticMethod(t, mName.toString(), fl, sl); :}
 			| STATIC_KEYWORD VOID_KEYWORD:v ID:mName LP formal_list:fl RP LB stmnt_list:sl RB 
-			{: RESULT = new StaticMethod(new PrimitiveType(vleft, IC.DataTypes.VOID), mName.toString(), fl, sl); :}
+			{: RESULT = new StaticMethod(new PrimitiveType(vleft, DataTypes.VOID), mName.toString(), fl, sl); :}
 			| type:t ID:mName LP formal_list:fl RP LB stmnt_list:sl RB
 			{: RESULT = new VirtualMethod(t, mName.toString(), fl, sl); :}
 			| VOID_KEYWORD:v ID:mName LP formal_list:fl RP LB stmnt_list:sl RB
-			{: RESULT = new VirtualMethod(new PrimitiveType(vleft, IC.DataTypes.VOID), mName.toString(), fl, sl); :}
+			{: RESULT = new VirtualMethod(new PrimitiveType(vleft, DataTypes.VOID), mName.toString(), fl, sl); :}
 ; 
 
 formal_list ::= formal:f extra_formals:ef 
@@ -233,11 +229,11 @@ formal ::= type:t ID:fName
 type ::= type:t LC RC
 		{: t.incrementDimension(); RESULT = t; :}
 		| INT_KEYWORD:intKey
-		{: RESULT = new PrimitiveType(intKeyleft, IC.DataTypes.INT); :}
+		{: RESULT = new PrimitiveType(intKeyleft, DataTypes.INT); :}
 		| BOOLEAN_KEYWORD:boolKey
-		{: RESULT = new PrimitiveType(boolKeyleft, IC.DataTypes.BOOLEAN); :}
+		{: RESULT = new PrimitiveType(boolKeyleft, DataTypes.BOOLEAN); :}
 		| STRING_KEYWORD:strKey
-		{: RESULT = new PrimitiveType(strKeyleft, IC.DataTypes.STRING); :}
+		{: RESULT = new PrimitiveType(strKeyleft, DataTypes.STRING); :}
 		| CLASS_ID:c
 		{: RESULT = new UserType(cleft, c.toString()); :}
 ;
@@ -289,35 +285,35 @@ expr ::=	THIS_KEYWORD:ths_key
 ;
 
 binaryOp ::=	expr:exp1 PLUS expr:exp2
-				{: RESULT = new MathBinaryOp(exp1, IC.BinaryOps.PLUS, exp2); :} |
+				{: RESULT = new MathBinaryOp(exp1, BinaryOps.PLUS, exp2); :} |
 				expr:exp1 MINUS expr:exp2
-				{: RESULT = new MathBinaryOp(exp1, IC.BinaryOps.MINUS, exp2); :} |
+				{: RESULT = new MathBinaryOp(exp1, BinaryOps.MINUS, exp2); :} |
 				expr:exp1 MULT expr:exp2
-				{: RESULT = new MathBinaryOp(exp1, IC.BinaryOps.MULTIPLY, exp2); :} |
+				{: RESULT = new MathBinaryOp(exp1, BinaryOps.MULTIPLY, exp2); :} |
 				expr:exp1 DIVIDE expr:exp2
-				{: RESULT = new MathBinaryOp(exp1, IC.BinaryOps.DIVIDE, exp2); :} |
+				{: RESULT = new MathBinaryOp(exp1, BinaryOps.DIVIDE, exp2); :} |
 				expr:exp1 REMINDER expr:exp2
-				{: RESULT = new MathBinaryOp(exp1, IC.BinaryOps.MOD, exp2); :} |
+				{: RESULT = new MathBinaryOp(exp1, BinaryOps.MOD, exp2); :} |
 				expr:exp1 SMALLER_OP expr:exp2
-				{: RESULT = new LogicalBinaryOp(exp1, IC.BinaryOps.LT, exp2); :} |	
+				{: RESULT = new LogicalBinaryOp(exp1, BinaryOps.LT, exp2); :} |	
 				expr:exp1 LARGER_OP expr:exp2
-				{: RESULT = new LogicalBinaryOp(exp1, IC.BinaryOps.GT, exp2); :} |			
+				{: RESULT = new LogicalBinaryOp(exp1, BinaryOps.GT, exp2); :} |			
 				expr:exp1 SMALLER_EQ_OP expr:exp2
-				{: RESULT = new LogicalBinaryOp(exp1, IC.BinaryOps.LTE, exp2); :} |		
+				{: RESULT = new LogicalBinaryOp(exp1, BinaryOps.LTE, exp2); :} |		
 				expr:exp1 LARGER_EQ_OP expr:exp2
-				{: RESULT = new LogicalBinaryOp(exp1, IC.BinaryOps.GTE, exp2); :} |	
+				{: RESULT = new LogicalBinaryOp(exp1, BinaryOps.GTE, exp2); :} |	
 				expr:exp1 EQUALS_OP expr:exp2
-				{: RESULT = new LogicalBinaryOp(exp1, IC.BinaryOps.EQUAL, exp2); :}	|		
+				{: RESULT = new LogicalBinaryOp(exp1, BinaryOps.EQUAL, exp2); :}	|		
 				expr:exp1 NOT_EQUALS_OP expr:exp2
-				{: RESULT = new LogicalBinaryOp(exp1, IC.BinaryOps.NEQUAL, exp2); :} |		
+				{: RESULT = new LogicalBinaryOp(exp1, BinaryOps.NEQUAL, exp2); :} |		
 				expr:exp1 AND_OP expr:exp2
-				{: RESULT = new LogicalBinaryOp(exp1, IC.BinaryOps.LAND, exp2); :} |	
+				{: RESULT = new LogicalBinaryOp(exp1, BinaryOps.LAND, exp2); :} |	
 				expr:exp1 OR_OP expr:exp2
-				{: RESULT = new LogicalBinaryOp(exp1, IC.BinaryOps.LOR, exp2); :}
+				{: RESULT = new LogicalBinaryOp(exp1, BinaryOps.LOR, exp2); :}
 ;
 
-unaryOp ::= EXCLAMATION_MARK expr:exp {: RESULT = new LogicalUnaryOp(IC.UnaryOps.LNEG, exp); :} |
-			MINUS expr:exp {: RESULT = new MathUnaryOp(IC.UnaryOps.UMINUS, exp); :} %prec UMINUS
+unaryOp ::= EXCLAMATION_MARK expr:exp {: RESULT = new LogicalUnaryOp(UnaryOps.LNEG, exp); :} |
+			MINUS expr:exp {: RESULT = new MathUnaryOp(UnaryOps.UMINUS, exp); :} %prec UMINUS
 ;
 
 call ::=	staticCall:sc {: RESULT = sc; :} | virtualCall:vc {: RESULT = vc; :};
@@ -353,13 +349,13 @@ location ::= ID:vName
 ;
 
 literal ::= INTEGER_LITERAL:n
-			{: RESULT = new Literal(nleft, IC.LiteralTypes.INTEGER, n); :} |
+			{: RESULT = new Literal(nleft, LiteralTypes.INTEGER, n); :} |
 			STRING_LITERAL:s
-			{: RESULT = new Literal(sleft, IC.LiteralTypes.STRING, s); :} |
+			{: RESULT = new Literal(sleft, LiteralTypes.STRING, s); :} |
 			TRUE_LITERAL:t
-			{: RESULT = new Literal(tleft, IC.LiteralTypes.TRUE, t); :} |
+			{: RESULT = new Literal(tleft, LiteralTypes.TRUE, t); :} |
 			FALSE_LITERAL:f
-			{: RESULT = new Literal(fleft, IC.LiteralTypes.FALSE, f); :} |
+			{: RESULT = new Literal(fleft, LiteralTypes.FALSE, f); :} |
 			NULL_LITERAL:n
-			{: RESULT = new Literal(nleft, IC.LiteralTypes.NULL, n); :}
+			{: RESULT = new Literal(nleft, LiteralTypes.NULL, n); :}
 ;

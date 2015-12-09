@@ -15,9 +15,7 @@ import classes.UserType;
 import slp.DataTypes;
 import slp.LiteralTypes;
 
-/**
- * Data structure representing a Type Table
- */
+
 public class TypeTable {
 
 	private String id;
@@ -36,10 +34,7 @@ public class TypeTable {
 	
 	private int idCounter;
 	
-	/**
-	 * main constructor
-	 * @param tableId name of table
-	 */
+	
 	public TypeTable(String tableId) {
 		this.id = tableId;
 		this.idCounter = 0;
@@ -50,11 +45,7 @@ public class TypeTable {
 		this.values = new HashMap<Type, Integer>();
 	}
 	
-	/**
-	 * converts IC.AST.Type to IC.Types.Type
-	 * @param typeNode IC.AST.Type to convert
-	 * @return the correct IC.Types.Type format
-	 */
+	
 	public Type getTypeFromASTTypeNode(classes.Type typeNode) {
 		if (typeNode instanceof PrimitiveType) {
 			PrimitiveType pt = (PrimitiveType)typeNode;
@@ -74,9 +65,7 @@ public class TypeTable {
 		}
 	}
 	
-	/**
-	 * Prints the table to System.out
-	 */
+	
 	public void printTable() {
 		System.out.println("Type Table: " + id);
 		System.out.println("    " + values.get(intType) + ": Primitive type: " + intType.toString());
@@ -123,9 +112,7 @@ public class TypeTable {
 			System.out.println("    " + values.get(entry.getValue()) + ": Method type: {" + entry.getValue().toString() + "}");
 	}
 	
-	/**
-	 * Initializes primitive types in the table.
-	 */
+	
 	public void addPrimitiveTypes() {
 		this.intType = new IntType();
 		this.boolType = new BoolType();
@@ -140,10 +127,7 @@ public class TypeTable {
 		this.idCounter = 6;
 	}
 	
-	/**
-	 * Adds array type to the table
-	 * @param typeNode adds all of the array types concluded from this type to table
-	 */
+	
 	public void addArrayType(classes.Type typeNode) {
 		Type currArrType;
 		if (typeNode instanceof PrimitiveType) 
@@ -155,11 +139,7 @@ public class TypeTable {
 			currArrType = addAndReturnArraySingleType(currArrType);
 	}
 	
-	/**
-	 * 
-	 * @param classAST
-	 * @return false if and only if the class is extending a class which dosen't exist
-	 */
+	
 	public Boolean addClassType(ICClass classAST) {
 		if (uniqueClassTypes.containsKey(classAST.getName()))
 			return true;
@@ -178,19 +158,12 @@ public class TypeTable {
 		return true;
 	}
 	
-	/**
-	 * 
-	 * @param clsName
-	 * @return ClassType with name clsName
-	 */
+	
 	public ClassType getClassType(String clsName) {
 		return uniqueClassTypes.get(clsName);
 	}
 	
-	/**
-	 * Adds method type to the table
-	 * @param method method to add
-	 */
+	
 	public void addMethodType(Method method) {
 		MethodType methodType = generateMethodType(method);
 		if (uniqueMethodTypes.containsKey(methodType.toString()))
@@ -200,30 +173,19 @@ public class TypeTable {
 		idCounter++;
 	}
 	
-	/**
-	 * Generates a method type for this Method
-	 * @param method source method
-	 * @return MethodType for this Method
-	 */
+	
 	public MethodType getMethodType(Method method) {
 		MethodType methodType = generateMethodType(method);
 		return uniqueMethodTypes.get(methodType.toString());
 	}
 	
-	/**
-	 * @param type
-	 * @return the method type's return type
-	 */
+	
 	public Type getReturnTypeFromMethodType(Type type) {
 		MethodType methodType = (MethodType)type;
 		return methodType.getReturnType();
 	}
 	
-	/**
-	 * Returns a primitive type instance matching dataTypeName
-	 * @param dataTypeName name of the primitive type requested
-	 * @return primitive Type corresponding to dataTypeName, or null if not found
-	 */
+	
 	public Type getPrimitiveType(String dataTypeName) {
 		if (dataTypeName == DataTypes.INT.getDescription())
 			return intType;
@@ -237,11 +199,7 @@ public class TypeTable {
 		return null;
 	}
 	
-	/**
-	 * Returns a literal type instance matching literalTypeName
-	 * @param literalTypeName name of the literal type requested
-	 * @return literal Type corresponding to literalTypeName, or null if not found
-	 */
+	
 	public Type getLiteralType(String literalTypeName) {
 		if (literalTypeName == LiteralTypes.INTEGER.getDescription())
 			return intType;
@@ -256,12 +214,7 @@ public class TypeTable {
 
 	}
 	
-	/**
-	 * 
-	 * @param original
-	 * @param dimention
-	 * @return the type of this array
-	 */
+	
 	public ArrayType getArrayFromType(Type original, int dimention) {
 		Type currArrType = original;
 		for (int i = 0; i < dimention; i++) 
@@ -270,11 +223,7 @@ public class TypeTable {
 		return (ArrayType)currArrType;
 	}
 	
-	/**
-	 * 
-	 * @param type array type to be evaluated
-	 * @return the base type of the array
-	 */
+	
 	public Type getTypeFromArray(Type type) {
 		ArrayType arrayType = (ArrayType)type;
 		return arrayType.getElemType();

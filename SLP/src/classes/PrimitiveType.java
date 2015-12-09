@@ -2,9 +2,7 @@ package classes;
 
 import slp.DataTypes;
 
-/**
- * Primitive data type AST node.
- */
+
 public class PrimitiveType extends Type {
 
 	private DataTypes type;
@@ -13,14 +11,7 @@ public class PrimitiveType extends Type {
 		return visitor.visit(this);
 	}
 
-	/**
-	 * Constructs a new primitive data type node.
-	 * 
-	 * @param line
-	 *            Line number of type declaration.
-	 * @param type
-	 *            Specific primitive data type.
-	 */
+	
 	public PrimitiveType(int line, DataTypes type) {
 		super(line);
 		this.type = type;

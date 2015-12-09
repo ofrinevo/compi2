@@ -1,8 +1,6 @@
 package classes;
 
-/**
- * Class field AST node.
- */
+
 public class Field extends ASTNode {
 
 	private Type type;
@@ -13,14 +11,7 @@ public class Field extends ASTNode {
 		return visitor.visit(this);
 	}
 
-	/**
-	 * Constructs a new field node.
-	 * 
-	 * @param type
-	 *            Data type of field.
-	 * @param name
-	 *            Name of field.
-	 */
+	
 	public Field(Type type, String name) {
 		super(type.getLine());
 		this.type = type;

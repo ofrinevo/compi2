@@ -1,8 +1,6 @@
 package slp;
 
-/**
- * Enum of the IC language's primitive data types.
- */
+
 public enum DataTypes {
 
 	INT(0, "int"), 
@@ -19,20 +17,12 @@ public enum DataTypes {
 		this.description = description;
 	}
 
-	/**
-	 * Returns the default value of the data type.
-	 * 
-	 * @return The value.
-	 */
+	
 	public Object getDefaultValue() {
 		return value;
 	}
 
-	/**
-	 * Returns a description of the data type.
-	 * 
-	 * @return The description.
-	 */
+	
 	public String getDescription() {
 		return description;
 	}

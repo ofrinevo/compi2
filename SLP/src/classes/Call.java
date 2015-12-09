@@ -4,25 +4,14 @@ import java.util.List;
 
 import symbolTable.SymbolEntry;
 
-/**
- * Abstract base class for method call AST nodes.
- */
+
 public abstract class Call extends Expression {
 
 	private String name;
 	private List<Expression> arguments;
 	private type.Type methodType;
 
-	/**
-	 * Constructs a new method call node. Used by subclasses.
-	 * 
-	 * @param line
-	 *            Line number of call.
-	 * @param name
-	 *            Name of method.
-	 * @param arguments
-	 *            List of all method arguments.
-	 */
+	
 	protected Call(int line, String name, List<Expression> arguments) {
 		super(line);
 		this.name = name;

@@ -1,8 +1,6 @@
 package classes;
 
-/**
- * User-defined data type AST node.
- */
+
 public class UserType extends Type {
 
 	private String name;
@@ -11,14 +9,7 @@ public class UserType extends Type {
 		return visitor.visit(this);
 	}
 
-	/**
-	 * Constructs a new user-defined data type node.
-	 * 
-	 * @param line
-	 *            Line number of type declaration.
-	 * @param name
-	 *            Name of data type.
-	 */
+	
 	public UserType(int line, String name) {
 		super(line);
 		this.name = name;

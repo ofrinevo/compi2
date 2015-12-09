@@ -4,7 +4,7 @@ import java_cup.runtime.*;
 import slp.Token;
 import slp.LexicalError;
 
-/* AUTHOR: OREN ISH SHALOM */
+
 
 %%
 %public
@@ -66,19 +66,19 @@ DecIntegerLiteral = 0+ | [1-9][0-9]*
 
 <YYINITIAL> {
 
-  /* literals */
+  
   {DecIntegerLiteral}            { return token(sym.INTEGER_LITERAL, Integer.parseInt(yytext())); }
   "true"           				 { return token(sym.TRUE_LITERAL, yytext()); }
   "false"           			 { return token(sym.FALSE_LITERAL, yytext()); }
   "null"           				 { return token(sym.NULL_LITERAL, yytext()); }
   \"                             { string.setLength(0); yybegin(STRING); }
 
-  /* identifiers */ 
+   
   {ClassIdentifier}              { return token(sym.CLASS_ID, yytext()); }	
   {Identifier}                   { return token(sym.ID, yytext()); }
  
   
-  /* operators */
+  
   "("							 { return token(sym.LP, yytext()); }
   ")"							 { return token(sym.RP, yytext()); }
   "["							 { return token(sym.LC, yytext()); }
@@ -104,15 +104,12 @@ DecIntegerLiteral = 0+ | [1-9][0-9]*
  }
  
  <YYINITIAL> {
-  /* comments */
+  
   
   "//" 							 { yybegin(LCOMMENTS); }
-
-  "/*" 							 { yybegin(BCOMMENTS); }
-
- 
-  /* whitespace */
-  {WhiteSpace}                   { /* ignore */ }
+"/*" 							 { yybegin(BCOMMENTS); }
+  
+  {WhiteSpace}                   {  }
 }
 
  <LCOMMENTS> {
@@ -136,11 +133,11 @@ DecIntegerLiteral = 0+ | [1-9][0-9]*
   \\\"                           { string.append('\"'); }
   \\\\                             { string.append('\\'); }
   
-  LineTerminator				 { throw new LexicalError(yytext(), yyline+1, yycolumn+1); } /* unclosed literal string */ 
+  LineTerminator				 { throw new LexicalError(yytext(), yyline+1, yycolumn+1); }  
 }
 
 
- /* error fallback */
+ 
 	[^]                              { throw new LexicalError(yytext(), yyline+1, yycolumn+1); }
 	
 <<EOF>> 	

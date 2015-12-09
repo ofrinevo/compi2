@@ -1,24 +1,16 @@
 package type;
 
-/**
- * Data structure representing a symbol type
- */
+
 public abstract class Type {
 	protected String name;
 	
-	/**
-	 * main constructor
-	 * @param name the type's name
-	 */
+	
 	public Type(String name) 
 	{
 		this.name=name;
 	}
 	
-	/**
-	 * @param t
-	 * @return true iff this is a subtype of type t
-	 */
+	
 	public boolean subTypeOf(Type t)
 	{
 		if (this.equals(t))
@@ -33,66 +25,42 @@ public abstract class Type {
 		return false;
 	}
 	
-	/**
-	 * 
-	 * @return true iff this type is an instance of ClassType
-	 */
+	
 	public boolean isClassType() {
 		return (this instanceof ClassType);
 	}
 	
-	/**
-	 * 
-	 * @return true iff this type is an instance of ArrayType
-	 */
+	
 	public boolean isArrayType() {
 		return (this instanceof ArrayType);
 	}
 	
-	/**
-	 * 
-	 * @return true iff this type is an instance of IntType
-	 */
+	
 	public boolean isIntType() {
 		return (this instanceof IntType);
 	}
 	
-	/**
-	 * 
-	 * @return true iff this type is an instance of StringType
-	 */
+	
 	public boolean isStringType() {
 		return (this instanceof StringType);
 	}
 	
-	/**
-	 * 
-	 * @return true iff this type is an instance of BoolType
-	 */
+	
 	public boolean isBoolType() {
 		return (this instanceof BoolType);
 	}
 	
-	/**
-	 * 
-	 * @return true iff this type is an instance of VoidType
-	 */
+	
 	public boolean isVoidType() {
 		return (this instanceof VoidType);
 	}
 	
-	/**
-	 * 
-	 * @return true iff this type is an instance of NullType
-	 */
+	
 	public boolean isNullType() {
 		return (this instanceof NullType);
 	}
 	
-	/**
-	 * 
-	 * @return true iff we can assign a null to this type
-	 */
+	
 	public boolean isNullAssignable() {
 		if ((this.isClassType()) || (this.isArrayType()) || (this.isStringType()))
 			return true;
@@ -103,10 +71,7 @@ public abstract class Type {
 		return false;
 	}
 	
-	/**
-	 * 
-	 * @return name of this type
-	 */
+	
 	public String getName()
 	{
 		return this.name;

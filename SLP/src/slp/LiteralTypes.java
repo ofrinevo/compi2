@@ -1,9 +1,6 @@
 package slp;
 
-/**
- * Enum of the IC language's literal value types. Includes methods for creating
- * a string representation of each type of value.
- */
+
 public enum LiteralTypes {
 
 	INTEGER(DataTypes.INT.getDefaultValue(), "Integer literal"), 
@@ -47,31 +44,17 @@ public enum LiteralTypes {
 		this.description = description;
 	}
 
-	/**
-	 * Returns the intrinsic value of the literal.
-	 * 
-	 * @return The value.
-	 */
+	
 	public Object getValue() {
 		return value;
 	}
 
-	/**
-	 * Returns a formatted string representation of a literal value.
-	 * 
-	 * @param value
-	 *            The value.
-	 * @return The string.
-	 */
+	
 	public String toFormattedString(Object value) {
 		return String.valueOf(value);
 	}
 
-	/**
-	 * Returns a description of the literal type.
-	 * 
-	 * @return The description.
-	 */
+	
 	public String getDescription() {
 		return description;
 	}	

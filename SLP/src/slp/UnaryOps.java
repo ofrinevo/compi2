@@ -1,7 +1,5 @@
 package slp;
-/**
- * Enum of the IC language's unary operators.
- */
+
 public enum UnaryOps {
 
 	UMINUS("-", "unary subtraction"), 
@@ -16,20 +14,12 @@ public enum UnaryOps {
 		this.description = description;
 	}
 
-	/**
-	 * Returns a string representation of the operator.
-	 * 
-	 * @return The string representation.
-	 */
+	
 	public String getOperatorString() {
 		return operator;
 	}
 
-	/**
-	 * Returns a description of the operator.
-	 * 
-	 * @return The description.
-	 */
+	
 	public String getDescription() {
 		return description;
 	}

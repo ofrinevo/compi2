@@ -1,9 +1,6 @@
 package symbolTable;
 
-/**
- * enum which represents the different symbol table types available
- *
- */
+
 public enum SymbolTableTypes {
 	GLOBAL("Global"),
 	CLASS("Class"),

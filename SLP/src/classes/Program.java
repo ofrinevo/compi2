@@ -2,9 +2,7 @@ package classes;
 
 import java.util.List;
 
-/**
- * Root AST node for an IC program.
- */
+
 public class Program extends ASTNode {
 
 	private List<ICClass> classes;
@@ -13,12 +11,7 @@ public class Program extends ASTNode {
 		return visitor.visit(this);
 	}
 
-	/**
-	 * Constructs a new program node.
-	 * 
-	 * @param classes
-	 *            List of all classes declared in the program.
-	 */
+	
 	public Program(List<ICClass> classes) {
 		super(0);
 		this.classes = classes;
