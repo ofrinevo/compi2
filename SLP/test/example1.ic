@@ -28,7 +28,7 @@ class A{
       A x = new A();
       x.i = 9;
       x.str = "hello";
-      return 0;
+	  return 0;
     }
   }
 
@@ -56,4 +56,7 @@ class C {
   static void main(string[] args) {
     A[][] a;
   }
+}
+class Library {
+	int q;
 }

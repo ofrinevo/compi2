@@ -136,7 +136,7 @@ public class TypeValidator implements Visitor {
 		Type typeCondition = ifStatement.getCondition().getEntryType();
 		// condition expression must have a boolean type
 		if (!typeCondition.isBoolType()) {
-			semanticErrorThrower =  new SemanticErrorThrower(ifStatement.getLine(), "Non-boolean iside the if statement");
+			semanticErrorThrower =  new SemanticErrorThrower(ifStatement.getLine(), "Non-boolean inside the if statement");
 			return false;
 		}
 		
