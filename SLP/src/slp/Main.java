@@ -11,7 +11,7 @@ import semanticAnalysis.SemanticError;
 import semanticAnalysis.SemanticErrorThrower;
 import symbolTable.SymbolsTableBuilder;
 import type.TypeTableBuilder;
-import type.TypeValidator;
+import type.TypeChecker;
 
 public class Main {
 
@@ -55,7 +55,7 @@ public class Main {
 			SymbolsTableBuilder s = new SymbolsTableBuilder(typeTableBuilder.getBuiltTypeTable(), icFile.getName());
 			s.buildSymbolTables(ICRoot);
 
-			TypeValidator tv = new TypeValidator(typeTableBuilder.getBuiltTypeTable());
+			TypeChecker tv = new TypeChecker(typeTableBuilder.getBuiltTypeTable());
 			tv.validate(ICRoot);
 			
 			System.out.println("Semantic analysis passed successfuly!");

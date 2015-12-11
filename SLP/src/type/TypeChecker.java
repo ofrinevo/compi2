@@ -10,13 +10,13 @@ import symbolTable.IDSymbolsKinds;
 import symbolTable.SymbolTable;
 
 
-public class TypeValidator implements Visitor {
+public class TypeChecker implements Visitor {
 
 	private int loopNesting;
 	private TypeTable typeTable;
 	private SemanticErrorThrower semanticErrorThrower;
 	
-	public TypeValidator(TypeTable typeTable) {
+	public TypeChecker(TypeTable typeTable) {
 		this.typeTable = typeTable;
 	}
 	
@@ -327,6 +327,10 @@ public class TypeValidator implements Visitor {
 	@Override
 	public Object visit(NewClass newClass) {
 		newClass.setEntryType(typeTable.getClassType(newClass.getName()));
+		if(newClass.getName().equals("Library")){
+			semanticErrorThrower = new SemanticErrorThrower(newClass.getLine(), "Can't make new instances of the class Library");
+			return false;
+		}
 		return true;
 	}
 

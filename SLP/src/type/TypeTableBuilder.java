@@ -81,10 +81,11 @@ public class TypeTableBuilder implements Visitor {
 		
 		builtTypeTable.addMethodType(lastMainMethod);
 		MethodType methodType = builtTypeTable.getMethodType(lastMainMethod);
-		if (!methodType.toString().equals(MAIN_METHOD_CORRECT_SIGNATURE)) {
+		if (!methodType.toString().equals(MAIN_METHOD_CORRECT_SIGNATURE) || !lastMainMethod.getFormals().get(0).getName().equals("args")) {
 			semanticErrorThrower = new SemanticErrorThrower(lastMainMethod.getLine(), "Main Method has a wrong signature");
 			return false;
 		}
+		
 		
 		return true;
 	}

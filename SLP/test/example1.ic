@@ -12,12 +12,11 @@
 //    void exit(int n) {}
 //}
 
-class A{
+class A extends B{
   string str;
   int i;
-
+	
   static int sfunc(boolean b) {
-
     if (b) {
       {
         int k = 5;
@@ -46,15 +45,15 @@ class A{
   }
 }
 
-class B extends A {
+class B {
     int j;
 
    // void vfunc(A a, int max, int val) {
   //  }
 }
 
-class C {
-  static void main(string[] args) {
+class C{
+ static void main(string[] args) {
     A[][] a;
   }
 }
