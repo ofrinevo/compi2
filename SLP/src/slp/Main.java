@@ -13,7 +13,7 @@ import symbolTable.SymbolsTableBuilder;
 import type.TypeTableBuilder;
 import type.TypeValidator;
 
-public class Compiler {
+public class Main {
 
 	private static final String LIB_NAME="Library";
 

@@ -36,7 +36,7 @@ parser code  {:
                     isFirst = false;
 
                 sb.append('\'');
-                sb.append(sym.terminalNames[expected]);
+                sb.append(terminalNames.terminalNames[expected]);
                 sb.append('\'');
             }
         } else {
@@ -79,16 +79,7 @@ parser code  {:
 	    return true;
     }
 	
-	protected static class ClassLines
-	{
-		public ClassLines() 
-		{
-			this.methods = new ArrayList<Method>(); 
-			this.fields = new ArrayList<Field>();
-		}
-		public List<Method> methods;
-		public List<Field> fields;
-	} 
+	
 :}
 
 scan with 
