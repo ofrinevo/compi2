@@ -21,6 +21,7 @@ public class Program extends ASTNode {
 		//I added this. You need to add more 
 		//Add your methods to listMethods
 		List<Method> listMethods=new ArrayList<Method>();
+		
 		Formal form=new Formal(new PrimitiveType(0,DataTypes.INT),"i");
 		List<Formal> listForm=new ArrayList<Formal>();
 		listForm.add(form);
@@ -52,7 +53,7 @@ public class Program extends ASTNode {
 		//Methods are of the class LibraryMethod
 		listMethods.add(new LibraryMethod(new PrimitiveType(0,DataTypes.VOID),"printb",listForm));
 		//////////////////////READI
-		form=new Formal(new PrimitiveType(0,DataTypes.VOID),"");
+		form=new Formal(new PrimitiveType(0,DataTypes.VOID ),"");
 		listForm=new ArrayList<Formal>();
 		listForm.add(form);
 		//Methods are of the class LibraryMethod

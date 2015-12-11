@@ -42,7 +42,6 @@ class A{
         if (a == null)
           break;
         Library.println("ds");
-        Library.readi();
     }
   }
 }
