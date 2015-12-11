@@ -12,11 +12,14 @@
 //    void exit(int n) {}
 //}
 
-class A extends B{
+class A{
   string str;
   int i;
 	
   static int sfunc(boolean b) {
+  int[] qut=new int[3];
+  int g=0;
+  int s1=Library.atos(qut);
     if (b) {
       {
         int k = 5;
