@@ -49,10 +49,7 @@ public class Program extends ASTNode {
 		listForm.add(form);
 		listMethods.add(new LibraryMethod(new PrimitiveType(0,DataTypes.VOID),"printb",listForm));
 		//////////////////////READI
-<<<<<<< HEAD
-=======
-		form=new Formal(new PrimitiveType(0,DataTypes.VOID ),"");
->>>>>>> branch 'master' of https://github.com/ofrinevo/compi2.git
+
 		listForm=new ArrayList<Formal>();
 		listMethods.add(new LibraryMethod(new PrimitiveType(0,DataTypes.INT),"readi",listForm));
 		
