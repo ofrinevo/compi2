@@ -41,6 +41,8 @@ class A{
         Library.random(i);
         if (a == null)
           break;
+        Library.println("ds");
+        Library.readi();
     }
   }
 }
@@ -57,6 +59,4 @@ class C {
     A[][] a;
   }
 }
-class Library {
-	int q;
-}
+
