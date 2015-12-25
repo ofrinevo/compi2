@@ -10,8 +10,7 @@ public class StringLiteral {
 	
 	public StringLiteral(String var, String value) {
 		this.var = var;
-		// // Get rid of the quotation characters.
-		this.value = value;//.substring(1, value.length()-1);
+		this.value = value;
 		++numberOfStringLiterals;
 	}
 	

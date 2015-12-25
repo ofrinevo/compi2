@@ -8,7 +8,6 @@ public class ClassLayout {
 	private String className;
 	private List<MethodStrc> methods;
 	private List<String> fields;
-	//DVPtr = 0;
 	
 	public ClassLayout(String className, ClassLayout superClassLayout) {
 		this.className = "_DV_" + className;
@@ -30,7 +29,7 @@ public class ClassLayout {
 		MethodStrc methodStrc;
 		if (!methodName.equals("main")) {
 			int existingMethodStrcIndex = findMethodIndex(methods, methodName);
-			if (existingMethodStrcIndex != -1)  {// overriding case:
+			if (existingMethodStrcIndex != -1)  {
 				methodStrc = new MethodStrc(methodName, this.className);
 				methods.remove(existingMethodStrcIndex);
 				methods.add(existingMethodStrcIndex, methodStrc);
@@ -49,7 +48,7 @@ public class ClassLayout {
 	
 	
 	public int getAllocatedSize() {
-		return (fields.size() + 1) * 4; //4 bytes (32 bits) per field, + 4 bytes for DVPtr
+		return (fields.size() + 1) * 4;
 	}
 	
 	public int getFieldIndex(String fieldName) {
@@ -82,7 +81,6 @@ public class ClassLayout {
 		
 		sb.append(className +": [");
 		
-		//sort methods according to their offsets
 		for (int i = 0; i < methods.size(); i++) {
 			sb.append(methods.get(i).toString());
 			if(i < methods.size() - 1)
