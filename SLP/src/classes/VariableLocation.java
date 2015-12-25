@@ -6,7 +6,7 @@ public class VariableLocation extends Location {
 	private Expression location = null;
 
 	private String name;
-
+	
 	public Object accept(Visitor visitor) {
 		return visitor.visit(this);
 	}
@@ -34,5 +34,4 @@ public class VariableLocation extends Location {
 	public String getName() {
 		return name;
 	}
-
 }

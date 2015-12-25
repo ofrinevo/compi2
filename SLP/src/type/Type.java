@@ -1,15 +1,12 @@
 package type;
 
-
 public abstract class Type {
 	protected String name;
-	
 	
 	public Type(String name) 
 	{
 		this.name=name;
 	}
-	
 	
 	public boolean subTypeOf(Type t)
 	{
@@ -25,41 +22,44 @@ public abstract class Type {
 		return false;
 	}
 	
-	
 	public boolean isClassType() {
 		return (this instanceof ClassType);
 	}
 	
+	public boolean isMethodType() {
+		return (this instanceof MethodType);
+	}
 	
 	public boolean isArrayType() {
 		return (this instanceof ArrayType);
 	}
 	
-	
 	public boolean isIntType() {
 		return (this instanceof IntType);
 	}
-	
 	
 	public boolean isStringType() {
 		return (this instanceof StringType);
 	}
 	
-	
 	public boolean isBoolType() {
 		return (this instanceof BoolType);
 	}
-	
 	
 	public boolean isVoidType() {
 		return (this instanceof VoidType);
 	}
 	
-	
 	public boolean isNullType() {
 		return (this instanceof NullType);
 	}
 	
+	public Type getReturnType() {
+		if (!this.isMethodType())
+			return null;
+		MethodType thisMethodType = (MethodType)this;
+		return thisMethodType.getReturnType();
+	}
 	
 	public boolean isNullAssignable() {
 		if ((this.isClassType()) || (this.isArrayType()) || (this.isStringType()))
@@ -70,8 +70,6 @@ public abstract class Type {
 		}
 		return false;
 	}
-	
-	
 	public String getName()
 	{
 		return this.name;

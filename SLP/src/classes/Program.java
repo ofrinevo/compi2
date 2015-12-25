@@ -5,6 +5,7 @@ import java.util.List;
 
 import slp.DataTypes;
 
+
 public class Program extends ASTNode {
 
 	private List<ICClass> classes;
@@ -13,11 +14,10 @@ public class Program extends ASTNode {
 		return visitor.visit(this);
 	}
 
+	
 	public Program(List<ICClass> classes) {
 		super(0);
 		this.classes = classes;
-		// I added this. You need to add more
-		// Add your methods to listMethods
 		List<Method> listMethods = new ArrayList<Method>();
 
 		Formal form = new Formal(new PrimitiveType(0, DataTypes.INT), "i");
@@ -92,7 +92,7 @@ public class Program extends ASTNode {
 		form = new Formal(new PrimitiveType(0, DataTypes.STRING), "s");
 		listForm = new ArrayList<Formal>();
 		listForm.add(form);
-		PrimitiveType pt=new PrimitiveType(0, DataTypes.STRING);
+		PrimitiveType pt=new PrimitiveType(0, DataTypes.INT);
 		pt.incrementDimension();
 		listMethods.add(new LibraryMethod(pt, "stoa", listForm));
 		
@@ -101,7 +101,6 @@ public class Program extends ASTNode {
 		
 		ICClass libClass = new ICClass(0, "Library", new ArrayList<Field>(), listMethods);
 		classes.add(0, libClass);
-
 	}
 
 	public List<ICClass> getClasses() {

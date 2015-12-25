@@ -6,9 +6,8 @@ import classes.*;
 import semanticAnalysis.SemanticError;
 import semanticAnalysis.SemanticErrorThrower;
 import slp.DataTypes;
-import symbolTable.IDSymbolsKinds;
-import symbolTable.SymbolTable;
-
+import symTable.IDSymbolsKinds;
+import symTable.SymbolTable;
 
 public class TypeChecker implements Visitor {
 
@@ -20,6 +19,12 @@ public class TypeChecker implements Visitor {
 		this.typeTable = typeTable;
 	}
 	
+	// Scans the program tree recursively and check the following semantic rules:
+	// 1) Type checking
+	// 2) Each method has return statement in all of the computation paths.
+	// 3) No continue and break keywords appear outside a while scope.
+	// 4) This expression is not called from a static method.
+	// In addition, the scan sets types to expressions during the type checking.
 	public void validate(Program program) throws SemanticError {
 		if (!(Boolean)program.accept(this))
 			this.semanticErrorThrower.execute();
@@ -92,7 +97,7 @@ public class TypeChecker implements Visitor {
 		
 		// Checks the types are legal for assignment
 		if (!isLegalAssignment(typeTo, typeFrom)) {
-			semanticErrorThrower =  new SemanticErrorThrower(assignment.getLine(), "Value assigned to local variable type mis-match");
+			semanticErrorThrower =  new SemanticErrorThrower(assignment.getLine(), "Value assigned to local variable type mismatch");
 			return false;
 		} 
 
@@ -122,7 +127,7 @@ public class TypeChecker implements Visitor {
 		MethodType methodType = (MethodType)returnStatement.getMethodType();
 		if (!isLegalAssignment(methodType.getReturnType(), typeInFact)) {
 			semanticErrorThrower =  new SemanticErrorThrower(returnStatement.getLine(), String.format(
-					"Returned type is not of type %s", methodType.getReturnType().toString()));
+					"Return statement is not of type %s", methodType.getReturnType().toString()));
 			return false;
 		}
 		return true;
@@ -136,7 +141,7 @@ public class TypeChecker implements Visitor {
 		Type typeCondition = ifStatement.getCondition().getEntryType();
 		// condition expression must have a boolean type
 		if (!typeCondition.isBoolType()) {
-			semanticErrorThrower =  new SemanticErrorThrower(ifStatement.getLine(), "Non-boolean inside the if statement");
+			semanticErrorThrower =  new SemanticErrorThrower(ifStatement.getLine(), "Non boolean condition for if statement");
 			return false;
 		}
 		
@@ -156,7 +161,7 @@ public class TypeChecker implements Visitor {
 		// condition expression must have a boolean type
 		Type typeCondition = whileStatement.getCondition().getEntryType();
 		if (!typeCondition.isBoolType()) {
-			semanticErrorThrower =  new SemanticErrorThrower(whileStatement.getLine(), "Non-boolean inside the while statement ");
+			semanticErrorThrower =  new SemanticErrorThrower(whileStatement.getLine(), "Non boolean condition for while statement");
 			return false;
 		}
 		loopNesting++;
@@ -172,7 +177,7 @@ public class TypeChecker implements Visitor {
 		// Checks if the break statement was called from a while scope.
 		if (!isBreakContinueValid()) {
 			semanticErrorThrower =  new SemanticErrorThrower(breakStatement.getLine(), 
-					"Can't use 'break' statement outside of a loop");
+					"Use of 'break' statement outside of loop not allowed");
 			return false;
 		}
 		return true;
@@ -183,7 +188,7 @@ public class TypeChecker implements Visitor {
 		// Checks if the continue statement was called from a while scope.
 		if (!isBreakContinueValid()) {
 			semanticErrorThrower =  new SemanticErrorThrower(continueStatement.getLine(), 
-					"Can't use 'continue' statement outside of a loop");
+					"Use of 'continue' statement outside of loop not allowed");
 			return false;
 		}
 		return true;
@@ -208,7 +213,7 @@ public class TypeChecker implements Visitor {
 			Type initType = localVariable.getInitValue().getEntryType();
 			// Checks the types are legal for assignment
 			if (!isLegalAssignment(varType, initType)) {
-				semanticErrorThrower =  new SemanticErrorThrower(localVariable.getLine(), "Value assigned to local variable type mis-match");
+				semanticErrorThrower =  new SemanticErrorThrower(localVariable.getLine(), "Value assigned to local variable type mismatch");
 				return false;
 			} 
 		}
@@ -244,6 +249,10 @@ public class TypeChecker implements Visitor {
 			return false;
 		}
 		
+		if (!typeArray.isArrayType()) {
+			semanticErrorThrower = new SemanticErrorThrower(location.getLine(), "Array location must have an array type");
+			return false;
+		}
 		// Set the type of the array location with array T[] to be T.
 		location.setEntryType(typeTable.getTypeFromArray(typeArray));
 		return true;
@@ -257,7 +266,7 @@ public class TypeChecker implements Visitor {
 		MethodType calledMethodType = (MethodType)call.getMethodType();
 		if (call.getArguments().size() != calledMethodType.getParamTypes().length) {
 			semanticErrorThrower = new SemanticErrorThrower(call.getLine(), 
-					String.format("Wrong type- expected %d but got %d instead", 
+					String.format("Method except %d arguments but gets %d", 
 							calledMethodType.getParamTypes().length, call.getArguments().size()));
 			return false;
 		}
@@ -266,7 +275,7 @@ public class TypeChecker implements Visitor {
 				if (!isLegalAssignment(calledMethodType.getParamTypes()[i], 
 					call.getArguments().get(i).getEntryType())) {
 				semanticErrorThrower = new SemanticErrorThrower(call.getLine(), 
-						"Argument and parameter type mis-match");
+						"Argument type dosen't match the method parameter type");
 				return false;
 			}
 		}
@@ -282,7 +291,7 @@ public class TypeChecker implements Visitor {
 			
 			Type locationType = call.getLocation().getEntryType();
 			if (!locationType.isClassType()) {
-				semanticErrorThrower = new SemanticErrorThrower(call.getLine(), "The object is a non-Class");
+				semanticErrorThrower = new SemanticErrorThrower(call.getLine(), "Object is not of class type");
 				return false;
 			}
 		}	
@@ -300,7 +309,7 @@ public class TypeChecker implements Visitor {
 		for (int i = 0; i < call.getArguments().size(); i++) {
 			if (!isLegalAssignment(calledMethodType.getParamTypes()[i], 
 					call.getArguments().get(i).getEntryType())) {
-				semanticErrorThrower = new SemanticErrorThrower(call.getLine(), "Argument and parameter type mis-match");
+				semanticErrorThrower = new SemanticErrorThrower(call.getLine(), "Argument type dosen't match the method parameter type");
 				return false;
 			}
 		}
@@ -315,7 +324,7 @@ public class TypeChecker implements Visitor {
 			scope = scope.getParentSymbolTable();
 		if (scope.getParentSymbolTable().getEntry(scope.getId()).getKind() == IDSymbolsKinds.STATIC_METHOD) {
 			semanticErrorThrower = new SemanticErrorThrower(thisExpression.getLine(), 
-					"Can't use 'this' inside a static method");
+					"Use of 'this' expression inside static method is not allowed");
 			return false;
 		}
 		scope = scope.getParentSymbolTable();
@@ -327,10 +336,6 @@ public class TypeChecker implements Visitor {
 	@Override
 	public Object visit(NewClass newClass) {
 		newClass.setEntryType(typeTable.getClassType(newClass.getName()));
-		if(newClass.getName().equals("Library")){
-			semanticErrorThrower = new SemanticErrorThrower(newClass.getLine(), "Can't make new instances of the class Library");
-			return false;
-		}
 		return true;
 	}
 
@@ -363,7 +368,7 @@ public class TypeChecker implements Visitor {
 		Type type = length.getArray().getEntryType();
 		// the expression which is evaluated by its length must have an array type. 
 		if (!type.isArrayType()) {
-			semanticErrorThrower = new SemanticErrorThrower(length.getLine(), "Can't use Length expression on non-array");
+			semanticErrorThrower = new SemanticErrorThrower(length.getLine(), "Length expression must have an array type");
 			return false;
 		}
 		length.setEntryType(typeTable.getPrimitiveType(DataTypes.INT.getDescription()));
@@ -392,7 +397,7 @@ public class TypeChecker implements Visitor {
 				break;
 		}
 		
-		semanticErrorThrower = new SemanticErrorThrower(unaryOp.getLine(), "Invalid type for the unary operator");
+		semanticErrorThrower = new SemanticErrorThrower(unaryOp.getLine(), "Operand of unary operator has an invalid type");
 		return false;
 	}
 
@@ -445,7 +450,7 @@ public class TypeChecker implements Visitor {
 				break;
 		}
 		
-		semanticErrorThrower = new SemanticErrorThrower(binaryOp.getLine(), String.format("Can't do %s binary operation (%s) on %s expression",
+		semanticErrorThrower = new SemanticErrorThrower(binaryOp.getLine(), String.format("Invalid %s binary op (%s) on %s expression",
 				opType, binaryOp.getOperator().toString(), onWhat));
 		return false;
 	}
@@ -466,7 +471,7 @@ public class TypeChecker implements Visitor {
 			default:
 				break;
 		}
-		semanticErrorThrower = new SemanticErrorThrower(unaryOp.getLine(), "Invalid type for the unary operator");
+		semanticErrorThrower = new SemanticErrorThrower(unaryOp.getLine(), "Operand of unary operator has an invalid type");
 		return false;
 	}
 
@@ -498,7 +503,7 @@ public class TypeChecker implements Visitor {
 						binaryOp.setEntryType(typeFirst);
 						return true;
 				}
-				onWhat = "non-Integer or non-String";
+				onWhat = "non-integer or non-string";
 				opType = "arithmetic";
 				break;
 			case MINUS:
@@ -509,13 +514,13 @@ public class TypeChecker implements Visitor {
 					binaryOp.setEntryType(typeFirst);
 					return true;
 				}
-				onWhat = "non-Integer";
+				onWhat = "non-integer";
 				opType = "arithmetic";
 				break;
 				default:
 					break;
 		}
-		semanticErrorThrower = new SemanticErrorThrower(binaryOp.getLine(), String.format("Can't do %s binary operation (%s) on %s expression",
+		semanticErrorThrower = new SemanticErrorThrower(binaryOp.getLine(), String.format("Invalid %s binary op (%s) on %s expression",
 				opType, binaryOp.getOperator().toString(), onWhat));
 		return false;
 	}
@@ -532,18 +537,20 @@ public class TypeChecker implements Visitor {
 		
 		// Checking that the method has a return statement in each computation path:
 		MethodType methodType = (MethodType)method.getEntryType();
-		if (methodType.getReturnType().isVoidType()) // if this is a void type method, no return statement is needed.
-			return true;
+		
 		
 		if((method instanceof LibraryMethod)) // if this is a library method, no return statement is needed.
 			return true;
 		
 
 		if (!testRetrunPaths(method.getStatements())) { // No return statement error:
-			semanticErrorThrower =  new SemanticErrorThrower(method.getLine(), String.format("Method %s needs to return a value", method.getName()));
-			return false;
+			if (!methodType.getReturnType().isVoidType()) {// if this is a void type method, no return statement is needed.
+				semanticErrorThrower =  new SemanticErrorThrower(method.getLine(), String.format("Method %s has no return statement", method.getName()));
+				return false;
+			}
+			return true;
 		}
-		
+		method.setHasFlowWithoutReturn();
 		return true;
 	}
 	

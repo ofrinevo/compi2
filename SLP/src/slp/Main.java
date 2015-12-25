@@ -7,11 +7,12 @@ import classes.ICClass;
 import classes.PrettyPrinter;
 import classes.Program;
 import java_cup.runtime.Symbol;
+import lir.TranslationVisitor;
 import semanticAnalysis.SemanticError;
 import semanticAnalysis.SemanticErrorThrower;
-import symbolTable.SymbolsTableBuilder;
-import type.TypeTableBuilder;
+import symTable.SymbolsTableBuilder;
 import type.TypeChecker;
+import type.TypeTableBuilder;
 
 public class Main {
 
@@ -24,9 +25,10 @@ public class Main {
 			System.exit(-1);
 		}
 		ICClass libRoot = null;
-		
+
 		try {
-			  
+			
+
 			//parse IC file
 			File icFile = new File(args[0]);
 			FileReader icFileReader = new FileReader(icFile);
@@ -34,9 +36,7 @@ public class Main {
 			Lexer scanner = new Lexer(icFileReader);
 			Parser parser = new Parser(scanner);
 
-			Symbol parseSymbol = parser.parse();
-			if(parser.errorFlag)
-				return;
+			Symbol parseSymbol = parser.parse(); // TODO right now: keeps running after exception!!!
 			Program ICRoot = (Program) parseSymbol.value;
 			
 			if (libRoot != null) { 
@@ -50,7 +50,7 @@ public class Main {
 			System.out.println("Parsed " + icFile.getName() +" successfully!");
 			System.out.println();
 
-			TypeTableBuilder typeTableBuilder = new TypeTableBuilder(icFile);
+			TypeTableBuilder typeTableBuilder = new TypeTableBuilder(icFile.getName());
 			typeTableBuilder.buildTypeTable(ICRoot);
 			SymbolsTableBuilder s = new SymbolsTableBuilder(typeTableBuilder.getBuiltTypeTable(), icFile.getName());
 			s.buildSymbolTables(ICRoot);
@@ -58,7 +58,23 @@ public class Main {
 			TypeChecker tv = new TypeChecker(typeTableBuilder.getBuiltTypeTable());
 			tv.validate(ICRoot);
 			
-			System.out.println("Semantic analysis passed successfuly!");
+			TranslationVisitor trv=new TranslationVisitor();
+			trv.translate(ICRoot);
+
+			
+				PrettyPrinter printer = new PrettyPrinter(args[0]);
+				//System.out.println(printer.visit(ICRoot));
+				
+				
+			
+			
+			
+				//s.getSymbolTable().printTable();
+				//typeTableBuilder.getBuiltTypeTable().printTable();
+		
+			
+			
+				trv.printInstructions();
 			
 		} catch (FileNotFoundException e) {
 			System.out.println(e);

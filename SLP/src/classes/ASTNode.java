@@ -1,6 +1,6 @@
 package classes;
 
-import symbolTable.*;
+import symTable.*;
 
 
 public abstract class ASTNode {
@@ -9,7 +9,8 @@ public abstract class ASTNode {
 	private SymbolTable symbolsTable;
 	
 	private type.Type entryType;
-
+	private symTable.SymbolEntry symbolEntry;
+	
 	
 	public abstract Object accept(Visitor visitor);
 
@@ -17,6 +18,7 @@ public abstract class ASTNode {
 	protected ASTNode(int line) {
 		this.symbolsTable = null;
 		this.line = line;
+		this.symbolEntry = null;
 	}
 
 	public int getLine() {
@@ -32,10 +34,20 @@ public abstract class ASTNode {
 	}
 	
 	public type.Type getEntryType() {
-		return entryType;
+		return (this.symbolEntry == null) ? entryType : this.symbolEntry.getType();
 	}
 
 	public void setEntryType(type.Type entryType) {
 		this.entryType = entryType;
 	}
+
+	public symTable.SymbolEntry getSymbolEntry() {
+		return symbolEntry;
+	}
+
+	public void setSymbolEntry(symTable.SymbolEntry symbolEntry) {
+		this.symbolEntry = symbolEntry;
+	}
+	
+	
 }

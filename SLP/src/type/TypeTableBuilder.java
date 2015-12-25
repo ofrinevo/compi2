@@ -1,11 +1,5 @@
 package type;
 
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.IOException;
-import java.io.LineNumberReader;
-
 import classes.*;
 import semanticAnalysis.SemanticError;
 import semanticAnalysis.SemanticErrorThrower;
@@ -15,20 +9,20 @@ public class TypeTableBuilder implements Visitor {
 	
 	private TypeTable builtTypeTable;
 	private SemanticErrorThrower semanticErrorThrower;
-	private String programFilePath;
 	
-	public TypeTableBuilder(File file) {
-		this.programFilePath = file.getPath();
-		this.builtTypeTable = new TypeTable(file.getName());
+	public TypeTableBuilder(String tableId) {
+		this.builtTypeTable = new TypeTable(tableId);
 		builtTypeTable.addPrimitiveTypes();
 	}
-	
 	
 	public TypeTable getBuiltTypeTable() {
 		return this.builtTypeTable;
 	}
 	
-	
+	// Builds the program's Type Table and also checks the following semantic issues:
+	// 1) There is only one Main method with the correct signature (using findAndCheckMainMethod)
+	// 2) Classes only extends classes which were declared before them.
+	//	  (this also prevents any inheritance cycle).
 	public void buildTypeTable(Program program) throws SemanticError {
 		if (!findAndCheckMainMethod(program))
 			semanticErrorThrower.execute();
@@ -50,22 +44,11 @@ public class TypeTableBuilder implements Visitor {
 		}
 		// Main method count checking:
 		if (mainMethodCounter == 0) {
-			try {
-				LineNumberReader lnr = new LineNumberReader(new FileReader(new File(this.programFilePath)));
-				lnr.skip(Long.MAX_VALUE);
-				semanticErrorThrower = new SemanticErrorThrower(lnr.getLineNumber() + 1, "Main Method is missing");
-				lnr.close();
-				return false;
-			} catch (FileNotFoundException e) {
-				e.printStackTrace();
-				return false;
-			} catch (IOException e) {
-				e.printStackTrace();
-				return false;
-			}
+			semanticErrorThrower = new SemanticErrorThrower(1, "Main Method is missing");
+			return false;
 		}
 		if (mainMethodCounter > 1) {
-			semanticErrorThrower = new SemanticErrorThrower(lastMainMethod.getLine(), "Main Method is declared more than once");
+			semanticErrorThrower = new SemanticErrorThrower(1, "Main Method is declared more than once");
 			return false;
 		}
 		
@@ -81,17 +64,25 @@ public class TypeTableBuilder implements Visitor {
 		
 		builtTypeTable.addMethodType(lastMainMethod);
 		MethodType methodType = builtTypeTable.getMethodType(lastMainMethod);
-		if (!methodType.toString().equals(MAIN_METHOD_CORRECT_SIGNATURE) || !lastMainMethod.getFormals().get(0).getName().equals("args")) {
+		if (!methodType.toString().equals(MAIN_METHOD_CORRECT_SIGNATURE)) {
 			semanticErrorThrower = new SemanticErrorThrower(lastMainMethod.getLine(), "Main Method has a wrong signature");
 			return false;
 		}
 		
-		
 		return true;
+		
+		// TODO:
+		
 	}
 	
 	@Override
 	public Object visit(Program program) {
+		for (ICClass icClass : program.getClasses())
+			if (!builtTypeTable.addClassType(icClass)) {
+				semanticErrorThrower = new SemanticErrorThrower(icClass.getLine(),
+						"extended class " + icClass.getSuperClassName() + " was not declared");
+				return false;
+			}
 		for (ICClass icClass : program.getClasses())
 			if (!(Boolean)icClass.accept(this))
 				return false;
@@ -102,11 +93,7 @@ public class TypeTableBuilder implements Visitor {
 	public Object visit(ICClass icClass) {
 		// Checks if the class extends a class which was not 
 		// declared before (including class extending itself situation).
-		if (!builtTypeTable.addClassType(icClass)) {
-			semanticErrorThrower = new SemanticErrorThrower(icClass.getLine(),
-					"extended class " + icClass.getSuperClassName() + " was not declared");
-			return false;
-		}
+
 		for (Field field : icClass.getFields())
 			field.accept(this);
 		for (Method method : icClass.getMethods())
@@ -281,7 +268,6 @@ public class TypeTableBuilder implements Visitor {
 		return null;
 	}
 
-	
 	private Object visitMethod(Method method) {
 		for (Formal formal : method.getFormals())
 			formal.accept(this);
@@ -294,7 +280,6 @@ public class TypeTableBuilder implements Visitor {
 		return null;
 	}
 	
-	
 	private Object visitType(classes.Type type) {
 		// array type registration.
 		if (isArrayType(type))
@@ -302,7 +287,6 @@ public class TypeTableBuilder implements Visitor {
 		
 		return null;
 	}
-	
 	
 	private Boolean isArrayType(classes.Type typeNode) {
 		return (typeNode.getDimension() > 0);

@@ -3,6 +3,7 @@ package classes;
 import java.util.List;
 
 
+
 public abstract class Method extends ASTNode {
 
 	protected Type type;
@@ -13,6 +14,9 @@ public abstract class Method extends ASTNode {
 
 	protected List<Statement> statements;
 
+    private boolean hasFlowWithoutReturn;
+    
+    
 	
 	protected Method(Type type, String name, List<Formal> formals,
 			List<Statement> statements) {
@@ -38,4 +42,12 @@ public abstract class Method extends ASTNode {
 	public List<Statement> getStatements() {
 		return statements;
 	}
+	
+	public void setHasFlowWithoutReturn() {
+        this.hasFlowWithoutReturn = true;
+    }
+
+    public boolean doesHaveFlowWithoutReturn() {
+        return this.hasFlowWithoutReturn;
+    }
 }

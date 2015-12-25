@@ -15,7 +15,6 @@ import classes.UserType;
 import slp.DataTypes;
 import slp.LiteralTypes;
 
-
 public class TypeTable {
 
 	private String id;
@@ -34,7 +33,6 @@ public class TypeTable {
 	
 	private int idCounter;
 	
-	
 	public TypeTable(String tableId) {
 		this.id = tableId;
 		this.idCounter = 0;
@@ -44,7 +42,6 @@ public class TypeTable {
 		
 		this.values = new HashMap<Type, Integer>();
 	}
-	
 	
 	public Type getTypeFromASTTypeNode(classes.Type typeNode) {
 		if (typeNode instanceof PrimitiveType) {
@@ -64,7 +61,6 @@ public class TypeTable {
 				return getArrayFromType(clsType, ut.getDimension());
 		}
 	}
-	
 	
 	public void printTable() {
 		System.out.println("Type Table: " + id);
@@ -112,7 +108,6 @@ public class TypeTable {
 			System.out.println("    " + values.get(entry.getValue()) + ": Method type: {" + entry.getValue().toString() + "}");
 	}
 	
-	
 	public void addPrimitiveTypes() {
 		this.intType = new IntType();
 		this.boolType = new BoolType();
@@ -126,7 +121,6 @@ public class TypeTable {
 		values.put(voidType, 5);
 		this.idCounter = 6;
 	}
-	
 	
 	public void addArrayType(classes.Type typeNode) {
 		Type currArrType;
@@ -158,11 +152,9 @@ public class TypeTable {
 		return true;
 	}
 	
-	
 	public ClassType getClassType(String clsName) {
 		return uniqueClassTypes.get(clsName);
 	}
-	
 	
 	public void addMethodType(Method method) {
 		MethodType methodType = generateMethodType(method);
@@ -173,18 +165,15 @@ public class TypeTable {
 		idCounter++;
 	}
 	
-	
 	public MethodType getMethodType(Method method) {
 		MethodType methodType = generateMethodType(method);
 		return uniqueMethodTypes.get(methodType.toString());
 	}
 	
-	
 	public Type getReturnTypeFromMethodType(Type type) {
 		MethodType methodType = (MethodType)type;
 		return methodType.getReturnType();
 	}
-	
 	
 	public Type getPrimitiveType(String dataTypeName) {
 		if (dataTypeName == DataTypes.INT.getDescription())
@@ -198,7 +187,6 @@ public class TypeTable {
 		
 		return null;
 	}
-	
 	
 	public Type getLiteralType(String literalTypeName) {
 		if (literalTypeName == LiteralTypes.INTEGER.getDescription())
@@ -214,7 +202,6 @@ public class TypeTable {
 
 	}
 	
-	
 	public ArrayType getArrayFromType(Type original, int dimention) {
 		Type currArrType = original;
 		for (int i = 0; i < dimention; i++) 
@@ -222,7 +209,6 @@ public class TypeTable {
 		
 		return (ArrayType)currArrType;
 	}
-	
 	
 	public Type getTypeFromArray(Type type) {
 		ArrayType arrayType = (ArrayType)type;

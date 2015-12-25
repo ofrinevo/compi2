@@ -6,7 +6,7 @@ public class LocalVariable extends Statement {
 	private Type type;
 
 	private String name;
-
+	
 	private Expression initValue = null;
 
 	public Object accept(Visitor visitor) {
@@ -41,5 +41,4 @@ public class LocalVariable extends Statement {
 	public Expression getInitValue() {
 		return initValue;
 	}
-
 }
