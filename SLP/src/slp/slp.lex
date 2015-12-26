@@ -139,7 +139,6 @@ DecIntegerLiteral = 0+ | [1-9][0-9]*
 
  
 	[^]                              { throw new LexicalError(yytext(), yyline+1, yycolumn+1); }
-	
 <<EOF>> 	
 { 
 	if (yystate() == BCOMMENTS)

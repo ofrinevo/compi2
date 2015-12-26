@@ -1,4 +1,5 @@
 package slp;
+
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
@@ -16,7 +17,7 @@ import type.TypeTableBuilder;
 
 public class Main {
 
-	private static final String LIB_NAME="Library";
+	private static final String LIB_NAME = "Library";
 
 	public static void main(String[] args) {
 
@@ -27,27 +28,20 @@ public class Main {
 		ICClass libRoot = null;
 
 		try {
-			
 
-			//parse IC file
+			// parse IC file
 			File icFile = new File(args[0]);
 			FileReader icFileReader = new FileReader(icFile);
 
 			Lexer scanner = new Lexer(icFileReader);
 			Parser parser = new Parser(scanner);
 
-			Symbol parseSymbol = parser.parse(); // TODO right now: keeps running after exception!!!
+			Symbol parseSymbol = parser.parse(); // TODO right now: keeps
+													// running after
+													// exception!!!
 			Program ICRoot = (Program) parseSymbol.value;
-			
-			if (libRoot != null) { 
-				if(!libRoot.getName().equals(LIB_NAME)) { //Make sure that the library class has the correct name
-					(new SemanticErrorThrower(1, "Library class has incorrect name: "+libRoot.getName()+ ", expected "+LIB_NAME+".")).execute();
-				} else {
-					ICRoot.getClasses().add(0, libRoot); //append the library
-				}
-			}
 
-			System.out.println("Parsed " + icFile.getName() +" successfully!");
+			System.out.println("Parsed " + icFile.getName() + " successfully!");
 			System.out.println();
 
 			TypeTableBuilder typeTableBuilder = new TypeTableBuilder(icFile.getName());
@@ -57,25 +51,14 @@ public class Main {
 
 			TypeChecker tv = new TypeChecker(typeTableBuilder.getBuiltTypeTable());
 			tv.validate(ICRoot);
-			
-			TranslationVisitor trv=new TranslationVisitor();
-			trv.translate(ICRoot);
 
 			
-				PrettyPrinter printer = new PrettyPrinter(args[0]);
-				//System.out.println(printer.visit(ICRoot));
-				
-				
-			
-			
-			
-				//s.getSymbolTable().printTable();
-				//typeTableBuilder.getBuiltTypeTable().printTable();
-		
-			
-			
-				trv.printInstructions();
-			
+			PrettyPrinter printer = new PrettyPrinter(args[0]);
+			TranslationVisitor trv = new TranslationVisitor();
+			trv.translate(ICRoot);
+
+			trv.printInstructions();
+			System.out.println("Created output file with lir instructions.");
 		} catch (FileNotFoundException e) {
 			System.out.println(e);
 		} catch (LexicalError e) {
